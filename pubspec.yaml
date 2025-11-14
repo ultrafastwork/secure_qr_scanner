@@ -1,0 +1,76 @@
+name: secure_qr_scanner
+description: "Secure QR Code & Barcode Scanner"
+publish_to: "none"
+
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  image_picker: ^1.2.1
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.2.2
+  package_info_plus: ^9.0.0
+  mobile_scanner: ^7.1.3
+  url_launcher: ^6.3.2
+  share_plus: ^12.0.1
+  flutter_secure_storage: ^9.2.4
+  flutter_riverpod: ^3.0.3
+  hive_ce: ^2.15.1
+  hive_ce_flutter: ^2.3.3
+  dio: ^5.9.0
+  intl: ^0.20.2
+  numeral: ^3.1.2
+  pretty_qr_code: ^3.5.0
+  google_fonts: ^6.3.2
+  easy_loading_button: ^0.4.0
+  date_format: ^2.0.9
+  flutter_native_splash: ^2.4.7
+  timeago: ^3.7.1
+  photo_manager: ^3.7.1
+  cached_network_image: ^3.4.1
+
+dependency_overrides:
+  flutter_cache_manager:
+    git:
+      url: https://github.com/ultrafastwork/flutter_cache_manager
+      ref: mapsteps
+      path: flutter_cache_manager
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_launcher_icons: ^0.14.4
+  hive_ce_generator: ^1.9.3
+  
+  # Because build_runner >=2.7.2 depends on build 4.0.0 and hive_ce_generator 1.9.3 depends on build ^3.0.0,
+  # build_runner >=2.7.2 is incompatible with hive_ce_generator 1.9.3.
+  build_runner: ^2.7.1
+  flutter_lints: ^6.0.0
+  riverpod_lint: ^3.0.3
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+
+flutter_native_splash:
+  image: "assets/logo.png"
+  color: "#F5F5F7"
+  image_dark: "assets/logo-white.png"
+  color_dark: "#121419"
+  fullscreen: false
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/launcher-icon.png"
