@@ -27,8 +27,9 @@ You are Windsurf Cascade, an AI assistant with strong problem-solving skills. Fo
 
 ### 1. Project Overview
 - Name: secure_qr_scanner
-- Objective: Simple MVP QR Scanner app using Flutter + pretty_qr_code
+- Objective: QR & Barcode Scanner app with advanced features
 - Framework: Flutter & Dart
+- Design: Glassmorphism with purple gradient theme
 
 ### 2. Code Standards
 - Use modular, reusable widgets.
@@ -45,12 +46,59 @@ You are Windsurf Cascade, an AI assistant with strong problem-solving skills. Fo
   - `services/` → Feature-specific service layer (e.g., HTTP calls using Dio).
   - `utils/` → Reusable helpers specific to the feature (formatters, validators, converters).
   - `widgets/` → UI components belonging exclusively to that feature.
-
+  - `screens/` → Full-page screens for the feature.
 
 ### 3. Security
 - Handle errors (invalid QR, denied permissions) safely.
 - Ensure local data storage (history) is secure and private.
 - Never expose sensitive user data.
+- Use proper error boundaries and user-friendly error messages.
+
+### 4. State Management
+- **Use Riverpod 3.x with Notifier pattern** (NOT StateNotifier - deprecated)
+- Pattern: `class MyNotifier extends Notifier<State>`
+- Provider: `NotifierProvider<MyNotifier, State>(MyNotifier.new)`
+- Reference existing providers in `lib/app/providers/` and `lib/history/providers/`
+- For async data: Use `FutureProvider` or `AsyncNotifierProvider`
+- For services: Use `Provider` for dependency injection
+
+### 5. Theme System (Critical)
+- **All new screens MUST work in both Light and Dark themes**
+- Check theme: `final isDark = Theme.of(context).brightness == Brightness.dark`
+- Use theme-aware colors, never hardcode light/dark assumptions
+- Test glassmorphism effects in both themes
+- Ensure text readability and proper contrast in both modes
+- System theme is the default (respects OS settings)
+- Theme persists via Hive storage in ThemeProvider
+
+### 6. UI/UX Design Patterns
+- **Glassmorphism Style:**
+  - BackdropFilter with blur (sigmaX: 10-40, sigmaY: 10-40)
+  - Semi-transparent containers with border
+  - Light theme: `Colors.white.withValues(alpha: 0.8)` + `Colors.black.withValues(alpha: 0.1)` border
+  - Dark theme: `Colors.white.withValues(alpha: 0.05)` + `Colors.white.withValues(alpha: 0.1)` border
+
+- **Purple Gradient Colors:**
+  - Primary: #8B5CF6 (violet-500)
+  - Secondary: #D946EF (fuchsia-500)
+  - Gradient trio: #7C3AED, #C026D3, #7E22CE
+
+- **Typography:**
+  - Google Fonts - Inter for all text
+  - Consistent font sizes and weights across screens
+
+- **Reference Screens:**
+  - Latest patterns: `lib/app/screens/settings_screen.dart`
+  - Glassmorphism: `lib/qr_code/screens/wifi_generator_screen.dart`
+  - Navigation: `lib/app/screens/home_screen.dart`
+
+### 7. Quality Standards (Zero Tolerance)
+- **MUST achieve 0 flutter analyze issues before committing**
+- No warnings, no errors, no hints (except legitimate TODOs)
+- All features tested in both light and dark themes
+- Verify theme switching works correctly
+- Test on both device/emulator when possible
+- Ensure proper error handling and edge cases
 
 ---
 
@@ -58,15 +106,40 @@ You are Windsurf Cascade, an AI assistant with strong problem-solving skills. Fo
 
 Documentation for AI is in `README.md` and files under `ai-docs` directory.
 
-### Features & Roadmap
+### Current Status & Tasks
+- Check `ai-docs/PROGRESS_HANDOFF.md` for current version status
+- Check `ai-docs/ROADMAP.md` for feature priorities and roadmap
+- Check `ai-docs/DESIGN.md` for design references
+- Check `ai-docs/prompts/` for version-specific agent prompts
 
-Check in `ai-docs/ROADMAP.md` for feature priorities and roadmap.
+### After Completing a Task
+1. Run `flutter analyze` - must show 0 issues
+2. Test in both light and dark themes
+3. Update `ai-docs/PROGRESS_HANDOFF.md`:
+   - Rename current to `PROGRESS_HANDOFF_vX.X.X_COMPLETE.md`
+   - Create new `PROGRESS_HANDOFF.md` for next version
+4. Update `ai-docs/ROADMAP.md` - mark version as complete
+5. Create `ai-docs/prompts/AGENT_PROMPT_vX.X.X.md` for next agent
+6. Commit with descriptive message and push to GitHub
+7. Report remaining token count
+8. Suggest next feature and ask if user wants to proceed
 
 ---
 
-## Design 
+## Design Principles
 
-Check in `ai-docs/DESIGN.md` for design references.
+### Glassmorphism Implementation
+- Use gradient backgrounds (purple spectrum)
+- Apply BackdropFilter blur for glass effect
+- Semi-transparent containers with subtle borders
+- Consistent across all screens
+- Theme-aware opacity adjustments
+
+### Theme Awareness
+- All UI components must adapt to light/dark themes
+- Icons, text, borders must have proper contrast
+- Glassmorphism effects work in both themes
+- No hardcoded colors - use theme-relative colors
 
 ---
 
@@ -74,20 +147,113 @@ Check in `ai-docs/DESIGN.md` for design references.
 
 ### 1. Analyze
 - Identify core functional goals and confirm scope.
-- Recognize optional and stretch features but prioritize core scanning/generation first.
-- Ensure alignment with Flutter + pretty_qr_code.
+- Recognize optional and stretch features but prioritize core functionality first.
+- Ensure alignment with Flutter, Riverpod, and pretty_qr_code.
+- Review existing patterns before implementing new features.
 
 ### 2. Implement
-- Build scanning, generation, and result actions first.
-- Add history and error handling once core is stable.
+- Build core functionality first (scanning, generation, actions).
+- Add UI polish and error handling once core is stable.
 - Keep implementation modular for future features.
 - Maintain performance and code quality throughout.
+- Follow existing directory structure and naming conventions.
+- Use Riverpod Notifier pattern for state management.
 
-### 3. Final Review
+### 3. Test
+- Test in both light and dark themes.
+- Verify theme switching works correctly.
+- Test error cases and edge conditions.
+- Run `flutter analyze` continuously during development.
+
+### 4. Final Review
 - Ensure all required features are present and functional.
 - Validate error handling and permission flows.
 - Confirm clean app performance across devices and themes.
 - Review against scope: no extra or missing features.
+- Verify 0 flutter analyze issues.
+
+---
+
+## Common Patterns to Follow
+
+### Riverpod Provider Pattern
+```dart
+// Notifier for state management
+class MyNotifier extends Notifier<MyState> {
+  @override
+  MyState build() {
+    // Initialize state
+    return MyState();
+  }
+  
+  void updateState() {
+    state = newState;
+  }
+}
+
+// Provider definition
+final myProvider = NotifierProvider<MyNotifier, MyState>(
+  MyNotifier.new,
+);
+```
+
+### Theme-Aware Widget Pattern
+```dart
+final isDark = Theme.of(context).brightness == Brightness.dark;
+
+Container(
+  decoration: BoxDecoration(
+    color: isDark
+        ? Colors.white.withValues(alpha: 0.05)
+        : Colors.white.withValues(alpha: 0.8),
+    borderRadius: BorderRadius.circular(16),
+    border: Border.all(
+      color: isDark
+          ? Colors.white.withValues(alpha: 0.1)
+          : Colors.black.withValues(alpha: 0.1),
+      width: 1,
+    ),
+  ),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(16),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      child: yourContent,
+    ),
+  ),
+)
+```
+
+### Glassmorphism Gradient Background
+```dart
+Container(
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: isDark
+          ? const [
+              Color(0xFF7C3AED), // violet-600
+              Color(0xFFC026D3), // fuchsia-600
+              Color(0xFF7E22CE), // purple-700
+            ]
+          : const [
+              Color(0xFFE9D5FF), // purple-200
+              Color(0xFFFAE8FF), // fuchsia-100
+              Color(0xFFDDD6FE), // violet-200
+            ],
+    ),
+  ),
+  child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+    child: Container(
+      color: isDark
+          ? Colors.black.withValues(alpha: 0.8)
+          : Colors.white.withValues(alpha: 0.7),
+    ),
+  ),
+)
+```
 
 ---
 
