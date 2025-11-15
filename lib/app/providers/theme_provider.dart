@@ -7,14 +7,14 @@ class ThemeNotifier extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
     _loadTheme();
-    return ThemeMode.dark; // Default theme
+    return ThemeMode.system; // Default to system theme
   }
 
   /// Load saved theme preference from Hive storage
   Future<void> _loadTheme() async {
     try {
       final box = await Hive.openBox('settings');
-      final savedMode = box.get('theme_mode', defaultValue: 'dark') as String;
+      final savedMode = box.get('theme_mode', defaultValue: 'system') as String;
 
       // Parse saved theme mode
       switch (savedMode) {
@@ -28,11 +28,11 @@ class ThemeNotifier extends Notifier<ThemeMode> {
           state = ThemeMode.system;
           break;
         default:
-          state = ThemeMode.dark;
+          state = ThemeMode.system;
       }
     } catch (e) {
-      // Default to dark mode if loading fails
-      state = ThemeMode.dark;
+      // Default to system mode if loading fails
+      state = ThemeMode.system;
     }
   }
 
