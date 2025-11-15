@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:secure_qr_scanner/app/providers/theme_provider.dart';
 import 'package:secure_qr_scanner/app/screens/home_screen.dart';
 import 'package:secure_qr_scanner/app/theme/app_theme.dart';
 
@@ -24,18 +25,21 @@ void main() async {
   runApp(const ProviderScope(child: SecureQRScannerApp()));
 }
 
-/// Root application widget with Material app configuration
-class SecureQRScannerApp extends StatelessWidget {
+/// Root application widget with Material app configuration and theme management
+class SecureQRScannerApp extends ConsumerWidget {
   const SecureQRScannerApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Watch the theme provider to rebuild when theme changes
+    final themeMode = ref.watch(themeProvider);
+
     return MaterialApp(
       title: 'Secure QR Scanner',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme(),
       darkTheme: AppTheme.darkTheme(),
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
       home: const HomeScreen(),
     );
   }

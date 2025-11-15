@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:secure_qr_scanner/app/screens/settings_screen.dart';
 import 'package:secure_qr_scanner/barcode/screens/barcode_scanner_screen.dart';
 import 'package:secure_qr_scanner/history/screens/history_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/generator_screen.dart';
@@ -576,7 +577,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           subtitle: 'Preferences & theme',
                           onTap: () {
                             setState(() => _showMenu = false);
-                            // TODO: Navigate to settings
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const SettingsScreen(),
+                              ),
+                            );
                           },
                         ),
                       ],
