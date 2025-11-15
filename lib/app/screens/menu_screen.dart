@@ -34,9 +34,13 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Container(
-        color: Colors.black.withValues(alpha: 0.95),
+        color: isDark
+            ? Colors.black.withValues(alpha: 0.95)
+            : Colors.white.withValues(alpha: 0.95),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: SafeArea(
@@ -53,14 +57,15 @@ class MenuScreen extends StatelessWidget {
                         style: GoogleFonts.inter(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: isDark ? Colors.white : Colors.black87,
                         ),
                       ),
                       _buildGlassButton(
+                        context: context,
                         onTap: () => Navigator.of(context).pop(),
-                        child: const Icon(
+                        child: Icon(
                           Icons.close,
-                          color: Colors.white,
+                          color: isDark ? Colors.white : Colors.black87,
                           size: 20,
                         ),
                       ),
@@ -188,7 +193,9 @@ class MenuScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       top: BorderSide(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.1)
+                            : Colors.black.withValues(alpha: 0.1),
                         width: 1,
                       ),
                     ),
@@ -198,7 +205,9 @@ class MenuScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: Colors.white.withValues(alpha: 0.4),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.4)
+                          : Colors.black.withValues(alpha: 0.4),
                     ),
                   ),
                 ),
@@ -211,15 +220,19 @@ class MenuScreen extends StatelessWidget {
   }
 
   Widget _buildGlassButton({
+    required BuildContext context,
     required VoidCallback onTap,
     required Widget child,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.black.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Container(
@@ -314,17 +327,29 @@ class MenuScreen extends StatelessWidget {
     required String subtitle,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.05)
+              : Colors.white.withValues(alpha: 0.8),
           child: InkWell(
             onTap: onTap,
             child: Container(
               height: 80,
               padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.black.withValues(alpha: 0.1),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Row(
                 children: [
                   Container(
@@ -332,9 +357,15 @@ class MenuScreen extends StatelessWidget {
                     height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : Colors.black.withValues(alpha: 0.05),
                     ),
-                    child: Icon(icon, color: Colors.white, size: 20),
+                    child: Icon(
+                      icon,
+                      color: isDark ? Colors.white : Colors.black87,
+                      size: 20,
+                    ),
                   ),
 
                   const SizedBox(width: 12),
@@ -349,14 +380,16 @@ class MenuScreen extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: isDark ? Colors.white : Colors.black87,
                           ),
                         ),
                         Text(
                           subtitle,
                           style: GoogleFonts.inter(
                             fontSize: 12,
-                            color: Colors.white.withValues(alpha: 0.6),
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.6)
+                                : Colors.black.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -365,7 +398,9 @@ class MenuScreen extends StatelessWidget {
 
                   Icon(
                     Icons.chevron_right,
-                    color: Colors.white.withValues(alpha: 0.4),
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.4)
+                        : Colors.black.withValues(alpha: 0.4),
                     size: 20,
                   ),
                 ],
