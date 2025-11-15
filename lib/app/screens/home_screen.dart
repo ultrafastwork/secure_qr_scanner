@@ -228,7 +228,11 @@ class _HomeScreenState extends State<HomeScreen> {
           // Secondary button - Scan Barcode
           _buildSecondaryButton(
             onTap: () {
-              // TODO: Navigate to barcode scanner
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const BarcodeScannerScreen(),
+                ),
+              );
             },
             icon: Icons.view_week,
             label: 'Scan Barcode',
@@ -238,8 +242,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Tertiary button - Scan from Gallery
           _buildSecondaryButton(
-            onTap: () {
-              // TODO: Pick image from gallery
+            onTap: () async {
+              // Navigate to scanner screen which has gallery picking functionality
+              final navigator = Navigator.of(context);
+              await navigator.push(
+                MaterialPageRoute(
+                  builder: (context) => const QRScannerScreen(),
+                ),
+              );
             },
             icon: Icons.image,
             label: 'Scan from Gallery',
