@@ -2,15 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:secure_qr_scanner/app/screens/settings_screen.dart';
+import 'package:secure_qr_scanner/app/screens/menu_screen.dart';
 import 'package:secure_qr_scanner/barcode/screens/barcode_scanner_screen.dart';
 import 'package:secure_qr_scanner/history/screens/history_screen.dart';
-import 'package:secure_qr_scanner/qr_code/screens/custom_qr_generator_screen.dart'
-    as custom_qr;
 import 'package:secure_qr_scanner/qr_code/screens/generator_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/result_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/scanner_screen.dart';
-import 'package:secure_qr_scanner/qr_code/screens/wifi_generator_screen.dart';
 
 /// Home screen with modern glassmorphism design
 class HomeScreen extends StatefulWidget {
@@ -21,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _showMenu = false;
-
   Future<void> _navigateToScanner(BuildContext context) async {
     final navigator = Navigator.of(context);
     final result = await navigator.push<String>(
@@ -41,16 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Main home screen
-          _buildMainScreen(),
-          // Menu overlay
-          if (_showMenu) _buildMenuOverlay(),
-        ],
-      ),
-    );
+    return Scaffold(body: _buildMainScreen());
   }
 
   Widget _buildMainScreen() {
@@ -142,7 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Settings button
           _buildGlassButton(
-            onTap: () => setState(() => _showMenu = true),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const MenuScreen()),
+              );
+            },
             child: Icon(
               Icons.settings,
               color: isDark ? Colors.white : Colors.black87,
@@ -404,7 +394,11 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 8),
 
           _buildBottomNavButton(
-            onTap: () => setState(() => _showMenu = true),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const MenuScreen()),
+              );
+            },
             icon: Icons.settings,
             label: 'More',
             iconColor: const Color(0xFFC084FC), // purple-400
@@ -475,352 +469,6 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 36,
               alignment: Alignment.center,
               child: child,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMenuOverlay() {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      child: GestureDetector(
-        onTap: () => setState(() => _showMenu = false),
-        child: Container(
-          color: Colors.black.withValues(alpha: 0.95),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  // Menu header
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Menu',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        _buildGlassButton(
-                          onTap: () => setState(() => _showMenu = false),
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Menu items
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      children: [
-                        _buildFeaturedMenuItem(
-                          icon: Icons.center_focus_strong,
-                          title: 'Scan QR Code',
-                          subtitle: 'Open camera scanner',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await _navigateToScanner(context);
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        _buildMenuItem(
-                          icon: Icons.view_week,
-                          title: 'Scan Barcode',
-                          subtitle: 'EAN, UPC, Code128, etc',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const BarcodeScannerScreen(),
-                              ),
-                            );
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        _buildMenuItem(
-                          icon: Icons.auto_awesome,
-                          title: 'Generate QR',
-                          subtitle: 'Create QR codes',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const QRGeneratorScreen(),
-                              ),
-                            );
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        _buildMenuItem(
-                          icon: Icons.palette,
-                          title: 'Custom QR',
-                          subtitle: 'QR with colors & logo',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const custom_qr.CustomQrGeneratorScreen(),
-                              ),
-                            );
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        _buildMenuItem(
-                          icon: Icons.wifi_tethering,
-                          title: 'Wi-Fi QR',
-                          subtitle: 'Share Wi-Fi easily',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const WifiGeneratorScreen(),
-                              ),
-                            );
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        _buildMenuItem(
-                          icon: Icons.history,
-                          title: 'History',
-                          subtitle: 'View past scans',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const HistoryScreen(),
-                              ),
-                            );
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        _buildMenuItem(
-                          icon: Icons.settings,
-                          title: 'Settings',
-                          subtitle: 'Preferences & theme',
-                          onTap: () async {
-                            setState(() => _showMenu = false);
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const SettingsScreen(),
-                              ),
-                            );
-                            if (mounted) {
-                              setState(() => _showMenu = true);
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Footer
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Colors.white.withValues(alpha: 0.1),
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      'QR Scanner v1.0',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.4),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeaturedMenuItem({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Ink(
-          height: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            gradient: const LinearGradient(
-              colors: [Color(0xFF7C3AED), Color(0xFFC026D3)],
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white.withValues(alpha: 0.2),
-                  ),
-                  child: Icon(icon, color: Colors.white, size: 20),
-                ),
-
-                const SizedBox(width: 12),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.6),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Icon(
-                  Icons.chevron_right,
-                  color: Colors.white.withValues(alpha: 0.6),
-                  size: 20,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Material(
-          color: Colors.white.withValues(alpha: 0.05),
-          child: InkWell(
-            onTap: onTap,
-            child: Container(
-              height: 80,
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white.withValues(alpha: 0.1),
-                    ),
-                    child: Icon(icon, color: Colors.white, size: 20),
-                  ),
-
-                  const SizedBox(width: 12),
-
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          title,
-                          style: GoogleFonts.inter(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          subtitle,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: Colors.white.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.white.withValues(alpha: 0.4),
-                    size: 20,
-                  ),
-                ],
-              ),
             ),
           ),
         ),
