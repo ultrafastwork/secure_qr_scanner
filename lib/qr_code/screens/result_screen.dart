@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:secure_qr_scanner/history/providers/history_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Screen to display scanned QR code result with actions
@@ -60,7 +61,7 @@ class QRResultScreen extends ConsumerWidget {
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withOpacity(0.8)),
+                child: Container(color: Colors.black.withValues(alpha: 0.8)),
               ),
             ),
           ),
@@ -70,7 +71,7 @@ class QRResultScreen extends ConsumerWidget {
             child: Column(
               children: [
                 _buildTopBar(context),
-                Expanded(child: _buildContent(context)),
+                Expanded(child: _buildContent(context, ref)),
               ],
             ),
           ),
@@ -102,7 +103,7 @@ class QRResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -125,7 +126,7 @@ class QRResultScreen extends ConsumerWidget {
           const SizedBox(height: 32),
 
           // Action buttons
-          _buildActionButtons(context),
+          _buildActionButtons(context, ref),
 
           const SizedBox(height: 20),
         ],
@@ -164,7 +165,7 @@ class QRResultScreen extends ConsumerWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF10B981).withOpacity(0.5),
+                color: const Color(0xFF10B981).withValues(alpha: 0.5),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -184,9 +185,12 @@ class QRResultScreen extends ConsumerWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.2),
+              width: 1,
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -217,9 +221,12 @@ class QRResultScreen extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.1),
+              width: 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +235,7 @@ class QRResultScreen extends ConsumerWidget {
                 'Content',
                 style: GoogleFonts.inter(
                   fontSize: 12,
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -248,7 +255,7 @@ class QRResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         // Primary action based on content type
@@ -291,18 +298,24 @@ class QRResultScreen extends ConsumerWidget {
         if (!isFromHistory) ...[
           const SizedBox(height: 12),
           _buildSecondaryButton(
-            onTap: () {
-              // TODO: Save to history
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Saved to history', style: GoogleFonts.inter()),
-                  backgroundColor: const Color(0xFF10B981),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            onTap: () async {
+              final service = ref.read(historyServiceProvider);
+              await service.addScan(scannedData);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Saved to history',
+                      style: GoogleFonts.inter(),
+                    ),
+                    backgroundColor: const Color(0xFF10B981),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
             icon: Icons.bookmark_add,
             label: 'Save to History',
@@ -367,7 +380,7 @@ class QRResultScreen extends ConsumerWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             child: InkWell(
               onTap: onTap,
               child: Center(
@@ -403,7 +416,7 @@ class QRResultScreen extends ConsumerWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           child: InkWell(
             onTap: onTap,
             child: Container(
@@ -425,10 +438,14 @@ class QRResultScreen extends ConsumerWidget {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        _showError(context, 'Could not open URL');
+        if (context.mounted) {
+          _showError(context, 'Could not open URL');
+        }
       }
     } catch (e) {
-      _showError(context, 'Invalid URL');
+      if (context.mounted) {
+        _showError(context, 'Invalid URL');
+      }
     }
   }
 

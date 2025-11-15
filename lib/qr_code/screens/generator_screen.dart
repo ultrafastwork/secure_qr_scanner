@@ -125,7 +125,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withOpacity(0.8)),
+                child: Container(color: Colors.black.withValues(alpha: 0.8)),
               ),
             ),
           ),
@@ -205,9 +205,12 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.1),
+              width: 1,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +219,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
                 'Enter Text or URL',
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -230,20 +233,20 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
                 decoration: InputDecoration(
                   hintText: 'e.g., https://example.com or any text...',
                   hintStyle: GoogleFonts.inter(
-                    color: Colors.white.withOpacity(0.4),
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                   filled: true,
-                  fillColor: Colors.black.withOpacity(0.3),
+                  fillColor: Colors.black.withValues(alpha: 0.3),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withValues(alpha: 0.1),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withValues(alpha: 0.1),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -306,7 +309,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF8B5CF6).withOpacity(0.5),
+                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
                     blurRadius: 24,
                     offset: const Offset(0, 8),
                   ),
@@ -338,7 +341,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -357,7 +360,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
                           : _textController.text,
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -381,10 +384,10 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
           width: 280,
           height: 280,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               width: 2,
               strokeAlign: BorderSide.strokeAlignInside,
             ),
@@ -395,14 +398,14 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
               Icon(
                 Icons.qr_code_2_outlined,
                 size: 80,
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
               ),
               const SizedBox(height: 16),
               Text(
                 'Your QR code will appear here',
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: Colors.white.withOpacity(0.4),
+                  color: Colors.white.withValues(alpha: 0.6),
                 ),
               ),
             ],
@@ -503,7 +506,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             child: InkWell(
               onTap: onTap,
               child: Center(
@@ -539,7 +542,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           child: InkWell(
             onTap: onTap,
             child: Container(

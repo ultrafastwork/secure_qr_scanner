@@ -195,7 +195,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFD946EF).withOpacity(0.5),
+                  color: const Color(0xFFD946EF).withValues(alpha: 0.5),
                   blurRadius: 8,
                   spreadRadius: 2,
                 ),
@@ -228,7 +228,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -259,7 +259,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           child: InkWell(
             onTap: () {
               // TODO: Open image picker to scan from gallery
@@ -301,7 +301,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withValues(alpha: 0.8),
           child: InkWell(
             onTap: onTap,
             child: Container(

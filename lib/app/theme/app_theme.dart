@@ -20,7 +20,6 @@ class AppTheme {
         primary: Color(0xFF8B5CF6), // violet-500
         secondary: Color(0xFFD946EF), // fuchsia-500
         surface: Color(0xFF000000), // pure black
-        background: Color(0xFF000000), // pure black
       ),
       textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
       scaffoldBackgroundColor: const Color(0xFF000000), // pure black
@@ -32,7 +31,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 0,
-        color: Colors.white.withOpacity(0.05),
+        color: Colors.white.withValues(alpha: 0.05),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );

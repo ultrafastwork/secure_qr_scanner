@@ -19,13 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _showMenu = false;
 
   Future<void> _navigateToScanner(BuildContext context) async {
-    final result = await Navigator.of(context).push<String>(
+    final navigator = Navigator.of(context);
+    final result = await navigator.push<String>(
       MaterialPageRoute(builder: (context) => const QRScannerScreen()),
     );
 
     if (result != null && mounted) {
       // Navigate to result screen with scanned data
-      Navigator.of(context).push(
+      navigator.push(
         MaterialPageRoute(
           builder: (context) => QRResultScreen(scannedData: result),
         ),
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-              child: Container(color: Colors.black.withOpacity(0.8)),
+              child: Container(color: Colors.black.withValues(alpha: 0.8)),
             ),
           ),
         ),
@@ -192,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF8B5CF6).withOpacity(0.5),
+                color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -302,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             child: InkWell(
               onTap: onTap,
               child: Center(
@@ -385,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Padding(
@@ -421,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           child: InkWell(
             onTap: onTap,
             child: Container(
@@ -442,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GestureDetector(
         onTap: () => setState(() => _showMenu = false),
         child: Container(
-          color: Colors.black.withOpacity(0.95),
+          color: Colors.black.withValues(alpha: 0.95),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: SafeArea(
@@ -554,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                           width: 1,
                         ),
                       ),
@@ -564,7 +565,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.4),
+                        color: Colors.white.withValues(alpha: 0.4),
                       ),
                     ),
                   ),
@@ -605,7 +606,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                   ),
                   child: Icon(icon, color: Colors.white, size: 20),
                 ),
@@ -629,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         subtitle,
                         style: GoogleFonts.inter(
                           fontSize: 12,
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                         ),
                       ),
                     ],
@@ -638,7 +639,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 Icon(
                   Icons.chevron_right,
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                   size: 20,
                 ),
               ],
@@ -660,7 +661,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Container(
@@ -673,7 +674,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withValues(alpha: 0.1),
                     ),
                     child: Icon(icon, color: Colors.white, size: 20),
                   ),
@@ -697,7 +698,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           subtitle,
                           style: GoogleFonts.inter(
                             fontSize: 12,
-                            color: Colors.white.withOpacity(0.6),
+                            color: Colors.white.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -706,7 +707,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Icon(
                     Icons.chevron_right,
-                    color: Colors.white.withOpacity(0.4),
+                    color: Colors.white.withValues(alpha: 0.4),
                     size: 20,
                   ),
                 ],

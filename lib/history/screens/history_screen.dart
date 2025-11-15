@@ -35,7 +35,7 @@ class HistoryScreen extends ConsumerWidget {
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withOpacity(0.8)),
+                child: Container(color: Colors.black.withValues(alpha: 0.8)),
               ),
             ),
           ),
@@ -152,7 +152,7 @@ class HistoryScreen extends ConsumerWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(
@@ -168,7 +168,7 @@ class HistoryScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(16),
@@ -210,7 +210,7 @@ class HistoryScreen extends ConsumerWidget {
                                 decoration: BoxDecoration(
                                   color: const Color(
                                     0xFFA78BFA,
-                                  ).withOpacity(0.2),
+                                  ).withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
@@ -227,7 +227,7 @@ class HistoryScreen extends ConsumerWidget {
                                 _formatTimestamp(item.timestamp),
                                 style: GoogleFonts.inter(
                                   fontSize: 11,
-                                  color: Colors.white.withOpacity(0.5),
+                                  color: Colors.white.withValues(alpha: 0.5),
                                 ),
                               ),
                             ],
@@ -256,7 +256,7 @@ class HistoryScreen extends ConsumerWidget {
                     // Chevron
                     Icon(
                       Icons.chevron_right,
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       size: 20,
                     ),
                   ],
@@ -274,7 +274,11 @@ class HistoryScreen extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.history, size: 80, color: Colors.white.withOpacity(0.2)),
+          Icon(
+            Icons.history,
+            size: 80,
+            color: Colors.white.withValues(alpha: 0.2),
+          ),
           const SizedBox(height: 16),
           Text(
             'No scan history yet',
@@ -289,7 +293,7 @@ class HistoryScreen extends ConsumerWidget {
             'Scanned QR codes will appear here',
             style: GoogleFonts.inter(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.6),
+              color: Colors.white.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -311,7 +315,7 @@ class HistoryScreen extends ConsumerWidget {
           Icon(
             Icons.error_outline,
             size: 60,
-            color: Colors.white.withOpacity(0.4),
+            color: Colors.white.withValues(alpha: 0.4),
           ),
           const SizedBox(height: 16),
           Text(
@@ -323,7 +327,7 @@ class HistoryScreen extends ConsumerWidget {
             error,
             style: GoogleFonts.inter(
               fontSize: 12,
-              color: Colors.white.withOpacity(0.6),
+              color: Colors.white.withValues(alpha: 0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -341,7 +345,7 @@ class HistoryScreen extends ConsumerWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 0.1),
           child: InkWell(
             onTap: onTap,
             child: Container(
@@ -400,14 +404,16 @@ class HistoryScreen extends ConsumerWidget {
         ),
         content: Text(
           'This will permanently delete all scan history. This action cannot be undone.',
-          style: GoogleFonts.inter(color: Colors.white.withOpacity(0.8)),
+          style: GoogleFonts.inter(color: Colors.white.withValues(alpha: 0.8)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               'Cancel',
-              style: GoogleFonts.inter(color: Colors.white.withOpacity(0.6)),
+              style: GoogleFonts.inter(
+                color: Colors.white.withValues(alpha: 0.6),
+              ),
             ),
           ),
           TextButton(
