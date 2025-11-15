@@ -54,15 +54,19 @@ You are Windsurf Cascade, an AI assistant with strong problem-solving skills. Fo
 
 ---
 
-## Features & Roadmap
+## Documentation for AI
 
-Check in `roadmap.md` for feature priorities and roadmap.
+Documentation for AI is in `README.md` and files under `ai-docs` directory.
+
+### Features & Roadmap
+
+Check in `ai-docs/ROADMAP.md` for feature priorities and roadmap.
 
 ---
 
 ## Design 
 
-Check in `design.md` for design references.
+Check in `ai-docs/DESIGN.md` for design references.
 
 ---
 
