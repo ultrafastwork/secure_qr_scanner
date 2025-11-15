@@ -6,7 +6,7 @@ This file contains the recommended prompt to give new AI agents when continuing 
 
 ## 📋 CURRENT PROMPT - v1.2.3 (Copy & Paste)
 
-**NOTE:** For the complete v1.2.3 prompt, see `NEXT_AGENT_PROMPT_v1.2.3.md`
+**NOTE:** For the complete v1.2.3 prompt, see `AGENT_PROMPT_v1.2.3.md`
 
 ```
 I'm continuing work on a Flutter QR Scanner app. v1.2.2 is complete and ready for v1.2.3.
