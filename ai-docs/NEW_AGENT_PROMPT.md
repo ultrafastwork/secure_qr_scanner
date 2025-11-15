@@ -4,14 +4,16 @@ This file contains the recommended prompt to give new AI agents when continuing 
 
 ---
 
-## 📋 CURRENT PROMPT - v1.2.1 (Copy & Paste)
+## 📋 CURRENT PROMPT - v1.2.3 (Copy & Paste)
+
+**NOTE:** For the complete v1.2.3 prompt, see `NEXT_AGENT_PROMPT_v1.2.3.md`
 
 ```
-I'm continuing work on a Flutter QR Scanner app. v1.2.0 is complete and ready for v1.2.1.
+I'm continuing work on a Flutter QR Scanner app. v1.2.2 is complete and ready for v1.2.3.
 
 **PROJECT CONTEXT:**
 - Location: d:\flutter\secure_qr_scanner
-- Status: v1.0 ✅ | v1.1 ✅ | v1.2.0 ✅ | Ready for v1.2.1
+- Status: v1.0 ✅ | v1.1 ✅ | v1.2.0 ✅ | v1.2.1 ✅ | v1.2.2 ✅ | Ready for v1.2.3
 - Main docs: ai-docs/PROGRESS_HANDOFF.md (read this first!)
 
 **WHAT'S COMPLETE:**
@@ -32,33 +34,45 @@ I'm continuing work on a Flutter QR Scanner app. v1.2.0 is complete and ready fo
   - ContentActionService for type-specific actions
   - 0 analyzer issues ✅
 
+✅ v1.2.1 - Wi-Fi QR Code Generation (Nov 15, 2025):
+  - Dedicated Wi-Fi QR generator screen
+  - Input fields: SSID, Password, Security Type, Hidden toggle
+  - Standard Wi-Fi QR format
+  - Real-time QR preview with glassmorphism
+  - Share & Save functionality
+  - 0 analyzer issues ✅
+
+✅ v1.2.2 - Settings & Theme Toggle (Nov 15, 2025):
+  - Settings screen with glassmorphism design
+  - Light/Dark/System theme toggle
+  - Theme persistence with Hive storage
+  - Full light and dark theme implementation
+  - System theme as default (respects OS)
+  - About section with app version
+  - 0 analyzer issues ✅
+
 **YOUR TASK:**
-Please read ai-docs/PROGRESS_HANDOFF.md, then implement:
+Please read ai-docs/PROGRESS_HANDOFF.md, then choose one of these v1.2.3 features:
 
-**v1.2.1 - Wi-Fi QR Code Generation** (RECOMMENDED NEXT)
+**OPTION 1: Custom QR Appearance** ⭐ (RECOMMENDED)
+**OPTION 2: Export/Import History**
+**OPTION 3: Haptic Feedback**
+**OPTION 4: Batch Scanning Mode**
 
-Create a Wi-Fi QR generator screen with:
-- Input fields: SSID, Password, Security Type (WPA/WEP/None), Hidden toggle
-- Generate format: WIFI:T:WPA;S:NetworkName;P:password;;
-- QR code preview
-- Share & Save functionality (already exists, reuse it)
-- Follow existing glassmorphism design patterns
-
-Implementation guide and format specs are in PROGRESS_HANDOFF.md.
-Estimated time: 1.5-2 hours.
+See NEXT_AGENT_PROMPT_v1.2.3.md for complete details on each option.
 
 **REQUIREMENTS:**
 - Must maintain 0 analyzer issues ✅
-- Follow feature-based directory structure (qr_code/screens/)
-- Use existing generator patterns as reference
-- Test with different security types
+- Follow feature-based directory structure
+- Use Riverpod for state management
+- Test in both light and dark themes
+- Follow existing glassmorphism patterns
 
 **AFTER FINISHING:**
-- Update ai-docs/PROGRESS_HANDOFF.md and ai-docs/ROADMAP.md if necessary
+- Update ai-docs/PROGRESS_HANDOFF.md and ai-docs/ROADMAP.md
 - Report remaining token count
-- If flutter analyze shows 0 issues (except "TODO" comments), use GitHub MCP to commit and push with:
-  - Commit message: fewer than 50 chars (e.g., "feat: Add Wi-Fi QR generation (v1.2.1)")
-  - Commit description: can be longer, include what was implemented
+- If flutter analyze shows 0 issues, use GitHub MCP to commit and push
+- Create NEXT_AGENT_PROMPT_v1.2.4.md for next feature
 - Suggest what's next and ask if I want to proceed
 ```
 
@@ -74,9 +88,19 @@ Estimated time: 1.5-2 hours.
 
 ## 📝 Version History
 
+### v1.2.2 → v1.2.3 (Nov 15, 2025)
+**Status**: Current - Ready for Custom QR Appearance or other features
+**Focus**: Enhanced QR generation or data management features
+
+### v1.2.1 → v1.2.2 (Nov 15, 2025)
+**Status**: Completed
+**Implemented**: Settings & Theme Toggle with Light/Dark/System modes
+**Notes**: System theme as default, full theme persistence
+
 ### v1.2.0 → v1.2.1 (Nov 15, 2025)
-**Status**: Current - Ready for Wi-Fi QR Generation
-**Focus**: Complete Wi-Fi workflow (detection ✅ + generation)
+**Status**: Completed
+**Implemented**: Wi-Fi QR Code Generation
+**Focus**: Complete Wi-Fi workflow (detection ✅ + generation ✅)
 
 ### v1.1 → v1.2.0 (Nov 15, 2025)
 **Status**: Completed
@@ -124,6 +148,6 @@ Please read ai-docs/PROGRESS_HANDOFF.md and ai-docs/ROADMAP.md, then suggest whi
 
 ---
 
-**Last Updated**: Nov 15, 2025  
-**Current Version**: v1.2.0 Complete  
-**Next Version**: v1.2.1 - Wi-Fi QR Generation
+**Last Updated**: Nov 15, 2025 (v1.2.2 Complete)  
+**Current Version**: v1.2.2 Complete (Settings & Theme Toggle)  
+**Next Version**: v1.2.3 - Choose from 4 feature options
