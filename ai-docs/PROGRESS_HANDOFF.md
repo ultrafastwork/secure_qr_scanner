@@ -64,14 +64,28 @@
 
 ## 📋 Current Task Status
 
-**Active Work:** None (awaiting v1.1 kickoff)
+**Active Work:** v1.1 Features Implementation (In Progress)
 
-**Next Steps:**
-1. Choose first v1.1 feature to implement
-2. Add required packages to `pubspec.yaml`
-3. Implement feature following existing code patterns
-4. Test thoroughly
-5. Update this handoff document
+**✅ COMPLETED v1.1 Features (Nov 15, 2025):**
+
+1. **Camera Flash Toggle** - Already in v1.0!
+   - Working implementation in `scanner_screen.dart` (lines 46-49)
+   - MobileScanner `toggleTorch()` method wired up
+   - UI button functional with correct icons
+
+2. **Share Functionality** ✅ COMPLETE
+   - Package: `share_plus: ^12.0.1` (already in pubspec.yaml)
+   - Generator screen: Share QR content via `ShareParams(text:)`
+   - Result screen: Share scanned data via `ShareParams(text:)`
+   - Files updated:
+     - `lib/qr_code/screens/generator_screen.dart` (lines 65-81)
+     - `lib/qr_code/screens/result_screen.dart` (lines 469-479)
+   - 0 analyzer issues confirmed ✅
+
+**📋 Next v1.1 Features (Prioritized):**
+1. **Save QR to Gallery** ⭐ - Next recommended feature
+2. Gallery Image Scanning
+3. Barcode Scanner
 
 ---
 

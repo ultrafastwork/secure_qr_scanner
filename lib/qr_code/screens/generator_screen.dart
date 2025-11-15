@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// QR Code Generator screen
 class QRGeneratorScreen extends StatefulWidget {
@@ -62,8 +63,19 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
   }
 
   Future<void> _shareQR() async {
-    // TODO: Implement share using share_plus (v1.1 feature)
-    _showInfo('Share feature coming in v1.1');
+    final text = _textController.text.trim();
+    if (text.isEmpty) {
+      _showError('No content to share');
+      return;
+    }
+
+    try {
+      await SharePlus.instance.share(ShareParams(text: text));
+    } catch (e) {
+      if (mounted) {
+        _showError('Failed to share content');
+      }
+    }
   }
 
   Future<void> _saveQR() async {

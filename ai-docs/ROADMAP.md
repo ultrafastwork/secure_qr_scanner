@@ -26,10 +26,20 @@ Goal: Launch a working QR scanner & generator with minimal UI.
 === 🌟 v1.1 – Polished MVP (Nice-to-Have Enhancements) ===
 Goal: Improve usability and user delight.
 
-- Camera flash toggle (for low light)
-- Download/Share generated QR image
+**Status:** In Progress (Nov 15, 2025)
+
+✅ COMPLETE:
+- Camera flash toggle (for low light) - Already in v1.0!
+- Share generated QR & scan results (share_plus) ✅ Nov 15, 2025
+
+🔄 NEXT PRIORITIES:
+1. Save QR to gallery (image_gallery_saver / gal) ⭐ RECOMMENDED
+2. Scan from gallery images (image_picker)
+3. Barcode scanning support
+
+📋 BACKLOG:
 - Light/Dark theme toggle
-- Basic error handling (invalid QR / permission denied)
+- Enhanced error handling (invalid QR / permission denied)
 - Minimal animations (page transitions or QR shimmer)
 
 ---

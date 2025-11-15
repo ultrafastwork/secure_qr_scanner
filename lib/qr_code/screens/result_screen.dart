@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:secure_qr_scanner/history/providers/history_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Screen to display scanned QR code result with actions
@@ -467,8 +468,13 @@ class QRResultScreen extends ConsumerWidget {
   }
 
   Future<void> _shareContent(BuildContext context) async {
-    // TODO: Implement share using share_plus package
-    _showError(context, 'Share feature coming soon');
+    try {
+      await SharePlus.instance.share(ShareParams(text: scannedData));
+    } catch (e) {
+      if (context.mounted) {
+        _showError(context, 'Failed to share content');
+      }
+    }
   }
 
   void _showError(BuildContext context, String message) {
