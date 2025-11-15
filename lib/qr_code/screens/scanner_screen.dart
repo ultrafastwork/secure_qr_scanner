@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 /// QR Code Scanner screen with camera integration
@@ -46,6 +47,60 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   void _toggleFlash() {
     setState(() => _isFlashOn = !_isFlashOn);
     cameraController.toggleTorch();
+  }
+
+  Future<void> _pickFromGallery() async {
+    if (_isProcessing) return;
+
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile == null) return;
+
+      setState(() => _isProcessing = true);
+
+      // Analyze the picked image using mobile_scanner
+      final barcodes = await cameraController.analyzeImage(pickedFile.path);
+
+      if (barcodes == null || barcodes.barcodes.isEmpty) {
+        if (mounted) {
+          setState(() => _isProcessing = false);
+          _showError('No QR code found in the selected image');
+        }
+        return;
+      }
+
+      final barcode = barcodes.barcodes.first;
+      if (barcode.rawValue != null) {
+        // Navigate to result screen with scanned data
+        if (mounted) {
+          Navigator.of(context).pop(barcode.rawValue);
+        }
+      } else {
+        if (mounted) {
+          setState(() => _isProcessing = false);
+          _showError('Could not read QR code from image');
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isProcessing = false);
+        _showError('Failed to scan image');
+      }
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: GoogleFonts.inter()),
+        backgroundColor: const Color(0xFFEF4444),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -261,9 +316,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
         child: Material(
           color: Colors.white.withValues(alpha: 0.1),
           child: InkWell(
-            onTap: () {
-              // TODO: Open image picker to scan from gallery
-            },
+            onTap: _pickFromGallery,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
               child: Row(

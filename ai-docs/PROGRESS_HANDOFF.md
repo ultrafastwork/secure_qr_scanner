@@ -96,9 +96,22 @@
      - `ios/Runner/Info.plist` (added photo library permissions)
    - 0 analyzer issues confirmed ✅
 
+4. **Gallery Image Scanning** ✅ COMPLETE
+   - Package: `image_picker: ^1.2.1` (already in pubspec.yaml)
+   - Scanner screen: Pick image from gallery and scan QR codes
+   - Implementation: image_picker + mobile_scanner.analyzeImage()
+   - Features:
+     - Pick images from device gallery
+     - Automatic QR code detection from images
+     - Error handling for images without QR codes
+     - Same result flow as camera scanning
+   - Files updated:
+     - `lib/qr_code/screens/scanner_screen.dart` (lines 52-104, 319)
+     - `ios/Runner/Info.plist` (updated photo library description)
+   - 0 analyzer issues confirmed ✅
+
 **📋 Next v1.1 Features (Prioritized):**
-1. **Gallery Image Scanning** ⭐ - Next recommended feature
-2. Barcode Scanner
+1. **Barcode Scanner** ⭐ - Final v1.1 feature
 
 ---
 

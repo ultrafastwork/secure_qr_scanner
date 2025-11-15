@@ -48,6 +48,6 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app needs access to save QR codes to your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to your photo library to save QR codes</string>
+	<string>This app needs access to your photo library to scan QR codes from images and save generated QR codes</string>
 </dict>
 </plist>
