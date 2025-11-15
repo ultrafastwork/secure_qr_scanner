@@ -1,8 +1,12 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:gal/gal.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -16,6 +20,7 @@ class QRGeneratorScreen extends StatefulWidget {
 
 class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
   final TextEditingController _textController = TextEditingController();
+  final GlobalKey _qrKey = GlobalKey();
   QrCode? _qrCode;
   QrImage? _qrImage;
   bool _hasGenerated = false;
@@ -79,8 +84,65 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
   }
 
   Future<void> _saveQR() async {
-    // TODO: Implement save to gallery (v1.1 feature)
-    _showInfo('Save feature coming in v1.1');
+    if (_qrImage == null) {
+      _showError('No QR code to save');
+      return;
+    }
+
+    try {
+      // Check and request permission
+      final hasAccess = await Gal.hasAccess();
+      if (!hasAccess) {
+        final granted = await Gal.requestAccess();
+        if (!granted) {
+          if (mounted) {
+            _showError('Storage permission denied');
+          }
+          return;
+        }
+      }
+
+      // Capture the QR code widget as image
+      final boundary =
+          _qrKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) {
+        if (mounted) {
+          _showError('Failed to capture QR code');
+        }
+        return;
+      }
+
+      final image = await boundary.toImage(pixelRatio: 3.0);
+      final byteData = await image.toByteData(format: ImageByteFormat.png);
+      if (byteData == null) {
+        if (mounted) {
+          _showError('Failed to convert QR code');
+        }
+        return;
+      }
+
+      final pngBytes = byteData.buffer.asUint8List();
+
+      // Save to temporary file
+      final tempDir = await getTemporaryDirectory();
+      final fileName = 'qr_code_${DateTime.now().millisecondsSinceEpoch}.png';
+      final file = File('${tempDir.path}/$fileName');
+      await file.writeAsBytes(pngBytes);
+
+      // Save to gallery
+      await Gal.putImage(file.path);
+
+      // Clean up temp file
+      await file.delete();
+
+      if (mounted) {
+        _showSuccess('QR code saved to gallery');
+      }
+    } catch (e) {
+      if (mounted) {
+        _showError('Failed to save QR code');
+      }
+    }
   }
 
   void _showError(String message) {
@@ -99,17 +161,6 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
       SnackBar(
         content: Text(message, style: GoogleFonts.inter()),
         backgroundColor: const Color(0xFF8B5CF6),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-    );
-  }
-
-  void _showInfo(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message, style: GoogleFonts.inter()),
-        backgroundColor: const Color(0xFF6366F1),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -312,33 +363,36 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
             ),
 
             // QR Code container
-            Container(
-              width: 280,
-              height: 280,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
-                    blurRadius: 24,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: _qrImage != null
-                  ? PrettyQrView(
-                      qrImage: _qrImage!,
-                      decoration: const PrettyQrDecoration(
-                        shape: PrettyQrSmoothSymbol(color: Colors.black),
-                      ),
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xFF8B5CF6),
-                      ),
+            RepaintBoundary(
+              key: _qrKey,
+              child: Container(
+                width: 280,
+                height: 280,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
                     ),
+                  ],
+                ),
+                child: _qrImage != null
+                    ? PrettyQrView(
+                        qrImage: _qrImage!,
+                        decoration: const PrettyQrDecoration(
+                          shape: PrettyQrSmoothSymbol(color: Colors.black),
+                        ),
+                      )
+                    : const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFF8B5CF6),
+                        ),
+                      ),
+              ),
             ),
           ],
         ),

@@ -31,11 +31,12 @@ Goal: Improve usability and user delight.
 ✅ COMPLETE:
 - Camera flash toggle (for low light) - Already in v1.0!
 - Share generated QR & scan results (share_plus) ✅ Nov 15, 2025
+- Save QR to gallery (gal) ✅ Nov 15, 2025
 
 🔄 NEXT PRIORITIES:
-1. Save QR to gallery (image_gallery_saver / gal) ⭐ RECOMMENDED
-2. Scan from gallery images (image_picker)
-3. Barcode scanning support
+1. Scan from gallery images (image_picker) ⭐ RECOMMENDED
+2. Barcode scanning support
+3. Enhanced customization options
 
 📋 BACKLOG:
 - Light/Dark theme toggle

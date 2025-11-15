@@ -82,10 +82,23 @@
      - `lib/qr_code/screens/result_screen.dart` (lines 469-479)
    - 0 analyzer issues confirmed ✅
 
+3. **Save QR to Gallery** ✅ COMPLETE
+   - Package: `gal: ^2.3.0` added to pubspec.yaml
+   - Generator screen: Save QR code as PNG image to device gallery
+   - Implementation: RepaintBoundary + image capture + gal.putImage()
+   - Features:
+     - Automatic permission handling (Android & iOS)
+     - High-quality PNG export (3x pixel ratio)
+     - Success/error feedback to user
+   - Files updated:
+     - `lib/qr_code/screens/generator_screen.dart` (lines 87-146)
+     - `android/app/src/main/AndroidManifest.xml` (added storage permissions)
+     - `ios/Runner/Info.plist` (added photo library permissions)
+   - 0 analyzer issues confirmed ✅
+
 **📋 Next v1.1 Features (Prioritized):**
-1. **Save QR to Gallery** ⭐ - Next recommended feature
-2. Gallery Image Scanning
-3. Barcode Scanner
+1. **Gallery Image Scanning** ⭐ - Next recommended feature
+2. Barcode Scanner
 
 ---
 
