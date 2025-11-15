@@ -7,6 +7,7 @@ import 'package:secure_qr_scanner/history/screens/history_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/generator_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/result_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/scanner_screen.dart';
+import 'package:secure_qr_scanner/qr_code/screens/wifi_generator_screen.dart';
 
 /// Home screen with modern glassmorphism design
 class HomeScreen extends StatefulWidget {
@@ -519,6 +520,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const QRGeneratorScreen(),
+                              ),
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        _buildMenuItem(
+                          icon: Icons.wifi_tethering,
+                          title: 'Wi-Fi QR',
+                          subtitle: 'Share Wi-Fi easily',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const WifiGeneratorScreen(),
                               ),
                             );
                           },

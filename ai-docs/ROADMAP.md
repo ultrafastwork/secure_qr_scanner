@@ -52,7 +52,7 @@ Goal: Improve usability and user delight.
 === 💡 v1.2 – Growth Stage (Smart Features) ===
 Goal: Add depth, customization, and long-term value.
 
-**Status:** v1.2.0 ✅ COMPLETE (Nov 15, 2025)
+**Status:** v1.2.1 ✅ COMPLETE (Nov 15, 2025)
 
 ✅ v1.2.0 - Content Type Detection (COMPLETE)
 - Auto-detect QR content type (URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text)
@@ -61,10 +61,16 @@ Goal: Add depth, customization, and long-term value.
 - Comprehensive pattern matching and parsing
 - Type-specific actions (call, email, maps, etc.)
 
-📋 PLANNED (v1.2.1+):
-- Wi-Fi QR code generation (recommended next)
+✅ v1.2.1 - Wi-Fi QR Code Generation (COMPLETE)
+- Dedicated Wi-Fi QR generator screen
+- Support for WPA/WPA2, WEP, and Open networks
+- Hidden network option
+- Real-time QR preview with glassmorphism UI
+- Share & Save functionality
+
+📋 PLANNED (v1.2.2+):
+- Light/Dark theme toggle (recommended next)
 - Custom QR appearance (colors, embedded logo)
-- Light/Dark theme toggle
 - Export/import scan history
 - Enhanced error handling improvements
 
