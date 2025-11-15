@@ -52,7 +52,7 @@ Goal: Improve usability and user delight.
 === 💡 v1.2 – Growth Stage (Smart Features) ===
 Goal: Add depth, customization, and long-term value.
 
-**Status:** v1.2.2 ✅ COMPLETE (Nov 15, 2025)
+**Status:** v1.2.3 ✅ COMPLETE (Nov 15, 2025)
 
 ✅ v1.2.0 - Content Type Detection (COMPLETE)
 - Auto-detect QR content type (URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text)
@@ -76,11 +76,21 @@ Goal: Add depth, customization, and long-term value.
 - Proper dark theme enhancements
 - About section with app version
 
-📋 PLANNED (v1.2.3+):
-- Custom QR appearance (colors, embedded logo)
+✅ v1.2.3 - Custom QR Appearance (COMPLETE)
+- Custom QR colors (foreground/background) with flex_color_picker
+- Logo embedding in QR center
+- QR shape styles (smooth, rounded, square, circle)
+- Preset save functionality with Hive persistence
+- Clean modular architecture (dto/providers/widgets/utils/screens)
+- Theme-aware glassmorphism UI
+- Reusable button builders utility
+
+📋 PLANNED (v1.2.4+):
+- UI improvements (animations, haptic feedback)
+- Empty states & illustrations
+- Loading states & skeleton loaders
+- Micro-interactions & polish
 - Export/import scan history
-- Haptic feedback settings
-- Advanced QR customization
 - Batch scanning mode
 
 ---

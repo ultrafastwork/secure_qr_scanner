@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:secure_qr_scanner/app/screens/settings_screen.dart';
 import 'package:secure_qr_scanner/barcode/screens/barcode_scanner_screen.dart';
 import 'package:secure_qr_scanner/history/screens/history_screen.dart';
+import 'package:secure_qr_scanner/qr_code/screens/custom_qr_generator_screen.dart'
+    as custom_qr;
 import 'package:secure_qr_scanner/qr_code/screens/generator_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/result_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/scanner_screen.dart';
@@ -525,12 +527,29 @@ class _HomeScreenState extends State<HomeScreen> {
                         _buildMenuItem(
                           icon: Icons.auto_awesome,
                           title: 'Generate QR',
-                          subtitle: 'Create custom QR codes',
+                          subtitle: 'Create QR codes',
                           onTap: () {
                             setState(() => _showMenu = false);
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const QRGeneratorScreen(),
+                              ),
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        _buildMenuItem(
+                          icon: Icons.palette,
+                          title: 'Custom QR',
+                          subtitle: 'QR with colors & logo',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const custom_qr.CustomQrGeneratorScreen(),
                               ),
                             );
                           },
