@@ -49,14 +49,24 @@ Goal: Improve usability and user delight.
 
 ---
 
-=== 💡 v1.2 – Growth Stage (Stretch Features) ===
+=== 💡 v1.2 – Growth Stage (Smart Features) ===
 Goal: Add depth, customization, and long-term value.
 
-- Detect QR content type (Wi-Fi, vCard, text, URL, etc.)
+**Status:** v1.2.0 ✅ COMPLETE (Nov 15, 2025)
+
+✅ v1.2.0 - Content Type Detection (COMPLETE)
+- Auto-detect QR content type (URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text)
+- Smart action buttons based on content type
+- Detail dialogs for complex types (Wi-Fi, vCard, Calendar)
+- Comprehensive pattern matching and parsing
+- Type-specific actions (call, email, maps, etc.)
+
+📋 PLANNED (v1.2.1+):
+- Wi-Fi QR code generation (recommended next)
 - Custom QR appearance (colors, embedded logo)
-- Cloud backup/sync for scan history
-- Multi-language support
+- Light/Dark theme toggle
 - Export/import scan history
+- Enhanced error handling improvements
 
 ---
 

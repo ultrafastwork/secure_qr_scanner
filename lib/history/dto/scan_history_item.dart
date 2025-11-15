@@ -1,4 +1,5 @@
 import 'package:hive_ce/hive.dart';
+import 'package:secure_qr_scanner/qr_code/services/content_detector_service.dart';
 
 part 'scan_history_item.g.dart';
 
@@ -24,17 +25,10 @@ class ScanHistoryItem extends HiveObject {
     required this.timestamp,
   });
 
-  /// Helper to determine content type from scanned data
+  /// Helper to determine content type from scanned data using ContentDetectorService
   static String determineType(String content) {
-    if (content.startsWith('http://') ||
-        content.startsWith('https://') ||
-        content.startsWith('www.')) {
-      return 'URL';
-    }
-    if (content.startsWith('tel:')) return 'Phone';
-    if (content.startsWith('mailto:')) return 'Email';
-    if (content.startsWith('WIFI:')) return 'Wi-Fi';
-    return 'Text';
+    final detected = ContentDetectorService.detect(content);
+    return detected.type.displayName;
   }
 
   /// Create a new history item from scanned content

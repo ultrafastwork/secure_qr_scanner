@@ -5,8 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:secure_qr_scanner/history/providers/history_provider.dart';
+import 'package:secure_qr_scanner/qr_code/dto/content_type.dart';
+import 'package:secure_qr_scanner/qr_code/dto/detected_content.dart';
+import 'package:secure_qr_scanner/qr_code/services/content_action_service.dart';
+import 'package:secure_qr_scanner/qr_code/services/content_detector_service.dart';
+import 'package:secure_qr_scanner/qr_code/widgets/content_detail_dialogs.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Screen to display scanned QR code result with actions
 class QRResultScreen extends ConsumerWidget {
@@ -19,26 +23,8 @@ class QRResultScreen extends ConsumerWidget {
     this.isFromHistory = false,
   });
 
-  bool get _isUrl {
-    return scannedData.startsWith('http://') ||
-        scannedData.startsWith('https://') ||
-        scannedData.startsWith('www.');
-  }
-
-  String get _contentType {
-    if (_isUrl) return 'URL';
-    if (scannedData.startsWith('tel:')) return 'Phone';
-    if (scannedData.startsWith('mailto:')) return 'Email';
-    if (scannedData.startsWith('WIFI:')) return 'Wi-Fi';
-    return 'Text';
-  }
-
-  IconData get _contentIcon {
-    if (_isUrl) return Icons.link;
-    if (scannedData.startsWith('tel:')) return Icons.phone;
-    if (scannedData.startsWith('mailto:')) return Icons.email;
-    if (scannedData.startsWith('WIFI:')) return Icons.wifi;
-    return Icons.text_fields;
+  DetectedContent get _detectedContent {
+    return ContentDetectorService.detect(scannedData);
   }
 
   @override
@@ -179,6 +165,7 @@ class QRResultScreen extends ConsumerWidget {
   }
 
   Widget _buildContentTypeBadge() {
+    final content = _detectedContent;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
@@ -196,10 +183,14 @@ class QRResultScreen extends ConsumerWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(_contentIcon, color: const Color(0xFFA78BFA), size: 16),
+              Icon(
+                ContentActionService.getIcon(content.type),
+                color: const Color(0xFFA78BFA),
+                size: 16,
+              ),
               const SizedBox(width: 8),
               Text(
-                _contentType,
+                content.type.displayName,
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -257,14 +248,18 @@ class QRResultScreen extends ConsumerWidget {
   }
 
   Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
+    final content = _detectedContent;
+    final primaryAction = ContentActionService.getPrimaryAction(content);
+    final secondaryActions = ContentActionService.getSecondaryActions(content);
+
     return Column(
       children: [
         // Primary action based on content type
-        if (_isUrl)
+        if (primaryAction != null)
           _buildPrimaryButton(
-            onTap: () => _openInBrowser(context),
-            icon: Icons.open_in_browser,
-            label: 'Open in Browser',
+            onTap: () => _handleAction(context, primaryAction, content),
+            icon: primaryAction.icon,
+            label: primaryAction.label,
           )
         else
           _buildPrimaryButton(
@@ -275,7 +270,21 @@ class QRResultScreen extends ConsumerWidget {
 
         const SizedBox(height: 12),
 
-        // Secondary actions
+        // Type-specific secondary actions
+        if (secondaryActions.isNotEmpty) ...[
+          ...secondaryActions.map(
+            (action) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildSecondaryButton(
+                onTap: () => _handleAction(context, action, content),
+                icon: action.icon,
+                label: action.label,
+              ),
+            ),
+          ),
+        ],
+
+        // Always available actions
         Row(
           children: [
             Expanded(
@@ -433,19 +442,50 @@ class QRResultScreen extends ConsumerWidget {
   }
 
   // Action handlers
-  Future<void> _openInBrowser(BuildContext context) async {
-    try {
-      final uri = Uri.parse(scannedData);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        if (context.mounted) {
-          _showError(context, 'Could not open URL');
-        }
+  Future<void> _handleAction(
+    BuildContext context,
+    ContentAction action,
+    DetectedContent content,
+  ) async {
+    // Handle actions that need dialogs
+    if (action.handler == null) {
+      switch (content.type) {
+        case ContentType.wifi:
+          if (context.mounted) {
+            showDialog(
+              context: context,
+              builder: (ctx) => WifiDetailDialog(content: content),
+            );
+          }
+          break;
+        case ContentType.vcard:
+          if (context.mounted) {
+            showDialog(
+              context: context,
+              builder: (ctx) => VCardDetailDialog(content: content),
+            );
+          }
+          break;
+        case ContentType.calendar:
+          if (context.mounted) {
+            showDialog(
+              context: context,
+              builder: (ctx) => CalendarDetailDialog(content: content),
+            );
+          }
+          break;
+        default:
+          break;
       }
+      return;
+    }
+
+    // Handle actions with handlers
+    try {
+      await action.handler!();
     } catch (e) {
       if (context.mounted) {
-        _showError(context, 'Invalid URL');
+        _showError(context, e.toString().replaceAll('Exception: ', ''));
       }
     }
   }
