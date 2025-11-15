@@ -52,8 +52,14 @@ Estimated time: 1.5-2 hours.
 - Follow feature-based directory structure (qr_code/screens/)
 - Use existing generator patterns as reference
 - Test with different security types
-- Update docs after completion
-- Commit with: "feat: Add Wi-Fi QR generation (v1.2.1)"
+
+**AFTER FINISHING:**
+- Update ai-docs/PROGRESS_HANDOFF.md and ai-docs/ROADMAP.md if necessary
+- Report remaining token count
+- If flutter analyze shows 0 issues (except "TODO" comments), use GitHub MCP to commit and push with:
+  - Commit message: fewer than 50 chars (e.g., "feat: Add Wi-Fi QR generation (v1.2.1)")
+  - Commit description: can be longer, include what was implemented
+- Suggest what's next and ask if I want to proceed
 ```
 
 ---
