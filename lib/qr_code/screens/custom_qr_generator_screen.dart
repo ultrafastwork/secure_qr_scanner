@@ -46,6 +46,7 @@ class _CustomQrGeneratorScreenState
     final customizationState = ref.watch(qrCustomizationProvider);
 
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : const Color(0xFFFAFAFA),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

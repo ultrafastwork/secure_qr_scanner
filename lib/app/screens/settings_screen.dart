@@ -36,6 +36,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : const Color(0xFFFAFAFA),
       body: Stack(
         children: [
           // Gradient background
