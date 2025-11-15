@@ -8,92 +8,111 @@
 
 ## 📍 Quick Context for New Agents
 
-### ✅ v1.2.0 - COMPLETE (100%) - Nov 15, 2025
+You're starting work on **v1.2.2 - Settings & Theme Toggle**. The app is production-ready with a solid foundation. Your task is to add a settings screen with light/dark theme support.
 
-**Major Achievement: Smart Content Type Detection**
-- ✅ Auto-detect 9 content types: URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text
-- ✅ ContentDetectorService with comprehensive pattern matching
-- ✅ ContentActionService with type-specific smart actions
-- ✅ Detail dialogs for Wi-Fi, vCard, Calendar (glassmorphism UI)
-- ✅ Dynamic action buttons in result screen
-- ✅ Integrated with history system
-- ✅ 0 analyzer issues ✅
+### ✅ What's Already Complete
 
-**Type-Specific Actions:**
-- URL → Open in Browser
-- Email → Send Email (subject/body support)
-- Phone → Call or Send SMS
-- SMS → Send Message
-- Wi-Fi → View network details with password copy
-- vCard → View contact + quick call/email
-- Geo → Open in Google Maps
-- Calendar → View event details
+**v1.0 MVP** ✅
+- QR Code Scanner & Generator
+- Basic History with Hive storage
+- URL/Text actions (open browser, copy)
 
-**Key Files:**
-- `lib/qr_code/dto/content_type.dart` - ContentType enum
-- `lib/qr_code/dto/detected_content.dart` - DetectedContent model
-- `lib/qr_code/services/content_detector_service.dart` - Pattern matching
-- `lib/qr_code/services/content_action_service.dart` - Smart actions
-- `lib/qr_code/widgets/content_detail_dialogs.dart` - Wi-Fi/vCard/Calendar dialogs
-- `lib/qr_code/screens/result_screen.dart` - Updated with smart actions
+**v1.1 Enhancements** ✅
+- Share functionality (share_plus)
+- Save QR to Gallery (gal)
+- Gallery image scanning (image_picker)
+- Barcode scanner with multi-format support
+- Camera flash toggle
 
-**For Complete v1.2.0 Details:** See `ai-docs/PROGRESS_HANDOFF_v1.2.0_COMPLETE.md`
+**v1.2.0 - Content Type Detection** ✅
+- Auto-detect 9 content types: URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text
+- Smart action buttons based on content type
+- Detail dialogs for Wi-Fi, vCard, Calendar
+- Type-specific actions (call, email, maps, etc.)
 
----
-
-### ✅ v1.2.1 - COMPLETE (100%) - Nov 15, 2025
-
-**Major Achievement: Wi-Fi QR Code Generation**
-- ✅ Dedicated Wi-Fi QR generator screen with modern UI
-- ✅ Input fields: SSID, Password, Security Type (WPA/WEP/None), Hidden Network toggle
-- ✅ Generates standard Wi-Fi QR format: `WIFI:T:WPA;S:NetworkName;P:password;;`
-- ✅ Real-time QR code preview with glassmorphism design
-- ✅ Share & Save functionality (reuses existing infrastructure)
-- ✅ Integrated into home screen menu navigation
-- ✅ 0 analyzer issues ✅
-
-**Key Features:**
-- WPA/WPA2, WEP, and Open Network support
+**v1.2.1 - Wi-Fi QR Generation** ✅
+- Dedicated Wi-Fi QR generator screen
+- Support for WPA/WPA2, WEP, and Open networks
 - Hidden network option
-- Password validation for secured networks
-- Network info preview after generation
-- Copy Wi-Fi data, Share, and Save to gallery actions
+- Real-time QR preview with glassmorphism UI
+- Share & Save functionality
 
-**Key File:**
-- `lib/qr_code/screens/wifi_generator_screen.dart` - Wi-Fi QR generator
-
-**Updated Files:**
-- `lib/app/screens/home_screen.dart` - Added Wi-Fi QR menu item
+**For Complete Details:** See `ai-docs/PROGRESS_HANDOFF_v1.2.1_COMPLETE.md`
 
 ---
 
-## 🎯 RECOMMENDED NEXT: v1.2.2 - Settings & Theme Toggle ⭐
+## 🎯 YOUR TASK: v1.2.2 - Settings & Theme Toggle ⭐
+
+### Goal
+Create a settings screen with light/dark theme toggle and establish the foundation for future preferences.
 
 ### Why This Feature?
-1. **User Experience**: Dedicated settings screen for app preferences
-2. **High Demand**: Light/Dark theme toggle frequently requested
-3. **Foundation**: Settings infrastructure for future features
-4. **Simple Implementation**: Use existing patterns and theme system
+1. **High User Demand**: Light/Dark mode is one of the most requested features
+2. **Better UX**: Allows users to customize the app to their preference
+3. **Foundation**: Infrastructure for future settings (vibration, sounds, auto-save, etc.)
+4. **Simple Value**: Big user impact with moderate implementation effort
 
 ### Implementation Plan
 
-**1. Create Settings Screen**
-- Location: `lib/app/screens/settings_screen.dart`
-- Theme toggle (Light/Dark mode)
-- About section (app version, info)
-- Future: Vibration, Sound, Auto-save preferences
+#### 1. Create Settings Screen
+**Location**: `lib/app/screens/settings_screen.dart`
 
-**2. Theme Provider**
-- Create ThemeProvider with Riverpod
-- Store preference in Hive
-- Apply theme across app
+**UI Requirements:**
+- Glassmorphism design matching existing screens
+- Sections:
+  - **Appearance**: Theme toggle (Light/Dark)
+  - **About**: App version, developer info
+- Follow existing navigation patterns
+- Use existing UI components (glass buttons, etc.)
 
-**3. Update Navigation**
-- Settings menu item already exists in home_screen.dart
-- Wire up to new settings screen
+#### 2. Implement Theme System
+**Location**: `lib/app/providers/theme_provider.dart`
 
-**Estimated Time:** 2-3 hours  
-**Difficulty:** Medium (theme system integration)
+**Requirements:**
+- Use Riverpod for state management
+- Create ThemeMode enum (Light, Dark, System)
+- Store preference in Hive (key: `theme_mode`)
+- Persist across app restarts
+
+**Theme Specs:**
+- **Dark Mode** (Current): Black background with purple/violet gradients
+- **Light Mode** (New): White/light gray background with same purple accents
+- Maintain glassmorphism effects in both themes
+- Ensure text readability in both modes
+
+#### 3. Update Main App
+**Location**: `lib/main.dart`
+
+**Requirements:**
+- Wrap MaterialApp with Riverpod ConsumerWidget
+- Listen to ThemeProvider
+- Apply MaterialApp `theme` and `darkTheme` parameters
+- Set `themeMode` based on user preference
+
+#### 4. Wire Up Navigation
+**Location**: `lib/app/screens/home_screen.dart` (line 569)
+
+**Current State:**
+```dart
+// TODO: Navigate to settings
+```
+
+**Update To:**
+```dart
+Navigator.of(context).push(
+  MaterialPageRoute(
+    builder: (context) => const SettingsScreen(),
+  ),
+);
+```
+
+#### 5. Create Theme Data
+**Location**: `lib/app/theme/app_theme.dart` (update existing)
+
+**Requirements:**
+- Define `lightTheme` and `darkTheme` ThemeData
+- Use purple color scheme for both
+- Maintain consistency with existing design
 
 ---
 
@@ -101,29 +120,34 @@
 
 ```
 lib/
-├── main.dart (42 lines - clean entry point)
+├── main.dart (42 lines - needs theme integration)
 ├── app/
-│   ├── screens/home_screen.dart (main UI with menu)
-│   └── theme/app_theme.dart
+│   ├── providers/
+│   │   └── theme_provider.dart (CREATE THIS - v1.2.2)
+│   ├── screens/
+│   │   ├── home_screen.dart (update TODO at line 569)
+│   │   └── settings_screen.dart (CREATE THIS - v1.2.2)
+│   └── theme/
+│       └── app_theme.dart (update for light/dark themes)
 ├── qr_code/
 │   ├── dto/
-│   │   ├── content_type.dart (ContentType enum - v1.2.0)
-│   │   └── detected_content.dart (DetectedContent model - v1.2.0)
+│   │   ├── content_type.dart
+│   │   └── detected_content.dart
 │   ├── services/
-│   │   ├── content_detector_service.dart (pattern matching - v1.2.0)
-│   │   └── content_action_service.dart (smart actions - v1.2.0)
+│   │   ├── content_detector_service.dart
+│   │   └── content_action_service.dart
 │   ├── widgets/
-│   │   └── content_detail_dialogs.dart (Wi-Fi/vCard/Calendar - v1.2.0)
+│   │   └── content_detail_dialogs.dart
 │   └── screens/
-│       ├── scanner_screen.dart (QR + gallery scanning)
-│       ├── generator_screen.dart (QR generation + share/save)
-│       ├── wifi_generator_screen.dart (Wi-Fi QR generation - v1.2.1)
-│       └── result_screen.dart (smart actions + detection - v1.2.0)
+│       ├── scanner_screen.dart
+│       ├── generator_screen.dart
+│       ├── wifi_generator_screen.dart
+│       └── result_screen.dart
 ├── barcode/
 │   └── screens/
-│       └── barcode_scanner_screen.dart (barcode scanning)
+│       └── barcode_scanner_screen.dart
 └── history/
-    ├── dto/scan_history_item.dart (uses ContentDetectorService)
+    ├── dto/scan_history_item.dart
     ├── providers/history_provider.dart
     ├── services/history_service.dart
     └── screens/history_screen.dart
@@ -131,7 +155,7 @@ lib/
 
 ---
 
-## 📦 Key Dependencies
+## 📦 Dependencies
 
 **Current Packages:**
 - `mobile_scanner: ^7.1.3` - QR/Barcode scanning
@@ -139,22 +163,30 @@ lib/
 - `share_plus: ^12.0.1` - Share functionality
 - `gal: ^2.3.0` - Save to gallery
 - `image_picker: ^1.2.1` - Gallery image selection
-- `flutter_riverpod: ^3.0.3` - State management
-- `hive_ce_flutter: ^2.3.3` - Local storage
+- `flutter_riverpod: ^3.0.3` - State management ✅ (already added)
+- `hive_ce_flutter: ^2.3.3` - Local storage ✅ (already added)
 - `google_fonts: ^6.3.2` - Typography
 - `url_launcher: ^6.3.1` - Open URLs/phone/email
 
-**No new dependencies needed for v1.2.1** ✅
+**No new dependencies needed for v1.2.2** ✅
 
 ---
 
 ## 🎨 Design System
 
-**Colors:** Pure black background (#000000) with purple/violet/fuchsia gradients  
-**QR Scanner:** Purple theme (#8B5CF6, #D946EF)  
-**Barcode Scanner:** Green theme (#10B981, #34D399)  
-**Effects:** Glassmorphism throughout (BackdropFilter + blur)  
-**Typography:** Google Fonts - Inter  
+**Current Dark Theme:**
+- Background: Pure black (#000000)
+- Gradients: Purple/Violet/Fuchsia (#7C3AED, #C026D3, #7E22CE)
+- Glassmorphism: BackdropFilter with blur
+- Typography: Google Fonts - Inter
+
+**New Light Theme Guidelines:**
+- Background: White (#FFFFFF) or Light Gray (#F5F5F5)
+- Same Purple gradients for accents
+- Maintain glassmorphism with adjusted opacity
+- Ensure text contrast meets accessibility standards
+- Keep same component shapes and spacing
+
 **Full Details:** See `ai-docs/DESIGN.md`
 
 ---
@@ -162,94 +194,146 @@ lib/
 ## 🧪 Quality Standards
 
 **Before Committing:**
-1. Run `flutter analyze` - Must show 0 issues ✅
-2. Test on device/emulator
-3. Check all input validations
-4. Verify QR format is correct
-5. Test share/save functionality
+1. ✅ Run `flutter analyze` - Must show 0 issues
+2. ✅ Test theme switching on device/emulator
+3. ✅ Verify both themes are readable
+4. ✅ Check theme persists after app restart
+5. ✅ Test all screens in both light and dark mode
 
 **Code Standards:**
 - Feature-based directory structure
-- Use Riverpod for state management (if needed)
+- Use Riverpod for state management
 - Follow existing glassmorphism UI patterns
 - Add error handling
-- Use `dart run build_runner` for code generation if needed
+- Comment complex theme logic
 
 ---
 
-## 📚 Documentation Map
+## 💡 Implementation Tips
 
-### Active Files
-- **`ai-docs/PROGRESS_HANDOFF.md`** ← You are here (current progress)
-- **`ai-docs/ROADMAP.md`** - Feature roadmap (v1.0-v1.2 complete)
-- **`ai-docs/DESIGN.md`** - Design system & UI guidelines
+### Riverpod Theme Provider Pattern
+```dart
+// lib/app/providers/theme_provider.dart
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 
-### Completed Versions
-- **`ai-docs/PROGRESS_HANDOFF_v1.2.0_COMPLETE.md`** - v1.2.0 details
-- **`ai-docs/PROGRESS_HANDOFF_v1.1_COMPLETE.md`** - v1.1 details
-- **`ai-docs/PROGRESS_HANDOFF_v1.0_COMPLETE.md`** - v1.0 details
+class ThemeNotifier extends StateNotifier<ThemeMode> {
+  ThemeNotifier() : super(ThemeMode.dark) {
+    _loadTheme();
+  }
 
-### Archived
-- **`ai-docs/IMPLEMENTATION_PLAN_v1.0_ARCHIVE.md`** - Original v1.0 planning
+  Future<void> _loadTheme() async {
+    final box = await Hive.openBox('settings');
+    final savedMode = box.get('theme_mode', defaultValue: 'dark');
+    // Parse and set theme
+  }
+
+  Future<void> setTheme(ThemeMode mode) async {
+    state = mode;
+    final box = await Hive.openBox('settings');
+    await box.put('theme_mode', mode.name);
+  }
+}
+
+final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
+  (ref) => ThemeNotifier(),
+);
+```
+
+### Settings Screen Pattern
+- Follow existing screen patterns (see `wifi_generator_screen.dart`)
+- Use glassmorphism containers
+- Add smooth theme transition animations
+- Include app version from `pubspec.yaml`
+
+### Testing Checklist
+- [ ] Theme toggle works immediately
+- [ ] Theme persists after app restart
+- [ ] All screens render correctly in both themes
+- [ ] Text is readable in both themes
+- [ ] Icons are visible in both themes
+- [ ] Glassmorphism effects work in both themes
 
 ---
 
-## 💡 Quick Start Guide for New Agents
+## 📚 Reference Files
 
-**Step 1: Understand What's Done**
-- Read this document first (5 min)
-- Review v1.2.0 implementation: `PROGRESS_HANDOFF_v1.2.0_COMPLETE.md`
-- Check design guidelines: `DESIGN.md`
+**Study These First:**
+- `lib/app/screens/home_screen.dart` - Menu navigation pattern
+- `lib/qr_code/screens/wifi_generator_screen.dart` - Latest screen design
+- `lib/history/providers/history_provider.dart` - Riverpod pattern
+- `lib/app/theme/app_theme.dart` - Current theme setup
 
-**Step 2: Review Existing Code**
-- Look at `lib/qr_code/screens/generator_screen.dart` - Reuse patterns
-- Check `lib/qr_code/services/content_detector_service.dart` - Wi-Fi format parsing
-- See `lib/qr_code/widgets/content_detail_dialogs.dart` - UI style reference
+---
 
-**Step 3: Implement v1.2.1**
-- Create Wi-Fi generator screen (follow existing patterns)
-- Add navigation from home screen
-- Test with different security types
-- Verify generated QR scans correctly
+## 🚀 Quick Start Guide
+
+**Step 1: Understand Context** (10 min)
+- Read this document
+- Review `PROGRESS_HANDOFF_v1.2.1_COMPLETE.md`
+- Check `DESIGN.md` for theme guidelines
+
+**Step 2: Create Theme Provider** (30 min)
+- Create `lib/app/providers/theme_provider.dart`
+- Implement Hive storage for theme preference
+- Test theme switching logic
+
+**Step 3: Create Settings Screen** (45 min)
+- Create `lib/app/screens/settings_screen.dart`
+- Add theme toggle switch
+- Add about section (version, info)
+
+**Step 4: Implement Light Theme** (30 min)
+- Update `lib/app/theme/app_theme.dart`
+- Define light theme ThemeData
+- Ensure visual consistency
+
+**Step 5: Integrate & Test** (30 min)
+- Update `main.dart` to use theme provider
+- Wire up navigation in `home_screen.dart`
+- Test thoroughly in both themes
+
+**Step 6: Quality Check** (15 min)
 - Run `flutter analyze` (0 issues required)
+- Test on device
+- Verify persistence
 
-**Step 4: Document & Commit**
-- Update this file with completion status
-- Update `ROADMAP.md`
-- Commit with proper message: `feat: Add Wi-Fi QR generation (v1.2.1)`
-- Push to main
+**Step 7: Document & Commit**
+- Update `ai-docs/PROGRESS_HANDOFF.md`
+- Update `ai-docs/ROADMAP.md`
+- Commit and push
+
+**Total Estimated Time:** 2.5-3 hours
 
 ---
 
-## 🔗 Related Features (Future)
+## 🎯 Success Criteria
 
-**v1.2.2+ Candidates:**
-- Light/Dark theme toggle (Settings screen)
-- Advanced QR customization (colors, logos)
-- Export/import history
+✅ Settings screen created with glassmorphism UI  
+✅ Theme toggle switch functional  
+✅ Light and Dark themes fully implemented  
+✅ Theme preference persists across app restarts  
+✅ All screens work correctly in both themes  
+✅ Navigation wired up from home screen  
+✅ About section with app version  
+✅ 0 flutter analyze issues  
+✅ Documentation updated  
+✅ Committed and pushed to GitHub  
+
+---
+
+## 🔗 What's Next After v1.2.2?
+
+**v1.2.3 Candidates:**
+- Custom QR appearance (colors, embedded logo)
+- Export/import scan history
+- Advanced QR customization
 - Batch scanning mode
-
----
-
-## 🚀 Current Status Summary
-
-**What Works:**
-- ✅ v1.0 MVP: QR Scanner, Generator, History
-- ✅ v1.1: Share, Save to Gallery, Gallery Scanning, Barcode Scanner, Flash
-- ✅ v1.2.0: Content Type Detection with Smart Actions
-- ✅ v1.2.1: Wi-Fi QR Code Generation
-
-**Code Quality:**
-- ✅ 0 analyzer issues
-- ✅ Production-ready
-- ✅ Feature-based architecture
-- ✅ Comprehensive documentation
-
-**Next Action:**
-👉 **Implement v1.2.2 - Settings & Theme Toggle** (2-3 hours)
+- Haptic feedback settings
 
 ---
 
 **Last Updated**: Nov 15, 2025  
 **Ready for**: v1.2.2 implementation 🚀  
-**Recommended**: Settings & Theme Toggle (high demand, improves UX)
+**Estimated Effort**: 2.5-3 hours  
+**Difficulty**: Medium (theme system integration)
