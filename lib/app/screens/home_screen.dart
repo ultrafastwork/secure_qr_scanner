@@ -529,9 +529,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.center_focus_strong,
                           title: 'Scan QR Code',
                           subtitle: 'Open camera scanner',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            _navigateToScanner(context);
+                            await _navigateToScanner(context);
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
 
@@ -541,14 +544,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.view_week,
                           title: 'Scan Barcode',
                           subtitle: 'EAN, UPC, Code128, etc',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
                                     const BarcodeScannerScreen(),
                               ),
                             );
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
 
@@ -558,13 +564,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.auto_awesome,
                           title: 'Generate QR',
                           subtitle: 'Create QR codes',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const QRGeneratorScreen(),
                               ),
                             );
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
 
@@ -574,14 +583,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.palette,
                           title: 'Custom QR',
                           subtitle: 'QR with colors & logo',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
                                     const custom_qr.CustomQrGeneratorScreen(),
                               ),
                             );
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
 
@@ -591,14 +603,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.wifi_tethering,
                           title: 'Wi-Fi QR',
                           subtitle: 'Share Wi-Fi easily',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
                                     const WifiGeneratorScreen(),
                               ),
                             );
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
 
@@ -608,13 +623,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.history,
                           title: 'History',
                           subtitle: 'View past scans',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const HistoryScreen(),
                               ),
                             );
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
 
@@ -624,13 +642,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: Icons.settings,
                           title: 'Settings',
                           subtitle: 'Preferences & theme',
-                          onTap: () {
+                          onTap: () async {
                             setState(() => _showMenu = false);
-                            Navigator.of(context).push(
+                            await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const SettingsScreen(),
                               ),
                             );
+                            if (mounted) {
+                              setState(() => _showMenu = true);
+                            }
                           },
                         ),
                       ],
