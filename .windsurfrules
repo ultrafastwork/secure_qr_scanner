@@ -107,7 +107,7 @@ You are Windsurf Cascade, an AI assistant with strong problem-solving skills. Fo
 Documentation for AI is in `README.md` and files under `ai-docs` directory.
 
 ### Current Status & Tasks
-- Check `ai-docs/PROGRESS_HANDOFF.md` for current version status
+- Check `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md` for current version status
 - Check `ai-docs/ROADMAP.md` for feature priorities and roadmap
 - Check `ai-docs/DESIGN.md` for design references
 - Check `ai-docs/prompts/` for version-specific agent prompts
@@ -115,7 +115,7 @@ Documentation for AI is in `README.md` and files under `ai-docs` directory.
 ### After Completing a Task
 1. Run `flutter analyze` - must show 0 issues
 2. Test in both light and dark themes
-3. Update `ai-docs/PROGRESS_HANDOFF.md`:
+3. Update `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`:
    - Rename current to `PROGRESS_HANDOFF_vX.X.X_COMPLETE.md`
    - Create new `PROGRESS_HANDOFF.md` for next version
 4. Update `ai-docs/ROADMAP.md` - mark version as complete
