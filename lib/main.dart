@@ -7,6 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'qr_code/screens/result_screen.dart';
+import 'qr_code/screens/scanner_screen.dart';
+
 /// Entry point of the Secure QR Scanner app
 /// Initializes Hive database and runs the app with Riverpod
 void main() async {
@@ -88,6 +91,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _showMenu = false;
+
+  Future<void> _navigateToScanner(BuildContext context) async {
+    final result = await Navigator.of(context).push<String>(
+      MaterialPageRoute(builder: (context) => const QRScannerScreen()),
+    );
+
+    if (result != null && mounted) {
+      // Navigate to result screen with scanned data
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => QRResultScreen(scannedData: result),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -271,9 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Primary button - Scan QR Code
           _buildPrimaryButton(
-            onTap: () {
-              // TODO: Navigate to QR scanner
-            },
+            onTap: () => _navigateToScanner(context),
             icon: Icons.qr_code_scanner,
             label: 'Scan QR Code',
           ),
@@ -537,7 +553,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           subtitle: 'Open camera scanner',
                           onTap: () {
                             setState(() => _showMenu = false);
-                            // TODO: Navigate to scanner
+                            _navigateToScanner(context);
                           },
                         ),
 
