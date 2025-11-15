@@ -1,65 +1,763 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+
+/// Entry point of the Secure QR Scanner app
+/// Initializes Hive database and runs the app with Riverpod
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive for local storage (v1.0 MVP - Basic History)
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+
+  // Set preferred orientations
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(const ProviderScope(child: SecureQRScannerApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// Root application widget with Material app configuration
+class SecureQRScannerApp extends StatelessWidget {
+  const SecureQRScannerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      title: 'Secure QR Scanner',
+      debugShowCheckedModeBanner: false,
+
+      // Theme configuration with Google Fonts
+      theme: _buildLightTheme(),
+      darkTheme: _buildDarkTheme(),
+      themeMode: ThemeMode.system,
+
+      // Home screen will be implemented in lib/qr_code/screens/
+      home: const HomeScreen(),
+    );
+  }
+
+  /// Light theme configuration (using dark design for both themes in MVP)
+  ThemeData _buildLightTheme() {
+    return _buildDarkTheme();
+  }
+
+  /// Dark theme configuration with pure black and gradient colors
+  ThemeData _buildDarkTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: const ColorScheme.dark(
+        primary: Color(0xFF8B5CF6), // violet-500
+        secondary: Color(0xFFD946EF), // fuchsia-500
+        surface: Color(0xFF000000), // pure black
+        background: Color(0xFF000000), // pure black
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      scaffoldBackgroundColor: const Color(0xFF000000), // pure black
+      appBarTheme: const AppBarTheme(
+        centerTitle: false,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: Colors.white.withOpacity(0.05),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+/// Home screen with modern glassmorphism design
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class _HomeScreenState extends State<HomeScreen> {
+  bool _showMenu = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+      body: Stack(
+        children: [
+          // Main home screen
+          _buildMainScreen(),
+          // Menu overlay
+          if (_showMenu) _buildMenuOverlay(),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+    );
+  }
+
+  Widget _buildMainScreen() {
+    return Stack(
+      children: [
+        // Animated gradient background
+        Positioned.fill(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF7C3AED), // violet-600
+                  Color(0xFFC026D3), // fuchsia-600
+                  Color(0xFF7E22CE), // purple-700
+                ],
+              ),
             ),
-          ],
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+              child: Container(color: Colors.black.withOpacity(0.8)),
+            ),
+          ),
+        ),
+
+        // Content
+        SafeArea(
+          child: Column(
+            children: [
+              // Header
+              _buildHeader(),
+
+              // Main content (centered)
+              Expanded(child: _buildCenterContent()),
+
+              // Bottom navigation
+              _buildBottomNavigation(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // App logo and name
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+                  ),
+                ),
+                child: const Icon(Icons.qr_code, color: Colors.white, size: 20),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'QR Scanner',
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+
+          // Settings button
+          _buildGlassButton(
+            onTap: () => setState(() => _showMenu = true),
+            child: const Icon(Icons.settings, color: Colors.white, size: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCenterContent() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Hero icon with glow
+          _buildHeroIcon(),
+
+          const SizedBox(height: 24),
+
+          // Title
+          Text(
+            'Ready to Scan',
+            style: GoogleFonts.inter(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+
+          const SizedBox(height: 32),
+
+          // Action buttons
+          _buildActionButtons(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeroIcon() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Glow effect
+        Container(
+          width: 144,
+          height: 144,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+            ),
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+            child: Container(color: Colors.transparent),
+          ),
+        ),
+
+        // Main icon
+        Container(
+          width: 144,
+          height: 144,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF8B5CF6).withOpacity(0.5),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.center_focus_strong,
+            color: Colors.white,
+            size: 80,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          // Primary button - Scan QR Code
+          _buildPrimaryButton(
+            onTap: () {
+              // TODO: Navigate to QR scanner
+            },
+            icon: Icons.qr_code_scanner,
+            label: 'Scan QR Code',
+          ),
+
+          const SizedBox(height: 8),
+
+          // Secondary button - Scan Barcode
+          _buildSecondaryButton(
+            onTap: () {
+              // TODO: Navigate to barcode scanner
+            },
+            icon: Icons.view_week,
+            label: 'Scan Barcode',
+          ),
+
+          const SizedBox(height: 8),
+
+          // Tertiary button - Scan from Gallery
+          _buildSecondaryButton(
+            onTap: () {
+              // TODO: Pick image from gallery
+            },
+            icon: Icons.image,
+            label: 'Scan from Gallery',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPrimaryButton({
+    required VoidCallback onTap,
+    required IconData icon,
+    required String label,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Ink(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+              ),
+            ),
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, color: Colors.white, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    );
+  }
+
+  Widget _buildSecondaryButton({
+    required VoidCallback onTap,
+    required IconData icon,
+    required String label,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Material(
+            color: Colors.white.withOpacity(0.1),
+            child: InkWell(
+              onTap: onTap,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, color: Colors.white, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      label,
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigation() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildBottomNavButton(
+            onTap: () {
+              // TODO: Navigate to generator
+            },
+            icon: Icons.auto_awesome,
+            label: 'Generate',
+            iconColor: const Color(0xFFA78BFA), // violet-400
+          ),
+
+          const SizedBox(width: 8),
+
+          _buildBottomNavButton(
+            onTap: () {
+              // TODO: Navigate to history
+            },
+            icon: Icons.history,
+            label: 'History',
+            iconColor: const Color(0xFFE879F9), // fuchsia-400
+          ),
+
+          const SizedBox(width: 8),
+
+          _buildBottomNavButton(
+            onTap: () => setState(() => _showMenu = true),
+            icon: Icons.settings,
+            label: 'More',
+            iconColor: const Color(0xFFC084FC), // purple-400
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomNavButton({
+    required VoidCallback onTap,
+    required IconData icon,
+    required String label,
+    required Color iconColor,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(18),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Material(
+          color: Colors.white.withOpacity(0.05),
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, color: iconColor, size: 16),
+                  const SizedBox(width: 6),
+                  Text(
+                    label,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGlassButton({
+    required VoidCallback onTap,
+    required Widget child,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(18),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Material(
+          color: Colors.white.withOpacity(0.1),
+          child: InkWell(
+            onTap: onTap,
+            child: Container(
+              width: 36,
+              height: 36,
+              alignment: Alignment.center,
+              child: child,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuOverlay() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      child: GestureDetector(
+        onTap: () => setState(() => _showMenu = false),
+        child: Container(
+          color: Colors.black.withOpacity(0.95),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  // Menu header
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Menu',
+                          style: GoogleFonts.inter(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        _buildGlassButton(
+                          onTap: () => setState(() => _showMenu = false),
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Menu items
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      children: [
+                        _buildFeaturedMenuItem(
+                          icon: Icons.center_focus_strong,
+                          title: 'Scan QR Code',
+                          subtitle: 'Open camera scanner',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            // TODO: Navigate to scanner
+                          },
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        _buildMenuItem(
+                          icon: Icons.view_week,
+                          title: 'Scan Barcode',
+                          subtitle: 'EAN, UPC, Code128, etc',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            // TODO: Navigate to barcode scanner
+                          },
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        _buildMenuItem(
+                          icon: Icons.auto_awesome,
+                          title: 'Generate QR',
+                          subtitle: 'Create custom QR codes',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            // TODO: Navigate to generator
+                          },
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        _buildMenuItem(
+                          icon: Icons.history,
+                          title: 'History',
+                          subtitle: 'View past scans',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            // TODO: Navigate to history
+                          },
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        _buildMenuItem(
+                          icon: Icons.settings,
+                          title: 'Settings',
+                          subtitle: 'Preferences & theme',
+                          onTap: () {
+                            setState(() => _showMenu = false);
+                            // TODO: Navigate to settings
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Footer
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Colors.white.withOpacity(0.1),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'QR Scanner v1.0',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: Colors.white.withOpacity(0.4),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturedMenuItem({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Ink(
+          height: 80,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF7C3AED), Color(0xFFC026D3)],
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white.withOpacity(0.2),
+                  ),
+                  child: Icon(icon, color: Colors.white, size: 20),
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        title,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        subtitle,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Icon(
+                  Icons.chevron_right,
+                  color: Colors.white.withOpacity(0.6),
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Material(
+          color: Colors.white.withOpacity(0.05),
+          child: InkWell(
+            onTap: onTap,
+            child: Container(
+              height: 80,
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white.withOpacity(0.1),
+                    ),
+                    child: Icon(icon, color: Colors.white, size: 20),
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          title,
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          subtitle,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.white.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Icon(
+                    Icons.chevron_right,
+                    color: Colors.white.withOpacity(0.4),
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
