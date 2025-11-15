@@ -37,7 +37,7 @@ You're starting work on **v1.2.2 - Settings & Theme Toggle**. The app is product
 - Real-time QR preview with glassmorphism UI
 - Share & Save functionality
 
-**For Complete Details:** See `ai-docs/PROGRESS_HANDOFF_v1.2.1_COMPLETE.md`
+**For Complete Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.1_COMPLETE.md`
 
 ---
 
@@ -270,7 +270,7 @@ final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
 
 **Step 1: Understand Context** (10 min)
 - Read this document
-- Review `PROGRESS_HANDOFF_v1.2.1_COMPLETE.md`
+- Review `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.1_COMPLETE.md`
 - Check `DESIGN.md` for theme guidelines
 
 **Step 2: Create Theme Provider** (30 min)
@@ -299,7 +299,7 @@ final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
 - Verify persistence
 
 **Step 7: Document & Commit**
-- Update `ai-docs/PROGRESS_HANDOFF.md`
+- Update `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`
 - Update `ai-docs/ROADMAP.md`
 - Commit and push
 

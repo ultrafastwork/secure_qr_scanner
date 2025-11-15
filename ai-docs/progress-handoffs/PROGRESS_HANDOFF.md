@@ -45,7 +45,7 @@ You're starting work on the **next feature** after v1.2.2. The app is production
 - About section with app version
 - Proper theme system using Riverpod
 
-**For Complete Details:** See `ai-docs/PROGRESS_HANDOFF_v1.2.2_COMPLETE.md`
+**For Complete Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.2_COMPLETE.md`
 
 ---
 

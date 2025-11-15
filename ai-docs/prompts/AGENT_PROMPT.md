@@ -13,7 +13,7 @@ I'm continuing work on a Flutter QR Scanner app. v1.2.2 is complete and ready fo
 - Location: d:\flutter\secure_qr_scanner
 - Status: v1.0-v1.2.2 ✅ | Ready for v1.2.3
 - **Read First:** `.windsurfrules` (all technical standards)
-- **Current Status:** `ai-docs/PROGRESS_HANDOFF.md`
+- **Current Status:** `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`
 
 **COMPLETED VERSIONS:**
 - v1.0: Core scanner & generator
@@ -42,7 +42,7 @@ See `AGENT_PROMPT_v1.2.3.md` for complete details.
 
 **Key Files:**
 - `.windsurfrules` - All technical standards (Riverpod, themes, patterns)
-- `ai-docs/PROGRESS_HANDOFF.md` - Current status and implementation guide
+- `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md` - Current status and implementation guide
 - `ai-docs/ROADMAP.md` - Feature roadmap
 - `ai-docs/prompts/AGENT_PROMPT_vX.X.X.md` - Version-specific tasks
 
