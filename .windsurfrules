@@ -36,6 +36,7 @@ You are Windsurf Cascade, an AI assistant with strong problem-solving skills. Fo
 - Prefer efficient state management and minimal rebuilds.
 - Handle device permissions explicitly (camera, storage).
 - Optimize for fast scanning and low memory usage.
+- When running code generator, use `dart run` instead of the deprecated `flutter pub run` command.
 - Follow **feature-based directory structure** under `lib/` (e.g., `lib/qr_code/...`, `lib/barcode/...`), not technical grouping.
 - Directory purpose conventions:
   - `dto/` → Data transfer objects for mapping models, inputs, and outputs.

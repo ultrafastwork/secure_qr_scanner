@@ -2,11 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Screen to display scanned QR code result with actions
-class QRResultScreen extends StatelessWidget {
+class QRResultScreen extends ConsumerWidget {
   final String scannedData;
   final bool isFromHistory;
 
@@ -39,7 +40,7 @@ class QRResultScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Stack(
         children: [
