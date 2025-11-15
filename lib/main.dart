@@ -411,7 +411,11 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _buildBottomNavButton(
             onTap: () {
-              // TODO: Navigate to generator
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const QRGeneratorScreen(),
+                ),
+              );
             },
             icon: Icons.auto_awesome,
             label: 'Generate',
@@ -577,7 +581,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           subtitle: 'Create custom QR codes',
                           onTap: () {
                             setState(() => _showMenu = false);
-                            // TODO: Navigate to generator
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const QRGeneratorScreen(),
+                              ),
+                            );
                           },
                         ),
 
