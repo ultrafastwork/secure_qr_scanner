@@ -222,26 +222,38 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Stack(
         children: [
           // Gradient background
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF7C3AED), // violet-600
-                    Color(0xFFC026D3), // fuchsia-600
-                    Color(0xFF7E22CE), // purple-700
-                  ],
+                  colors: isDark
+                      ? const [
+                          Color(0xFF7C3AED), // violet-600
+                          Color(0xFFC026D3), // fuchsia-600
+                          Color(0xFF7E22CE), // purple-700
+                        ]
+                      : const [
+                          Color(0xFFE9D5FF), // purple-200
+                          Color(0xFFFAE8FF), // fuchsia-100
+                          Color(0xFFDDD6FE), // violet-200
+                        ],
                 ),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withValues(alpha: 0.8)),
+                child: Container(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.8)
+                      : Colors.white.withValues(alpha: 0.7),
+                ),
               ),
             ),
           ),
@@ -285,13 +297,18 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
   }
 
   Widget _buildTopBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           _buildGlassButton(
             onTap: () => Navigator.of(context).pop(),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back,
+              color: isDark ? Colors.white : Colors.black87,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Text(
@@ -299,14 +316,18 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
           const Spacer(),
           if (_hasGenerated)
             _buildGlassButton(
               onTap: _clearInput,
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.refresh,
+                color: isDark ? Colors.white : Colors.black87,
+                size: 20,
+              ),
             ),
         ],
       ),
@@ -314,6 +335,7 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
   }
 
   Widget _buildInputSection() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
@@ -321,10 +343,14 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -335,7 +361,9 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
                 'Network Details',
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : Colors.black.withValues(alpha: 0.8),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -393,6 +421,7 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
     required IconData icon,
     bool obscureText = false,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -400,7 +429,9 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
           label,
           style: GoogleFonts.inter(
             fontSize: 12,
-            color: Colors.white.withValues(alpha: 0.7),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.7)
+                : Colors.black.withValues(alpha: 0.7),
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -408,29 +439,42 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
         TextField(
           controller: controller,
           obscureText: obscureText,
-          style: GoogleFonts.inter(fontSize: 16, color: Colors.white),
+          style: GoogleFonts.inter(
+            fontSize: 16,
+            color: isDark ? Colors.white : Colors.black87,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: GoogleFonts.inter(
-              color: Colors.white.withValues(alpha: 0.4),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.4)
+                  : Colors.black.withValues(alpha: 0.5),
             ),
             prefixIcon: Icon(
               icon,
-              color: Colors.white.withValues(alpha: 0.6),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.6)
+                  : Colors.black.withValues(alpha: 0.6),
               size: 20,
             ),
             filled: true,
-            fillColor: Colors.black.withValues(alpha: 0.3),
+            fillColor: isDark
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.white.withValues(alpha: 0.5),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.2),
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -448,6 +492,7 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
   }
 
   Widget _buildSecurityDropdown() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -455,16 +500,24 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
           'Security Type',
           style: GoogleFonts.inter(
             fontSize: 12,
-            color: Colors.white.withValues(alpha: 0.7),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.7)
+                : Colors.black.withValues(alpha: 0.7),
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.3),
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.white.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+            border: Border.all(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.2),
+            ),
           ),
           child: DropdownButtonFormField<String>(
             initialValue: _securityType,
@@ -472,7 +525,9 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.security,
-                color: Colors.white.withValues(alpha: 0.6),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.6)
+                    : Colors.black.withValues(alpha: 0.6),
                 size: 20,
               ),
               border: InputBorder.none,
@@ -481,7 +536,10 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
                 vertical: 14,
               ),
             ),
-            style: GoogleFonts.inter(fontSize: 16, color: Colors.white),
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              color: isDark ? Colors.white : Colors.black87,
+            ),
             items: [
               DropdownMenuItem(
                 value: 'WPA',
@@ -688,6 +746,7 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
   }
 
   Widget _buildPlaceholder() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: BackdropFilter(
@@ -696,10 +755,14 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
           width: 280,
           height: 280,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
               width: 2,
               strokeAlign: BorderSide.strokeAlignInside,
             ),
@@ -710,14 +773,18 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
               Icon(
                 Icons.wifi_tethering,
                 size: 80,
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.2)
+                    : Colors.black.withValues(alpha: 0.2),
               ),
               const SizedBox(height: 16),
               Text(
                 'Wi-Fi QR code will appear here',
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.6),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.6)
+                      : Colors.black.withValues(alpha: 0.6),
                 ),
               ),
             ],
@@ -811,6 +878,7 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
     required IconData icon,
     required String label,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SizedBox(
       height: 56,
       child: ClipRRect(
@@ -818,21 +886,27 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.05),
             child: InkWell(
               onTap: onTap,
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(icon, color: Colors.white, size: 20),
+                    Icon(
+                      icon,
+                      color: isDark ? Colors.white : Colors.black87,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       label,
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: isDark ? Colors.white : Colors.black87,
                       ),
                     ),
                   ],
@@ -849,12 +923,15 @@ class _WifiGeneratorScreenState extends State<WifiGeneratorScreen> {
     required VoidCallback onTap,
     required Widget child,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.black.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Container(

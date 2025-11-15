@@ -15,6 +15,7 @@ class HistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final historyAsync = ref.watch(historyListProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       body: Stack(
@@ -22,20 +23,30 @@ class HistoryScreen extends ConsumerWidget {
           // Gradient background
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF7C3AED), // violet-600
-                    Color(0xFFC026D3), // fuchsia-600
-                    Color(0xFF7E22CE), // purple-700
-                  ],
+                  colors: isDark
+                      ? const [
+                          Color(0xFF7C3AED), // violet-600
+                          Color(0xFFC026D3), // fuchsia-600
+                          Color(0xFF7E22CE), // purple-700
+                        ]
+                      : const [
+                          Color(0xFFE9D5FF), // purple-200
+                          Color(0xFFFAE8FF), // fuchsia-100
+                          Color(0xFFDDD6FE), // violet-200
+                        ],
                 ),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withValues(alpha: 0.8)),
+                child: Container(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.8)
+                      : Colors.white.withValues(alpha: 0.7),
+                ),
               ),
             ),
           ),
@@ -48,10 +59,11 @@ class HistoryScreen extends ConsumerWidget {
                 Expanded(
                   child: historyAsync.when(
                     data: (items) => items.isEmpty
-                        ? _buildEmptyState()
+                        ? _buildEmptyState(context)
                         : _buildHistoryList(context, ref, items),
                     loading: () => _buildLoadingState(),
-                    error: (err, stack) => _buildErrorState(err.toString()),
+                    error: (err, stack) =>
+                        _buildErrorState(context, err.toString()),
                   ),
                 ),
               ],
@@ -63,13 +75,19 @@ class HistoryScreen extends ConsumerWidget {
   }
 
   Widget _buildTopBar(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           _buildGlassButton(
+            context: context,
             onTap: () => Navigator.of(context).pop(),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back,
+              color: isDark ? Colors.white : Colors.black87,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Text(
@@ -77,15 +95,16 @@ class HistoryScreen extends ConsumerWidget {
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
           const Spacer(),
           _buildGlassButton(
+            context: context,
             onTap: () => _showClearDialog(context, ref),
-            child: const Icon(
+            child: Icon(
               Icons.delete_outline,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
               size: 20,
             ),
           ),
@@ -117,6 +136,7 @@ class HistoryScreen extends ConsumerWidget {
     WidgetRef ref,
     ScanHistoryItem item,
   ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Dismissible(
       key: Key(item.id),
       direction: DismissDirection.endToStart,
@@ -152,7 +172,9 @@ class HistoryScreen extends ConsumerWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.03),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(
@@ -168,7 +190,9 @@ class HistoryScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.1)
+                        : Colors.black.withValues(alpha: 0.1),
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(16),
@@ -242,7 +266,7 @@ class HistoryScreen extends ConsumerWidget {
                                 : item.content,
                             style: GoogleFonts.inter(
                               fontSize: 14,
-                              color: Colors.white,
+                              color: isDark ? Colors.white : Colors.black87,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -256,7 +280,9 @@ class HistoryScreen extends ConsumerWidget {
                     // Chevron
                     Icon(
                       Icons.chevron_right,
-                      color: Colors.white.withValues(alpha: 0.3),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.3)
+                          : Colors.black.withValues(alpha: 0.3),
                       size: 20,
                     ),
                   ],
@@ -269,7 +295,8 @@ class HistoryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -277,7 +304,9 @@ class HistoryScreen extends ConsumerWidget {
           Icon(
             Icons.history,
             size: 80,
-            color: Colors.white.withValues(alpha: 0.2),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.2)
+                : Colors.black.withValues(alpha: 0.2),
           ),
           const SizedBox(height: 16),
           Text(
@@ -285,7 +314,7 @@ class HistoryScreen extends ConsumerWidget {
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
           const SizedBox(height: 8),
@@ -293,7 +322,9 @@ class HistoryScreen extends ConsumerWidget {
             'Scanned QR codes will appear here',
             style: GoogleFonts.inter(
               fontSize: 14,
-              color: Colors.white.withValues(alpha: 0.6),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.6)
+                  : Colors.black.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -307,7 +338,8 @@ class HistoryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildErrorState(String error) {
+  Widget _buildErrorState(BuildContext context, String error) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -315,19 +347,26 @@ class HistoryScreen extends ConsumerWidget {
           Icon(
             Icons.error_outline,
             size: 60,
-            color: Colors.white.withValues(alpha: 0.4),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.4)
+                : Colors.black.withValues(alpha: 0.4),
           ),
           const SizedBox(height: 16),
           Text(
             'Error loading history',
-            style: GoogleFonts.inter(fontSize: 16, color: Colors.white),
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              color: isDark ? Colors.white : Colors.black87,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             error,
             style: GoogleFonts.inter(
               fontSize: 12,
-              color: Colors.white.withValues(alpha: 0.6),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.6)
+                  : Colors.black.withValues(alpha: 0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -337,15 +376,19 @@ class HistoryScreen extends ConsumerWidget {
   }
 
   Widget _buildGlassButton({
+    required BuildContext context,
     required VoidCallback onTap,
     required Widget child,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.black.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Container(

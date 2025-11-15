@@ -29,26 +29,38 @@ class QRResultScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Stack(
         children: [
           // Gradient background
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF7C3AED), // violet-600
-                    Color(0xFFC026D3), // fuchsia-600
-                    Color(0xFF7E22CE), // purple-700
-                  ],
+                  colors: isDark
+                      ? const [
+                          Color(0xFF7C3AED), // violet-600
+                          Color(0xFFC026D3), // fuchsia-600
+                          Color(0xFF7E22CE), // purple-700
+                        ]
+                      : const [
+                          Color(0xFFE9D5FF), // purple-200
+                          Color(0xFFFAE8FF), // fuchsia-100
+                          Color(0xFFDDD6FE), // violet-200
+                        ],
                 ),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withValues(alpha: 0.8)),
+                child: Container(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.8)
+                      : Colors.white.withValues(alpha: 0.7),
+                ),
               ),
             ),
           ),
@@ -68,13 +80,18 @@ class QRResultScreen extends ConsumerWidget {
   }
 
   Widget _buildTopBar(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           _buildGlassButton(
             onTap: () => Navigator.of(context).pop(),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back,
+              color: isDark ? Colors.white : Colors.black87,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Text(
@@ -82,7 +99,7 @@ class QRResultScreen extends ConsumerWidget {
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
         ],
@@ -166,45 +183,55 @@ class QRResultScreen extends ConsumerWidget {
 
   Widget _buildContentTypeBadge() {
     final content = _detectedContent;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.2),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                ContentActionService.getIcon(content.type),
-                color: const Color(0xFFA78BFA),
-                size: 16,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                content.type.displayName,
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+    return Builder(
+      builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : Colors.black.withValues(alpha: 0.2),
+                  width: 1,
                 ),
               ),
-            ],
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    ContentActionService.getIcon(content.type),
+                    color: const Color(0xFFA78BFA),
+                    size: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    content.type.displayName,
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: isDark ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   Widget _buildDataDisplay(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
@@ -213,10 +240,14 @@ class QRResultScreen extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -227,7 +258,9 @@ class QRResultScreen extends ConsumerWidget {
                 'Content',
                 style: GoogleFonts.inter(
                   fontSize: 12,
-                  color: Colors.white.withValues(alpha: 0.6),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.6)
+                      : Colors.black.withValues(alpha: 0.6),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -236,7 +269,7 @@ class QRResultScreen extends ConsumerWidget {
                 scannedData,
                 style: GoogleFonts.inter(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: isDark ? Colors.white : Colors.black87,
                   height: 1.5,
                 ),
               ),
@@ -383,37 +416,48 @@ class QRResultScreen extends ConsumerWidget {
     required IconData icon,
     required String label,
   }) {
-    return SizedBox(
-      height: 56,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Material(
-            color: Colors.white.withValues(alpha: 0.1),
-            child: InkWell(
-              onTap: onTap,
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(icon, color: Colors.white, size: 20),
-                    const SizedBox(width: 8),
-                    Text(
-                      label,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+    return Builder(
+      builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return SizedBox(
+          height: 56,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Material(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.05),
+                child: InkWell(
+                  onTap: onTap,
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          icon,
+                          color: isDark ? Colors.white : Colors.black87,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          label,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: isDark ? Colors.white : Colors.black87,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -421,23 +465,30 @@ class QRResultScreen extends ConsumerWidget {
     required VoidCallback onTap,
     required Widget child,
   }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Material(
-          color: Colors.white.withValues(alpha: 0.1),
-          child: InkWell(
-            onTap: onTap,
-            child: Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              child: child,
+    return Builder(
+      builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(18),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Material(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.05),
+              child: InkWell(
+                onTap: onTap,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: child,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

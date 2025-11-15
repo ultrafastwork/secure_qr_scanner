@@ -169,26 +169,38 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Stack(
         children: [
           // Gradient background
           Positioned.fill(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF7C3AED), // violet-600
-                    Color(0xFFC026D3), // fuchsia-600
-                    Color(0xFF7E22CE), // purple-700
-                  ],
+                  colors: isDark
+                      ? const [
+                          Color(0xFF7C3AED), // violet-600
+                          Color(0xFFC026D3), // fuchsia-600
+                          Color(0xFF7E22CE), // purple-700
+                        ]
+                      : const [
+                          Color(0xFFE9D5FF), // purple-200
+                          Color(0xFFFAE8FF), // fuchsia-100
+                          Color(0xFFDDD6FE), // violet-200
+                        ],
                 ),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(color: Colors.black.withValues(alpha: 0.8)),
+                child: Container(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.8)
+                      : Colors.white.withValues(alpha: 0.7),
+                ),
               ),
             ),
           ),
@@ -232,13 +244,18 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
   }
 
   Widget _buildTopBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           _buildGlassButton(
             onTap: () => Navigator.of(context).pop(),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.arrow_back,
+              color: isDark ? Colors.white : Colors.black87,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Text(
@@ -246,14 +263,18 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
           const Spacer(),
           if (_hasGenerated)
             _buildGlassButton(
               onTap: _clearInput,
-              child: const Icon(Icons.refresh, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.refresh,
+                color: isDark ? Colors.white : Colors.black87,
+                size: 20,
+              ),
             ),
         ],
       ),
@@ -261,6 +282,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
   }
 
   Widget _buildInputSection() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
@@ -268,10 +290,14 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -282,7 +308,9 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
                 'Enter Text or URL',
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : Colors.black.withValues(alpha: 0.8),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -291,25 +319,36 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
               // Text input field
               TextField(
                 controller: _textController,
-                style: GoogleFonts.inter(fontSize: 16, color: Colors.white),
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
                 maxLines: 4,
                 decoration: InputDecoration(
                   hintText: 'e.g., https://example.com or any text...',
                   hintStyle: GoogleFonts.inter(
-                    color: Colors.white.withValues(alpha: 0.6),
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.6)
+                        : Colors.black.withValues(alpha: 0.5),
                   ),
                   filled: true,
-                  fillColor: Colors.black.withValues(alpha: 0.3),
+                  fillColor: isDark
+                      ? Colors.black.withValues(alpha: 0.3)
+                      : Colors.white.withValues(alpha: 0.5),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : Colors.black.withValues(alpha: 0.2),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : Colors.black.withValues(alpha: 0.2),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -442,6 +481,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
   }
 
   Widget _buildPlaceholder() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: BackdropFilter(
@@ -450,10 +490,14 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
           width: 280,
           height: 280,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.1),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.1),
               width: 2,
               strokeAlign: BorderSide.strokeAlignInside,
             ),
@@ -464,14 +508,18 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
               Icon(
                 Icons.qr_code_2_outlined,
                 size: 80,
-                color: Colors.white.withValues(alpha: 0.2),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.2)
+                    : Colors.black.withValues(alpha: 0.2),
               ),
               const SizedBox(height: 16),
               Text(
                 'Your QR code will appear here',
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.6),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.6)
+                      : Colors.black.withValues(alpha: 0.6),
                 ),
               ),
             ],
@@ -565,6 +613,7 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
     required IconData icon,
     required String label,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SizedBox(
       height: 56,
       child: ClipRRect(
@@ -572,21 +621,27 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.05),
             child: InkWell(
               onTap: onTap,
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(icon, color: Colors.white, size: 20),
+                    Icon(
+                      icon,
+                      color: isDark ? Colors.white : Colors.black87,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       label,
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: isDark ? Colors.white : Colors.black87,
                       ),
                     ),
                   ],
@@ -603,12 +658,15 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
     required VoidCallback onTap,
     required Widget child,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.black.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Container(

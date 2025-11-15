@@ -54,25 +54,36 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainScreen() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Stack(
       children: [
         // Animated gradient background
         Positioned.fill(
           child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF7C3AED), // violet-600
-                  Color(0xFFC026D3), // fuchsia-600
-                  Color(0xFF7E22CE), // purple-700
-                ],
+                colors: isDark
+                    ? const [
+                        Color(0xFF7C3AED), // violet-600
+                        Color(0xFFC026D3), // fuchsia-600
+                        Color(0xFF7E22CE), // purple-700
+                      ]
+                    : const [
+                        Color(0xFFE9D5FF), // purple-200
+                        Color(0xFFFAE8FF), // fuchsia-100
+                        Color(0xFFDDD6FE), // violet-200
+                      ],
               ),
             ),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-              child: Container(color: Colors.black.withValues(alpha: 0.8)),
+              child: Container(
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.8)
+                    : Colors.white.withValues(alpha: 0.7),
+              ),
             ),
           ),
         ),
@@ -97,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHeader() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
@@ -122,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: isDark ? Colors.white : Colors.black87,
                 ),
               ),
             ],
@@ -131,7 +143,11 @@ class _HomeScreenState extends State<HomeScreen> {
           // Settings button
           _buildGlassButton(
             onTap: () => setState(() => _showMenu = true),
-            child: const Icon(Icons.settings, color: Colors.white, size: 16),
+            child: Icon(
+              Icons.settings,
+              color: isDark ? Colors.white : Colors.black87,
+              size: 16,
+            ),
           ),
         ],
       ),
@@ -139,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCenterContent() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -154,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: GoogleFonts.inter(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: isDark ? Colors.white : Colors.black87,
             ),
           ),
 
@@ -310,6 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
     required IconData icon,
     required String label,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SizedBox(
       width: double.infinity,
       height: 56,
@@ -318,21 +336,27 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Material(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.05),
             child: InkWell(
               onTap: onTap,
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(icon, color: Colors.white, size: 20),
+                    Icon(
+                      icon,
+                      color: isDark ? Colors.white : Colors.black87,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       label,
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: isDark ? Colors.white : Colors.black87,
                       ),
                     ),
                   ],
@@ -396,12 +420,15 @@ class _HomeScreenState extends State<HomeScreen> {
     required String label,
     required Color iconColor,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.05)
+              : Colors.black.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Padding(
@@ -416,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: isDark ? Colors.white : Colors.black87,
                     ),
                   ),
                 ],
@@ -432,12 +459,15 @@ class _HomeScreenState extends State<HomeScreen> {
     required VoidCallback onTap,
     required Widget child,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Material(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.black.withValues(alpha: 0.05),
           child: InkWell(
             onTap: onTap,
             child: Container(
