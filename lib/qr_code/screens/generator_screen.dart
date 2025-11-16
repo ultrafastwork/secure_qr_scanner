@@ -172,73 +172,56 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Gradient background
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: isDark
-                      ? const [
-                          Color(0xFF7C3AED), // violet-600
-                          Color(0xFFC026D3), // fuchsia-600
-                          Color(0xFF7E22CE), // purple-700
-                        ]
-                      : const [
-                          Color(0xFFE9D5FF), // purple-200
-                          Color(0xFFFAE8FF), // fuchsia-100
-                          Color(0xFFDDD6FE), // violet-200
-                        ],
-                ),
-              ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-                child: Container(
-                  color: isDark
-                      ? Colors.black.withValues(alpha: 0.8)
-                      : Colors.white.withValues(alpha: 0.7),
-                ),
-              ),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? const [
+                    Color(0xFF1F1B24), // dark purple-gray
+                    Color(0xFF2D1B3D), // dark purple
+                    Color(0xFF1A1625), // darker purple-gray
+                  ]
+                : const [
+                    Color(0xFFFAF5FF), // very light purple
+                    Color(0xFFF5F3FF), // light violet
+                    Color(0xFFFDF4FF), // light fuchsia
+                  ],
           ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildTopBar(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
 
-          // Content
-          SafeArea(
-            child: Column(
-              children: [
-                _buildTopBar(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
+                      // Input section
+                      _buildInputSection(),
 
-                        // Input section
-                        _buildInputSection(),
+                      const SizedBox(height: 32),
 
+                      // Generated QR display or placeholder
+                      _hasGenerated ? _buildQRDisplay() : _buildPlaceholder(),
+
+                      if (_hasGenerated) ...[
                         const SizedBox(height: 32),
-
-                        // Generated QR display or placeholder
-                        _hasGenerated ? _buildQRDisplay() : _buildPlaceholder(),
-
-                        if (_hasGenerated) ...[
-                          const SizedBox(height: 32),
-                          _buildActionButtons(),
-                        ],
-
-                        const SizedBox(height: 20),
+                        _buildActionButtons(),
                       ],
-                    ),
+
+                      const SizedBox(height: 20),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -286,18 +269,18 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: isDark
-                ? Colors.white.withValues(alpha: 0.05)
-                : Colors.black.withValues(alpha: 0.03),
+                ? Colors.white.withValues(alpha: 0.08)
+                : Colors.white.withValues(alpha: 0.7),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isDark
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : Colors.black.withValues(alpha: 0.1),
+                  ? Colors.white.withValues(alpha: 0.15)
+                  : const Color(0xFF8B5CF6).withValues(alpha: 0.2),
               width: 1,
             ),
           ),
@@ -382,98 +365,80 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
     return Column(
       children: [
         // QR code with glow effect
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            // Glow layer
-            Container(
-              width: 280,
-              height: 280,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+        RepaintBoundary(
+          key: _qrKey,
+          child: Container(
+            width: 280,
+            height: 280,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF8B5CF6).withValues(alpha: 0.4),
+                  blurRadius: 40,
+                  spreadRadius: -5,
+                  offset: const Offset(0, 10),
                 ),
-              ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-                child: Container(color: Colors.transparent),
-              ),
+                BoxShadow(
+                  color: const Color(0xFFD946EF).withValues(alpha: 0.3),
+                  blurRadius: 60,
+                  spreadRadius: -10,
+                  offset: const Offset(0, 20),
+                ),
+              ],
             ),
-
-            // QR Code container
-            RepaintBoundary(
-              key: _qrKey,
-              child: Container(
-                width: 280,
-                height: 280,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8),
+            child: _qrImage != null
+                ? PrettyQrView(
+                    qrImage: _qrImage!,
+                    decoration: const PrettyQrDecoration(
+                      shape: PrettyQrSmoothSymbol(color: Colors.black),
                     ),
-                  ],
-                ),
-                child: _qrImage != null
-                    ? PrettyQrView(
-                        qrImage: _qrImage!,
-                        decoration: const PrettyQrDecoration(
-                          shape: PrettyQrSmoothSymbol(color: Colors.black),
-                        ),
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFF8B5CF6),
-                        ),
-                      ),
-              ),
-            ),
-          ],
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(color: Color(0xFF8B5CF6)),
+                  ),
+          ),
         ),
 
         const SizedBox(height: 16),
 
         // Generated content preview
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.check_circle,
-                    color: const Color(0xFF10B981),
-                    size: 16,
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      _textController.text.length > 40
-                          ? '${_textController.text.substring(0, 40)}...'
-                          : _textController.text,
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.8),
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            color: const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+              width: 1,
             ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.check_circle,
+                color: Color(0xFF10B981),
+                size: 16,
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  _textController.text.length > 40
+                      ? '${_textController.text.substring(0, 40)}...'
+                      : _textController.text,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: const Color(0xFF1F2937),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -482,49 +447,43 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
 
   Widget _buildPlaceholder() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          width: 280,
-          height: 280,
-          decoration: BoxDecoration(
+    return Container(
+      width: 280,
+      height: 280,
+      decoration: BoxDecoration(
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.05)
+            : Colors.white.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : const Color(0xFF8B5CF6).withValues(alpha: 0.2),
+          width: 2,
+          strokeAlign: BorderSide.strokeAlignInside,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.qr_code_2_outlined,
+            size: 80,
             color: isDark
-                ? Colors.white.withValues(alpha: 0.05)
-                : Colors.black.withValues(alpha: 0.03),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
+                ? Colors.white.withValues(alpha: 0.2)
+                : const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Your QR code will appear here',
+            style: GoogleFonts.inter(
+              fontSize: 14,
               color: isDark
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : Colors.black.withValues(alpha: 0.1),
-              width: 2,
-              strokeAlign: BorderSide.strokeAlignInside,
+                  ? Colors.white.withValues(alpha: 0.6)
+                  : const Color(0xFF6B7280),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.qr_code_2_outlined,
-                size: 80,
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.2)
-                    : Colors.black.withValues(alpha: 0.2),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Your QR code will appear here',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: isDark
-                      ? Colors.white.withValues(alpha: 0.6)
-                      : Colors.black.withValues(alpha: 0.6),
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
@@ -619,11 +578,11 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Material(
             color: isDark
-                ? Colors.white.withValues(alpha: 0.1)
-                : Colors.black.withValues(alpha: 0.05),
+                ? Colors.white.withValues(alpha: 0.12)
+                : Colors.white.withValues(alpha: 0.6),
             child: InkWell(
               onTap: onTap,
               child: Center(
@@ -662,11 +621,11 @@ class _QRGeneratorScreenState extends State<QRGeneratorScreen> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Material(
           color: isDark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.05),
+              ? Colors.white.withValues(alpha: 0.12)
+              : Colors.white.withValues(alpha: 0.6),
           child: InkWell(
             onTap: onTap,
             child: Container(

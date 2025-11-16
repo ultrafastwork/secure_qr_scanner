@@ -2,7 +2,7 @@
 
 **Last Updated**: Step 5 of 5 - 100% Complete ✅  
 **Session Date**: Nov 15, 2025  
-**Status**: MVP v1.0 COMPLETE - All features implemented and tested!
+**Status**: v0.1.0 COMPLETE - All core features implemented and tested!
 
 ---
 
@@ -57,7 +57,7 @@
   - Black QR on white background
   - 280x280 with glow effect
 - Placeholder state when no QR generated
-- Actions: Copy Text, Share (v1.1), Save (v1.1)
+- Actions: Copy Text, Share (v0.2.0), Save (v0.2.0)
 - Refresh button to clear and start over
 
 ### **Step 4: History Feature with Hive** ✅ **COMPLETE**
@@ -77,7 +77,7 @@ lib/history/
 
 **History Features**:
 - Hive model with fields: id, content, type, timestamp
-- Local storage (no cloud sync in v1.0)
+- Local storage (no cloud sync in v0.1.0)
 - List view showing past scans (newest first)
 - Swipe-to-delete functionality
 - Tap item → navigate to result screen (isFromHistory: true)
@@ -131,12 +131,12 @@ lib/history/
    - Smooth page transitions
    - Scan success animation
 
-3. **Barcode Scanner** (Future v1.1)
+3. **Barcode Scanner** (Future v0.2.0)
    - Currently shows TODO
    - Can use same `mobile_scanner` package
    - Just needs separate screen
 
-4. **Gallery Scan** (Future v1.1)
+4. **Gallery Scan** (Future v0.2.0)
    - Pick image with `image_picker`
    - Scan QR from image
    - Currently shows TODO
@@ -178,7 +178,7 @@ lib/
 │   └── screens/
 │       └── history_screen.dart (ConsumerWidget)
 │
-└── barcode/ (for future expansion)
+└── barcode/ (for v0.2.0 expansion)
 ```
 
 ---
@@ -289,18 +289,18 @@ ref.invalidate(historyListProvider);
 
 ---
 
-## 🚧 Known Issues & Notes
+##  Known Issues & Notes
 
-### ✅ All Issues Resolved (Nov 15, 2025):
-1. **withOpacity() deprecation warnings** - ✅ FIXED: All replaced with `.withValues(alpha: ...)` (63 instances)
-2. **BuildContext async gaps** - ✅ FIXED: Added proper `context.mounted` checks
-3. **Theme deprecation (background)** - ✅ FIXED: Removed deprecated property
-4. **Code analysis** - ✅ CLEAN: `flutter analyze` shows 0 issues
+###  All Issues Resolved (Nov 15, 2025):
+1. **withOpacity() deprecation warnings** -  FIXED: All replaced with `.withValues(alpha: ...)` (63 instances)
+2. **BuildContext async gaps** -  FIXED: Added proper `context.mounted` checks
+3. **Theme deprecation (background)** -  FIXED: Removed deprecated property
+4. **Code analysis** -  CLEAN: `flutter analyze` shows 0 issues
 
 ### Design Decisions:
-1. **Both themes are dark** - MVP uses dark theme exclusively
+1. **Both themes are dark** - Initial release uses dark theme exclusively
 2. **No cloud sync** - History is local-only (Hive)
-3. **v1.1 features** - Share, Save, Flash are placeholders
+3. **v0.2.0 features** - Share, Save, Flash are placeholders
 4. **ConsumerWidget** - result_screen.dart and history_screen.dart use ConsumerWidget for Riverpod
 
 ### File Organization:
@@ -409,7 +409,7 @@ _buildSecondaryButton(
 
 ---
 
-## 🎉 MVP v1.0 COMPLETE!
+## 🎉 v0.1.0 COMPLETE!
 
 **All features implemented and tested successfully!** 
 
@@ -419,7 +419,7 @@ The app is ready for:
 - ✅ End-to-end user flows
 - 🚀 Production deployment (with proper signing/release builds)
 
-**Next Steps (Optional v1.1 Features)**:
+**Next Steps (Optional v0.2.0 Features)**:
 - Share functionality (share_plus package)
 - Barcode scanner
 - Gallery image scan

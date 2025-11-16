@@ -185,7 +185,7 @@ Same layout as featured item but with different styling:
 ### Footer
 **At bottom of menu, 20px padding**
 - Top border: white 10%, 1px height
-- Text: "QR Scanner v1.0" (white 40%, 12sp, center-aligned)
+- Text: "QR Scanner v0.3.3" (white 40%, 12sp, center-aligned)
 
 ## Key Design Patterns for Flutter Implementation
 

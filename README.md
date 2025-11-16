@@ -4,11 +4,11 @@ A modern Flutter QR code scanner and generator app with beautiful glassmorphism 
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart)
-![Status](https://img.shields.io/badge/Status-v1.0%20Complete-success)
+![Status](https://img.shields.io/badge/Status-v0.1.0%20Complete-success)
 
 ---
 
-## ✨ Features (v1.0 MVP)
+## ✨ Features
 
 - 🔍 **QR Code Scanner** - Scan QR codes using device camera
 - 🎨 **QR Code Generator** - Generate beautiful QR codes from text/URLs
@@ -69,7 +69,7 @@ lib/
 │   ├── providers/                 # Riverpod providers
 │   ├── services/                  # Business logic
 │   └── screens/                   # History UI
-└── barcode/                       # Ready for v1.1 expansion
+└── barcode/                       # Ready for v0.2.0 expansion
 ```
 
 ---
@@ -96,8 +96,8 @@ lib/
 
 ### For Developers/AI Agents
 - **Current Progress** - `ai-docs/PROGRESS_HANDOFF.md` (start here!)
-- **v1.0 Implementation** - `ai-docs/PROGRESS_HANDOFF_v1.0_COMPLETE.md`
-- **Archived Planning** - `ai-docs/IMPLEMENTATION_PLAN_v1.0_ARCHIVE.md`
+- **v0.1.0 Implementation** - `ai-docs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`
+- **Archived Planning** - `ai-docs/IMPLEMENTATION_PLAN_v0.1.0_ARCHIVE.md`
 
 ---
 
@@ -113,20 +113,26 @@ lib/
 
 ## 🗺️ Roadmap
 
-### ✅ v1.0 - MVP (Complete)
+### ✅ v0.1.0 - Core Features (Complete)
 - QR scanner & generator
 - Local history with Hive
 - Modern glassmorphism UI
 
-### 🔜 v1.1 - Enhancements (Planned)
+### ✅ v0.2.0 - Enhancements (Complete)
 - Share functionality
 - Save QR to gallery
 - Barcode scanner support
 - Gallery image scanning
 - Camera flash improvements
 
-### 💡 v1.2+ - Future Features
-- Custom QR styling
+### ✅ v0.3.x - Advanced Features (Complete)
+- Content type detection
+- Wi-Fi QR generation
+- Settings & theme toggle
+- Custom QR appearance
+
+### 🔜 v1.0.0+ - Future Features
+- UI improvements & animations
 - Cloud backup
 - Multi-language support
 - Export/import history
@@ -179,5 +185,5 @@ This project is licensed under the MIT License.
 
 ---
 
-**Status**: v1.0 Complete ✅ | **Next**: v1.1 Features  
+**Status**: v0.3.3 Complete ✅ | **Next**: v1.0.0 Features  
 **Last Updated**: Nov 15, 2025

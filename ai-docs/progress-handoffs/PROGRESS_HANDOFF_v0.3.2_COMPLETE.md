@@ -1,43 +1,43 @@
 # 🔄 Development Progress Handoff
 
-**Current Version**: v1.2.3 (Planning Phase)  
-**Last Completed**: v1.2.2 - Settings & Theme Toggle ✅ (Nov 15, 2025)  
-**Status**: Production-ready, ready for v1.2.3 development
+**Current Version**: v0.3.3 (Planning Phase)  
+**Last Completed**: v0.3.2 - Settings & Theme Toggle ✅ (Nov 15, 2025)  
+**Status**: Production-ready, ready for v0.3.3 development
 
 ---
 
 ## 📍 Quick Context for New Agents
 
-You're starting work on the **next feature** after v1.2.2. The app is production-ready with a solid foundation including full theme support.
+You're starting work on the **next feature** after v0.3.2. The app is production-ready with a solid foundation including full theme support.
 
 ### ✅ What's Already Complete
 
-**v1.0 MVP** ✅
+**v0.1.0 - Core Features** ✅
 - QR Code Scanner & Generator
 - Basic History with Hive storage
 - URL/Text actions (open browser, copy)
 
-**v1.1 Enhancements** ✅
+**v0.2.0 - Enhancements** ✅
 - Share functionality (share_plus)
 - Save QR to Gallery (gal)
 - Gallery image scanning (image_picker)
 - Barcode scanner with multi-format support
 - Camera flash toggle
 
-**v1.2.0 - Content Type Detection** ✅
+**v0.3.0 - Content Type Detection** ✅
 - Auto-detect 9 content types: URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text
 - Smart action buttons based on content type
 - Detail dialogs for Wi-Fi, vCard, Calendar
 - Type-specific actions (call, email, maps, etc.)
 
-**v1.2.1 - Wi-Fi QR Generation** ✅
+**v0.3.1 - Wi-Fi QR Generation** ✅
 - Dedicated Wi-Fi QR generator screen
 - Support for WPA/WPA2, WEP, and Open networks
 - Hidden network option
 - Real-time QR preview with glassmorphism UI
 - Share & Save functionality
 
-**v1.2.2 - Settings & Theme Toggle** ✅ (Just Completed!)
+**v0.3.2 - Settings & Theme Toggle** ✅ (Just Completed!)
 - Settings screen with glassmorphism design
 - Light/Dark/System theme toggle
 - Theme persistence with Hive storage
@@ -45,11 +45,11 @@ You're starting work on the **next feature** after v1.2.2. The app is production
 - About section with app version
 - Proper theme system using Riverpod
 
-**For Complete Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.2_COMPLETE.md`
+**For Complete Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.3.2_COMPLETE.md`
 
 ---
 
-## 🎯 NEXT STEPS: v1.2.3 Candidates
+## 🎯 NEXT STEPS: v0.3.3 Candidates
 
 The app now has complete theming infrastructure. Here are recommended next features:
 
@@ -96,15 +96,15 @@ The app now has complete theming infrastructure. Here are recommended next featu
 
 ```
 lib/
-├── main.dart (theme integration ✅)
+├── main.dart (theme integration )
 ├── app/
 │   ├── providers/
-│   │   └── theme_provider.dart (v1.2.2 ✅)
+│   │   └── theme_provider.dart (v0.3.2 )
 │   ├── screens/
 │   │   ├── home_screen.dart
-│   │   └── settings_screen.dart (v1.2.2 ✅)
+│   │   └── settings_screen.dart (v0.3.2 )
 │   └── theme/
-│       └── app_theme.dart (light/dark themes ✅)
+│       └── app_theme.dart (light/dark themes )
 ├── qr_code/
 │   ├── dto/
 │   │   ├── content_type.dart
@@ -151,7 +151,7 @@ lib/
 
 ## 🎨 Design System
 
-**Light Theme (New in v1.2.2):**
+**Light Theme (New in v0.3.2):**
 - Background: Light gray (#FAFAFA)
 - Text: Dark (#1F1F1F)
 - Accents: Same purple gradients
@@ -199,7 +199,7 @@ lib/
 
 ## 🚀 When You're Ready
 
-1. **Choose a feature** from the v1.2.3 candidates above
+1. **Choose a feature** from the v0.3.3 candidates above
 2. **Create implementation plan** with clear steps
 3. **Implement the feature** following existing patterns
 4. **Test thoroughly** in both themes
@@ -222,6 +222,6 @@ lib/
 ---
 
 **Last Updated**: Nov 15, 2025  
-**Ready for**: v1.2.3 development 🚀  
+**Ready for**: v0.3.3 development 🚀  
 **App Status**: Production-ready with full theme support  
 **Quality**: 0 analyzer issues ✅

@@ -1,14 +1,14 @@
 # 🔄 Development Progress Handoff
 
-**Current Version**: v1.2.2 (Planning Phase)  
-**Last Completed**: v1.2.1 - Wi-Fi QR Code Generation ✅ (Nov 15, 2025)  
-**Status**: Production-ready, ready for v1.2.2 development
+**Current Version**: v0.3.2 (Planning Phase)  
+**Last Completed**: v0.3.1 - Wi-Fi QR Code Generation ✅ (Nov 15, 2025)  
+**Status**: Production-ready, ready for v0.3.2 development
 
 ---
 
 ## 📍 Quick Context for New Agents
 
-### ✅ v1.2.0 - COMPLETE (100%) - Nov 15, 2025
+### ✅ v0.3.0 - COMPLETE (100%) - Nov 15, 2025
 
 **Major Achievement: Smart Content Type Detection**
 - ✅ Auto-detect 9 content types: URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text
@@ -37,11 +37,11 @@
 - `lib/qr_code/widgets/content_detail_dialogs.dart` - Wi-Fi/vCard/Calendar dialogs
 - `lib/qr_code/screens/result_screen.dart` - Updated with smart actions
 
-**For Complete v1.2.0 Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.0_COMPLETE.md`
+**For Complete v0.3.0 Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.3.0_COMPLETE.md`
 
 ---
 
-### ✅ v1.2.1 - COMPLETE (100%) - Nov 15, 2025
+### ✅ v0.3.1 - COMPLETE (100%) - Nov 15, 2025
 
 **Major Achievement: Wi-Fi QR Code Generation**
 - ✅ Dedicated Wi-Fi QR generator screen with modern UI
@@ -67,7 +67,7 @@
 
 ---
 
-## 🎯 RECOMMENDED NEXT: v1.2.2 - Settings & Theme Toggle ⭐
+## 🎯 RECOMMENDED NEXT: v0.3.2 - Settings & Theme Toggle ⭐
 
 ### Why This Feature?
 1. **User Experience**: Dedicated settings screen for app preferences
@@ -107,18 +107,18 @@ lib/
 │   └── theme/app_theme.dart
 ├── qr_code/
 │   ├── dto/
-│   │   ├── content_type.dart (ContentType enum - v1.2.0)
-│   │   └── detected_content.dart (DetectedContent model - v1.2.0)
+│   │   ├── content_type.dart (ContentType enum - v0.3.0)
+│   │   └── detected_content.dart (DetectedContent model - v0.3.0)
 │   ├── services/
-│   │   ├── content_detector_service.dart (pattern matching - v1.2.0)
-│   │   └── content_action_service.dart (smart actions - v1.2.0)
+│   │   ├── content_detector_service.dart (pattern matching - v0.3.0)
+│   │   └── content_action_service.dart (smart actions - v0.3.0)
 │   ├── widgets/
-│   │   └── content_detail_dialogs.dart (Wi-Fi/vCard/Calendar - v1.2.0)
+│   │   └── content_detail_dialogs.dart (Wi-Fi/vCard/Calendar - v0.3.0)
 │   └── screens/
 │       ├── scanner_screen.dart (QR + gallery scanning)
 │       ├── generator_screen.dart (QR generation + share/save)
-│       ├── wifi_generator_screen.dart (Wi-Fi QR generation - v1.2.1)
-│       └── result_screen.dart (smart actions + detection - v1.2.0)
+│       ├── wifi_generator_screen.dart (Wi-Fi QR generation - v0.3.1)
+│       └── result_screen.dart (smart actions + detection - v0.3.0)
 ├── barcode/
 │   └── screens/
 │       └── barcode_scanner_screen.dart (barcode scanning)
@@ -144,7 +144,7 @@ lib/
 - `google_fonts: ^6.3.2` - Typography
 - `url_launcher: ^6.3.1` - Open URLs/phone/email
 
-**No new dependencies needed for v1.2.1** ✅
+**No new dependencies needed for v0.3.1** ✅
 
 ---
 
@@ -181,16 +181,16 @@ lib/
 
 ### Active Files
 - **`ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`** ← You are here (current progress)
-- **`ai-docs/ROADMAP.md`** - Feature roadmap (v1.0-v1.2 complete)
+- **`ai-docs/ROADMAP.md`** - Feature roadmap (v0.1.0-v0.3.x complete)
 - **`ai-docs/DESIGN.md`** - Design system & UI guidelines
 
 ### Completed Versions
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.0_COMPLETE.md`** - v1.2.0 details
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.1_COMPLETE.md`** - v1.1 details
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.0_COMPLETE.md`** - v1.0 details
+- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.3.0_COMPLETE.md`** - v0.3.0 details
+- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.2.0_COMPLETE.md`** - v0.2.0 details
+- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`** - v0.1.0 details
 
 ### Archived
-- **`ai-docs/IMPLEMENTATION_PLAN_v1.0_ARCHIVE.md`** - Original v1.0 planning
+- **`ai-docs/IMPLEMENTATION_PLAN_v0.1.0_ARCHIVE.md`** - Original v0.1.0 planning
 
 ---
 
@@ -198,7 +198,7 @@ lib/
 
 **Step 1: Understand What's Done**
 - Read this document first (5 min)
-- Review v1.2.0 implementation: `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.2.0_COMPLETE.md`
+- Review v0.3.0 implementation: `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.3.0_COMPLETE.md`
 - Check design guidelines: `DESIGN.md`
 
 **Step 2: Review Existing Code**
@@ -206,7 +206,7 @@ lib/
 - Check `lib/qr_code/services/content_detector_service.dart` - Wi-Fi format parsing
 - See `lib/qr_code/widgets/content_detail_dialogs.dart` - UI style reference
 
-**Step 3: Implement v1.2.1**
+**Step 3: Implement v0.3.1**
 - Create Wi-Fi generator screen (follow existing patterns)
 - Add navigation from home screen
 - Test with different security types
@@ -216,14 +216,14 @@ lib/
 **Step 4: Document & Commit**
 - Update this file with completion status
 - Update `ROADMAP.md`
-- Commit with proper message: `feat: Add Wi-Fi QR generation (v1.2.1)`
+- Commit with proper message: `feat: Add Wi-Fi QR generation (v0.3.1)`
 - Push to main
 
 ---
 
 ## 🔗 Related Features (Future)
 
-**v1.2.2+ Candidates:**
+**v0.3.2+ Candidates:**
 - Light/Dark theme toggle (Settings screen)
 - Advanced QR customization (colors, logos)
 - Export/import history
@@ -234,10 +234,10 @@ lib/
 ## 🚀 Current Status Summary
 
 **What Works:**
-- ✅ v1.0 MVP: QR Scanner, Generator, History
-- ✅ v1.1: Share, Save to Gallery, Gallery Scanning, Barcode Scanner, Flash
-- ✅ v1.2.0: Content Type Detection with Smart Actions
-- ✅ v1.2.1: Wi-Fi QR Code Generation
+- ✅ v0.1.0: QR Scanner, Generator, History
+- ✅ v0.2.0: Share, Save to Gallery, Gallery Scanning, Barcode Scanner, Flash
+- ✅ v0.3.0: Content Type Detection with Smart Actions
+- ✅ v0.3.1: Wi-Fi QR Code Generation
 
 **Code Quality:**
 - ✅ 0 analyzer issues
@@ -246,10 +246,10 @@ lib/
 - ✅ Comprehensive documentation
 
 **Next Action:**
-👉 **Implement v1.2.2 - Settings & Theme Toggle** (2-3 hours)
+👉 **Implement v0.3.2 - Settings & Theme Toggle** (2-3 hours)
 
 ---
 
 **Last Updated**: Nov 15, 2025  
-**Ready for**: v1.2.2 implementation 🚀  
+**Ready for**: v0.3.2 implementation 🚀  
 **Recommended**: Settings & Theme Toggle (high demand, improves UX)

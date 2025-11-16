@@ -1,8 +1,8 @@
 📱 QR Code & Barcode Scanner App (Flutter + pretty_qr_code)
-🎯 MVP Roadmap & Feature Priorities
+🎯 Roadmap & Feature Priorities
 
-=== 🚀 v1.0 – Core MVP (Essential) ===
-Goal: Launch a working QR scanner & generator with minimal UI.
+=== 🚀 v0.1.0 – Core Features (Essential) ===
+Goal: Launch a working QR scanner & generator.
 
 1. QR Code Scanning
    - Open camera to scan QR codes
@@ -23,21 +23,21 @@ Goal: Launch a working QR scanner & generator with minimal UI.
 
 ---
 
-=== 🌟 v1.1 – Polished MVP (Nice-to-Have Enhancements) ===
+=== 🌟 v0.2.0 – Enhanced Features ===
 Goal: Improve usability and user delight.
 
 **Status:** ✅ COMPLETE (Nov 15, 2025) - 100% Done!
 
 ✅ ALL FEATURES IMPLEMENTED:
-- Camera flash toggle (for low light) - Already in v1.0!
+- Camera flash toggle (for low light) - Already in v0.1.0!
 - Share generated QR & scan results (share_plus) ✅ Nov 15, 2025
 - Save QR to gallery (gal) ✅ Nov 15, 2025
 - Scan from gallery images (image_picker) ✅ Nov 15, 2025
 - Barcode scanning support (mobile_scanner) ✅ Nov 15, 2025
 
-🎉 v1.1 COMPLETE - Ready for production!
+🎉 v0.2.0 COMPLETE - Ready for production!
 
-📦 FUTURE ENHANCEMENTS (v1.2 Candidates):
+📦 FUTURE ENHANCEMENTS (v0.3.x Candidates):
 - Enhanced customization options
 - Advanced error handling improvements
 - Light/Dark theme toggle
@@ -49,26 +49,26 @@ Goal: Improve usability and user delight.
 
 ---
 
-=== 💡 v1.2 – Growth Stage (Smart Features) ===
+=== 💡 v0.3.x – Advanced Features ===
 Goal: Add depth, customization, and long-term value.
 
-**Status:** v1.2.3 ✅ COMPLETE (Nov 15, 2025)
+**Status:** v0.3.3 ✅ COMPLETE (Nov 15, 2025)
 
-✅ v1.2.0 - Content Type Detection (COMPLETE)
+✅ v0.3.0 - Content Type Detection (COMPLETE)
 - Auto-detect QR content type (URL, Email, Phone, SMS, Wi-Fi, vCard, Geo, Calendar, Text)
 - Smart action buttons based on content type
 - Detail dialogs for complex types (Wi-Fi, vCard, Calendar)
 - Comprehensive pattern matching and parsing
 - Type-specific actions (call, email, maps, etc.)
 
-✅ v1.2.1 - Wi-Fi QR Code Generation (COMPLETE)
+✅ v0.3.1 - Wi-Fi QR Code Generation (COMPLETE)
 - Dedicated Wi-Fi QR generator screen
 - Support for WPA/WPA2, WEP, and Open networks
 - Hidden network option
 - Real-time QR preview with glassmorphism UI
 - Share & Save functionality
 
-✅ v1.2.2 - Settings & Theme Toggle (COMPLETE)
+✅ v0.3.2 - Settings & Theme Toggle (COMPLETE)
 - Settings screen with glassmorphism design
 - Light/Dark/System theme toggle
 - Theme persistence with Hive storage
@@ -76,7 +76,7 @@ Goal: Add depth, customization, and long-term value.
 - Proper dark theme enhancements
 - About section with app version
 
-✅ v1.2.3 - Custom QR Appearance (COMPLETE)
+✅ v0.3.3 - Custom QR Appearance (COMPLETE)
 - Custom QR colors (foreground/background) with flex_color_picker
 - Logo embedding in QR center
 - QR shape styles (smooth, rounded, square, circle)
@@ -85,7 +85,7 @@ Goal: Add depth, customization, and long-term value.
 - Theme-aware glassmorphism UI
 - Reusable button builders utility
 
-📋 PLANNED (v1.2.4+):
+📋 PLANNED (v1.0.0+):
 - UI improvements (animations, haptic feedback)
 - Empty states & illustrations
 - Loading states & skeleton loaders

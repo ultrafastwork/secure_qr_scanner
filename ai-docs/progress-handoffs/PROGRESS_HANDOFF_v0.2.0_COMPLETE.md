@@ -1,14 +1,14 @@
 # 🔄 Development Progress Handoff
 
-**Current Version**: v1.1 (Planning Phase)  
-**Last Completed**: v1.0 MVP ✅ (Nov 15, 2025)  
+**Current Version**: v0.2.0 (Planning Phase)  
+**Last Completed**: v0.1.0 ✅ (Nov 15, 2025)  
 **Status**: Ready for next features from roadmap
 
 ---
 
 ## 📍 Quick Context for New Agents
 
-### ✅ v1.0 MVP - COMPLETE (100%)
+### ✅ v0.1.0 - COMPLETE (100%)
 
 **What's Working:**
 - ✅ Modern home screen with glassmorphism design
@@ -25,11 +25,11 @@
 - `lib/qr_code/screens/` - Scanner, Generator, Result screens
 - `lib/history/` - Complete history feature with Hive
 
-**For Complete v1.0 Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.0_COMPLETE.md`
+**For Complete v0.1.0 Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`
 
 ---
 
-## 🎯 What's Next - v1.1 Features (Roadmap)
+## 🎯 What's Next - v0.2.0 Features (Roadmap)
 
 **Priority Features from `ai-docs/ROADMAP.md`:**
 
@@ -64,11 +64,11 @@
 
 ## 📋 Current Task Status
 
-**Active Work:** v1.1 Features Implementation (In Progress)
+**Active Work:** v0.2.0 Features Implementation (In Progress)
 
-**✅ COMPLETED v1.1 Features (Nov 15, 2025):**
+**✅ COMPLETED v0.2.0 Features (Nov 15, 2025):**
 
-1. **Camera Flash Toggle** - Already in v1.0!
+1. **Camera Flash Toggle** - Already in v0.1.0!
    - Working implementation in `scanner_screen.dart` (lines 46-49)
    - MobileScanner `toggleTorch()` method wired up
    - UI button functional with correct icons
@@ -126,24 +126,24 @@
      - `lib/app/screens/home_screen.dart` (added navigation)
    - 0 analyzer issues confirmed ✅
 
-## 🎉 v1.1 STATUS: 100% COMPLETE!
+## 🎉 v0.2.0 STATUS: 100% COMPLETE!
 
-All planned v1.1 features have been successfully implemented and tested.
+All planned v0.2.0 features have been successfully implemented and tested.
 
 ---
 
 ## 📚 Documentation Map
 
 ### Core Documentation
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`** - Current progress (v1.2 planning)
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.1_COMPLETE.md`** ← You are here (v1.1 archive)
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.0_COMPLETE.md`** - Complete v1.0 implementation details
-- **`ai-docs/ROADMAP.md`** - Feature roadmap (v1.0 ✅, v1.1 ✅, v1.2, v2.0)
+- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`** - Current progress (v0.3.x planning)
+- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.2.0_COMPLETE.md`** ← You are here (v0.2.0 archive)
+- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`** - Complete v0.1.0 implementation details
+- **`ai-docs/ROADMAP.md`** - Feature roadmap (v0.1.0 ✅, v0.2.0 ✅, v0.3.x, v1.0.0)
 - **`ai-docs/DESIGN.md`** - Design system & UI guidelines
 - **`README.md`** - Project overview & quick start (root directory)
 
 ### Archived
-- **`ai-docs/IMPLEMENTATION_PLAN_v1.0_ARCHIVE.md`** - Original v1.0 planning document
+- **`ai-docs/IMPLEMENTATION_PLAN_v0.1.0_ARCHIVE.md`** - Original v0.1.0 planning document
 
 ---
 
@@ -165,7 +165,7 @@ lib/
 │   ├── providers/history_provider.dart
 │   ├── services/history_service.dart
 │   └── screens/history_screen.dart
-└── barcode/ (ready for v1.1 expansion)
+└── barcode/ (ready for v0.2.0 expansion)
 ```
 
 ---
@@ -196,7 +196,7 @@ flutter analyze
 
 ## 💡 Tips for New Agents
 
-1. **Read First**: `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v1.0_COMPLETE.md` for implementation patterns
+1. **Read First**: `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md` for implementation patterns
 2. **Follow Structure**: Use feature-based directories (`qr_code/`, `history/`, `barcode/`)
 3. **State Management**: We use Riverpod (see history feature for examples)
 4. **Design Consistency**: Match existing glassmorphism style (see `ai-docs/DESIGN.md`)
@@ -205,4 +205,4 @@ flutter analyze
 ---
 
 **Last Updated**: Nov 15, 2025  
-**Ready for**: v1.1 feature development 🚀
+**Ready for**: v0.2.0 feature development 🚀
