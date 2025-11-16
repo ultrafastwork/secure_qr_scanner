@@ -1,6 +1,6 @@
 # 📱 Secure QR Scanner
 
-A modern Flutter QR code scanner and generator app with beautiful glassmorphism UI and local history tracking.
+A free and open source QR code scanner and generator built with Flutter. Your data stays private with local-only storage, wrapped in a clean, modern interface.
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart)
@@ -13,7 +13,7 @@ A modern Flutter QR code scanner and generator app with beautiful glassmorphism 
 - 🔍 **QR Code Scanner** - Scan QR codes using device camera
 - 🎨 **QR Code Generator** - Generate beautiful QR codes from text/URLs
 - 📜 **Scan History** - Local storage with Hive (CRUD operations)
-- 🌌 **Modern UI** - Glassmorphism design with pure black background
+- 🌌 **Clean UI** - Modern design with light and dark themes
 - 🎯 **Smart Actions** - Open URLs, copy text, save to history
 - ⚡ **Fast & Lightweight** - Optimized performance with Riverpod
 
@@ -101,12 +101,17 @@ lib/
 
 ---
 
+## 🔒 Privacy & Security
+
+- **100% Local** - All data stored on your device using Hive
+- **No Tracking** - Zero analytics, no data collection
+- **Open Source** - Full transparency, audit the code yourself
+- **Offline First** - Works without internet connection
+
 ## 🎨 Design System
 
-- **Theme**: Pure black (#000000) with purple/violet/fuchsia gradients
-- **UI Style**: Glassmorphism (frosted glass effects)
+- **Theme**: Light and dark modes with purple gradient accents
 - **Typography**: Google Fonts - Inter
-- **Colors**: Violet-600, Fuchsia-600, Purple-700
 - **Details**: See `ai-docs/DESIGN.md` for complete specifications
 
 ---
@@ -116,7 +121,7 @@ lib/
 ### ✅ v0.1.0 - Core Features (Complete)
 - QR scanner & generator
 - Local history with Hive
-- Modern glassmorphism UI
+- Modern UI with theming
 
 ### ✅ v0.2.0 - Enhancements (Complete)
 - Share functionality
@@ -133,9 +138,8 @@ lib/
 
 ### 🔜 v1.0.0+ - Future Features
 - UI improvements & animations
-- Cloud backup
 - Multi-language support
-- Export/import history
+- Export/import history (local file backup)
 
 **Full Roadmap**: See `ai-docs/ROADMAP.md`
 
@@ -167,7 +171,7 @@ This project follows a feature-based architecture:
 - Each feature has its own directory (e.g., `qr_code/`, `history/`)
 - Use Riverpod for state management
 - Follow Material 3 design principles
-- Maintain glassmorphism UI consistency
+- Maintain design consistency across themes
 
 ---
 
