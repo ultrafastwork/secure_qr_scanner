@@ -1,7 +1,6 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="one.verysecure.secure_qr_scanner">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Required for Google Fonts and network operations -->
     <uses-permission android:name="android.permission.INTERNET" />
