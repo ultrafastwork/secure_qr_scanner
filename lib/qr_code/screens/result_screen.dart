@@ -32,6 +32,31 @@ class QRResultScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Scan Result',
+          style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: isDark
+                  ? const [
+                      Color(0xFF7C3AED), // violet-600
+                      Color(0xFFC026D3), // fuchsia-600
+                    ]
+                  : const [
+                      Color(0xFFE9D5FF), // purple-200
+                      Color(0xFFFAE8FF), // fuchsia-100
+                    ],
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           // Gradient background
@@ -66,42 +91,7 @@ class QRResultScreen extends ConsumerWidget {
           ),
 
           // Content
-          SafeArea(
-            child: Column(
-              children: [
-                _buildTopBar(context),
-                Expanded(child: _buildContent(context, ref)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTopBar(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        children: [
-          _buildGlassButton(
-            onTap: () => Navigator.of(context).pop(),
-            child: Icon(
-              Icons.arrow_back,
-              color: isDark ? Colors.white : Colors.black87,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Text(
-            'Scan Result',
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : Colors.black87,
-            ),
-          ),
+          _buildContent(context, ref),
         ],
       ),
     );
@@ -452,37 +442,6 @@ class QRResultScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildGlassButton({
-    required VoidCallback onTap,
-    required Widget child,
-  }) {
-    return Builder(
-      builder: (context) {
-        final isDark = Theme.of(context).brightness == Brightness.dark;
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(18),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Material(
-              color: isDark
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : Colors.black.withValues(alpha: 0.05),
-              child: InkWell(
-                onTap: onTap,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: child,
                 ),
               ),
             ),

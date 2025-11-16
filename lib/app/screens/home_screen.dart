@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:secure_qr_scanner/app/screens/menu_screen.dart';
 import 'package:secure_qr_scanner/barcode/screens/barcode_scanner_screen.dart';
 import 'package:secure_qr_scanner/history/screens/history_screen.dart';
@@ -18,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isProcessingGallery = false;
+
   Future<void> _navigateToScanner(BuildContext context) async {
     final navigator = Navigator.of(context);
     final result = await navigator.push<String>(
@@ -32,6 +36,75 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     }
+  }
+
+  Future<void> _pickFromGallery() async {
+    if (_isProcessingGallery) return;
+
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile == null || !mounted) return;
+
+      setState(() => _isProcessingGallery = true);
+
+      // Create a temporary controller for image analysis
+      final controller = MobileScannerController(
+        detectionSpeed: DetectionSpeed.noDuplicates,
+        facing: CameraFacing.back,
+      );
+
+      try {
+        // Analyze the picked image
+        final barcodes = await controller.analyzeImage(pickedFile.path);
+
+        if (!mounted) {
+          await controller.dispose();
+          return;
+        }
+
+        if (barcodes == null || barcodes.barcodes.isEmpty) {
+          _showError('No QR code found in the selected image');
+          return;
+        }
+
+        final barcode = barcodes.barcodes.first;
+        if (barcode.rawValue != null) {
+          // Navigate to result screen with scanned data
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  QRResultScreen(scannedData: barcode.rawValue!),
+            ),
+          );
+        } else {
+          _showError('Could not read QR code from image');
+        }
+      } finally {
+        await controller.dispose();
+      }
+    } catch (e) {
+      if (mounted) {
+        _showError('Failed to scan image: ${e.toString()}');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isProcessingGallery = false);
+      }
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: GoogleFonts.inter()),
+        backgroundColor: const Color(0xFFEF4444),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -252,15 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Tertiary button - Scan from Gallery
           _buildSecondaryButton(
-            onTap: () async {
-              // Navigate to scanner screen which has gallery picking functionality
-              final navigator = Navigator.of(context);
-              await navigator.push(
-                MaterialPageRoute(
-                  builder: (context) => const QRScannerScreen(),
-                ),
-              );
-            },
+            onTap: _pickFromGallery,
             icon: Icons.image,
             label: 'Scan from Gallery',
           ),
