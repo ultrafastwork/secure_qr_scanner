@@ -35,7 +35,7 @@ dependencies:
   timeago: ^3.7.1
   photo_manager: ^3.7.1
   cached_network_image: ^3.4.1
-  gal: ^2.3.0
+  gal: ^2.3.2
   flex_color_picker: ^3.7.2
 
 dependency_overrides:
