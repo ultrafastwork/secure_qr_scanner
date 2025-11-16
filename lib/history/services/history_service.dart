@@ -6,12 +6,9 @@ class HistoryService {
   static const String _boxName = 'scan_history';
   Box<ScanHistoryItem>? _box;
 
-  /// Initialize the Hive box
+  /// Initialize the Hive box (box is already opened in main.dart)
   Future<void> init() async {
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(ScanHistoryItemAdapter());
-    }
-    _box = await Hive.openBox<ScanHistoryItem>(_boxName);
+    _box = Hive.box<ScanHistoryItem>(_boxName);
   }
 
   /// Get all history items sorted by timestamp (newest first)

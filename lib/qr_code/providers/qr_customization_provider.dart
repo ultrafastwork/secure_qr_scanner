@@ -39,7 +39,7 @@ class QrCustomizationNotifier extends Notifier<QrCustomizationState> {
   /// Load saved customization and presets from Hive
   Future<void> _loadCustomization() async {
     try {
-      final box = await Hive.openBox('qr_customization');
+      final box = Hive.box('qr_customization');
 
       // Load current customization
       final customizationMap = box.get('current_customization');
@@ -103,7 +103,7 @@ class QrCustomizationNotifier extends Notifier<QrCustomizationState> {
     state = state.copyWith(presets: updatedPresets);
 
     try {
-      final box = await Hive.openBox('qr_customization');
+      final box = Hive.box('qr_customization');
       final presetsJson = jsonEncode(
         updatedPresets.map((p) => p.toMap()).toList(),
       );
@@ -126,7 +126,7 @@ class QrCustomizationNotifier extends Notifier<QrCustomizationState> {
     state = state.copyWith(presets: updatedPresets);
 
     try {
-      final box = await Hive.openBox('qr_customization');
+      final box = Hive.box('qr_customization');
       final presetsJson = jsonEncode(
         updatedPresets.map((p) => p.toMap()).toList(),
       );

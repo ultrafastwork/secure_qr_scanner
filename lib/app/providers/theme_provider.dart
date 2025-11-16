@@ -13,7 +13,7 @@ class ThemeNotifier extends Notifier<ThemeMode> {
   /// Load saved theme preference from Hive storage
   Future<void> _loadTheme() async {
     try {
-      final box = await Hive.openBox('settings');
+      final box = Hive.box('settings');
       final savedMode = box.get('theme_mode', defaultValue: 'system') as String;
 
       // Parse saved theme mode
@@ -41,7 +41,7 @@ class ThemeNotifier extends Notifier<ThemeMode> {
     state = mode;
 
     try {
-      final box = await Hive.openBox('settings');
+      final box = Hive.box('settings');
       await box.put('theme_mode', mode.name);
     } catch (e) {
       // Silently fail - theme will still work for current session
