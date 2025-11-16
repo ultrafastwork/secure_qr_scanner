@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:secure_qr_scanner/qr_code/screens/result_screen.dart';
 
 /// Barcode Scanner screen with camera integration
 class BarcodeScannerScreen extends StatefulWidget {
@@ -38,20 +37,8 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
 
     setState(() => _isProcessing = true);
 
-    // Navigate to result screen with scanned data
-    Navigator.of(context)
-        .push(
-          MaterialPageRoute(
-            builder: (context) =>
-                QRResultScreen(scannedData: barcode.rawValue!),
-          ),
-        )
-        .then((_) {
-          // Reset processing state when returning
-          if (mounted) {
-            setState(() => _isProcessing = false);
-          }
-        });
+    // Return scanned data to parent screen
+    Navigator.of(context).pop(barcode.rawValue);
   }
 
   void _toggleFlash() {
@@ -83,21 +70,9 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
 
       final barcode = barcodes.barcodes.first;
       if (barcode.rawValue != null) {
-        // Navigate to result screen with scanned data
+        // Return scanned data to parent screen
         if (mounted) {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      QRResultScreen(scannedData: barcode.rawValue!),
-                ),
-              )
-              .then((_) {
-                // Reset processing state when returning
-                if (mounted) {
-                  setState(() => _isProcessing = false);
-                }
-              });
+          Navigator.of(context).pop(barcode.rawValue);
         }
       } else {
         if (mounted) {

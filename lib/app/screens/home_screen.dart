@@ -38,6 +38,22 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _navigateToBarcodeScanner(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    final result = await navigator.push<String>(
+      MaterialPageRoute(builder: (context) => const BarcodeScannerScreen()),
+    );
+
+    if (result != null && mounted) {
+      // Navigate to result screen with scanned data
+      navigator.push(
+        MaterialPageRoute(
+          builder: (context) => QRResultScreen(scannedData: result),
+        ),
+      );
+    }
+  }
+
   Future<void> _pickFromGallery() async {
     if (_isProcessingGallery) return;
 
@@ -310,13 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Secondary button - Scan Barcode
           _buildSecondaryButton(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const BarcodeScannerScreen(),
-                ),
-              );
-            },
+            onTap: () => _navigateToBarcodeScanner(context),
             icon: Icons.view_week,
             label: 'Scan Barcode',
           ),

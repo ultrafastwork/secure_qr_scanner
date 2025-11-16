@@ -32,6 +32,22 @@ class MenuScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _navigateToBarcodeScanner(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    final result = await navigator.push<String>(
+      MaterialPageRoute(builder: (context) => const BarcodeScannerScreen()),
+    );
+
+    if (result != null && navigator.mounted) {
+      // Navigate to result screen with scanned data
+      navigator.push(
+        MaterialPageRoute(
+          builder: (context) => QRResultScreen(scannedData: result),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -93,14 +109,7 @@ class MenuScreen extends StatelessWidget {
                         icon: Icons.view_week,
                         title: 'Scan Barcode',
                         subtitle: 'EAN, UPC, Code128, etc',
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const BarcodeScannerScreen(),
-                            ),
-                          );
-                        },
+                        onTap: () => _navigateToBarcodeScanner(context),
                       ),
 
                       const SizedBox(height: 8),
