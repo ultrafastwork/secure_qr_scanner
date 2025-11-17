@@ -66,25 +66,31 @@ flutter:
     - assets/images/
 
 flutter_native_splash:
-  # Background color for pre-Android 12
-  color: "#F5F5F7"
-  color_dark: "#121419"
+  # Background gradient images for pre-Android 12
+  background_image: "assets/images/splash_bg_light.png"
+  background_image_dark: "assets/images/splash_bg_dark.png"
   
-  # Logo image for pre-Android 12
-  image: "assets/icons/logo.png"
-  image_dark: "assets/icons/logo.png"
+  # Smaller logo image for pre-Android 12 (30% of original size)
+  image: "assets/icons/logo_splash.png"
+  image_dark: "assets/icons/logo_splash.png"
+  
+  android_gravity: center
+  ios_content_mode: center
   
   fullscreen: false
   
   # Android 12+ specific configuration (REQUIRED for Android 12+)
+  # Note: Android 12+ does NOT support background_image, only solid colors
   android_12:
-    image: "assets/icons/logo.png"
-    color: "#F5F5F7"
-    icon_background_color: "#F5F5F7"
+    image: "assets/icons/logo_splash.png"
+    # Light theme: average of gradient with 70% white overlay
+    color: "#F0E7FE"  # lightened purple (gradient + white overlay)
+    icon_background_color: "#F0E7FE"
     
-    image_dark: "assets/icons/logo.png"
-    color_dark: "#121419"
-    icon_background_color_dark: "#121419"
+    image_dark: "assets/icons/logo_splash.png"
+    # Dark theme: gradient with 80% black overlay = very dark purple
+    color_dark: "#19082E"  # darkened purple (gradient + 80% black overlay)
+    icon_background_color_dark: "#19082E"
 
 flutter_launcher_icons:
   android: "launcher_icon"

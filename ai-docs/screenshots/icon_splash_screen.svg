@@ -1,0 +1,142 @@
+<svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shadow filter -->
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- QR Code elements centered in viewBox -->
+  <g transform="translate(320, 320)">
+    <!-- Corner markers (QR style) -->
+    <!-- Top-left corner -->
+    <rect x="-280" y="-280" width="160" height="160" rx="14" fill="#7C3AED"/>
+    <rect x="-260" y="-260" width="120" height="120" rx="10" fill="white"/>
+    <rect x="-240" y="-240" width="80" height="80" rx="8" fill="#7C3AED"/>
+
+    <!-- Top-right corner -->
+    <rect x="120" y="-280" width="160" height="160" rx="14" fill="#A855F7"/>
+    <rect x="140" y="-260" width="120" height="120" rx="10" fill="white"/>
+    <rect x="160" y="-240" width="80" height="80" rx="8" fill="#A855F7"/>
+
+    <!-- Bottom-left corner -->
+    <rect x="-280" y="120" width="160" height="160" rx="14" fill="#EC4899"/>
+    <rect x="-260" y="140" width="120" height="120" rx="10" fill="white"/>
+    <rect x="-240" y="160" width="80" height="80" rx="8" fill="#EC4899"/>
+
+    <!-- Dense QR pattern in center area -->
+    <!-- Row 1 -->
+    <rect x="-60" y="-240" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="-15" y="-240" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="30" y="-240" width="35" height="35" rx="5" fill="#EC4899"/>
+
+    <!-- Row 2 -->
+    <rect x="-150" y="-195" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="-105" y="-195" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="-60" y="-195" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="-15" y="-195" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="75" y="-195" width="35" height="35" rx="5" fill="#A855F7"/>
+
+    <!-- Row 3 -->
+    <rect x="-150" y="-150" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="-105" y="-150" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="-15" y="-150" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="30" y="-150" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="75" y="-150" width="35" height="35" rx="5" fill="#EC4899"/>
+
+    <!-- Row 4 -->
+    <rect x="-150" y="-105" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="-60" y="-105" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="-15" y="-105" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="75" y="-105" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="120" y="-105" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="165" y="-105" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="210" y="-105" width="35" height="35" rx="5" fill="#A855F7"/>
+
+    <!-- Row 5 -->
+    <rect x="-150" y="-60" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="-105" y="-60" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="-15" y="-60" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="30" y="-60" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="120" y="-60" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="165" y="-60" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="210" y="-60" width="35" height="35" rx="5" fill="#EC4899"/>
+
+    <!-- Row 6 -->
+    <rect x="-60" y="-15" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="-15" y="-15" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="30" y="-15" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="75" y="-15" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="120" y="-15" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="165" y="-15" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="210" y="-15" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="255" y="-15" width="35" height="35" rx="5" fill="#EC4899"/>
+
+    <!-- Row 7 -->
+    <rect x="-60" y="30" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="-15" y="30" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="75" y="30" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="120" y="30" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="210" y="30" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="255" y="30" width="35" height="35" rx="5" fill="#A855F7"/>
+
+    <!-- Row 8 -->
+    <rect x="-150" y="75" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="-105" y="75" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="-60" y="75" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="-15" y="75" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="30" y="75" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="120" y="75" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="165" y="75" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="210" y="75" width="35" height="35" rx="5" fill="#7C3AED"/>
+
+    <!-- Row 9 -->
+    <rect x="-150" y="120" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="-105" y="120" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="30" y="120" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="75" y="120" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="120" y="120" width="35" height="35" rx="5" fill="#EC4899"/>
+
+    <!-- Row 10 -->
+    <rect x="30" y="165" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="75" y="165" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="120" y="165" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="165" y="165" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="210" y="165" width="35" height="35" rx="5" fill="#A855F7"/>
+
+    <!-- Row 11 -->
+    <rect x="30" y="210" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="75" y="210" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="120" y="210" width="35" height="35" rx="5" fill="#A855F7"/>
+    <rect x="165" y="210" width="35" height="35" rx="5" fill="#EC4899"/>
+    <rect x="210" y="210" width="35" height="35" rx="5" fill="#7C3AED"/>
+    <rect x="255" y="210" width="35" height="35" rx="5" fill="#A855F7"/>
+
+    <!-- Corner brackets for scanning frame -->
+    <g opacity="1">
+      <!-- Top-left bracket -->
+      <path d="M -340,-340 L -340,-270 M -340,-340 L -270,-340"
+            stroke="#60EFFF" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+      <!-- Top-right bracket -->
+      <path d="M 340,-340 L 340,-270 M 340,-340 L 270,-340"
+            stroke="#60EFFF" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+      <!-- Bottom-left bracket -->
+      <path d="M -340,340 L -340,270 M -340,340 L -270,340"
+            stroke="#60EFFF" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+      <!-- Bottom-right bracket -->
+      <path d="M 340,340 L 340,270 M 340,340 L 270,340"
+            stroke="#60EFFF" stroke-width="12" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+</svg>
