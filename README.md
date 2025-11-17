@@ -97,7 +97,6 @@ lib/
 ### For Developers/AI Agents
 - **Current Progress** - `ai-docs/PROGRESS_HANDOFF.md` (start here!)
 - **v0.1.0 Implementation** - `ai-docs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`
-- **Archived Planning** - `ai-docs/IMPLEMENTATION_PLAN_v0.1.0_ARCHIVE.md`
 
 ---
 
