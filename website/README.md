@@ -13,7 +13,7 @@ Official website for the Secure QR Scanner mobile app. Built with SolidStart (So
 This website serves as:
 - **Landing Page** - App overview and features showcase
 - **Privacy Policy** - Required for Google Play Store publishing
-- **Terms of Service** - Legal terms and conditions
+- **Terms of Service** - Legal terms and conditions (not ready)
 - **Marketing** - App promotion and user information
 
 ---
@@ -32,7 +32,7 @@ This website serves as:
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ or higher
+- Node.js 24+ or higher
 - pnpm (recommended) or npm
 
 ### Installation
@@ -140,12 +140,12 @@ This website serves informational purposes only and collects no user data.
 - Screenshots and demo
 - Call-to-action sections
 
-### 2. Privacy Policy (`/privacy`)
+### 2. Privacy Policy (`/privacy-policy`)
 - Data collection practices
 - User privacy rights
 - Required for Google Play Store
 
-### 3. Terms of Service (`/terms`)
+### 3. Terms of Service (`/terms`) (not ready)
 - Usage terms and conditions
 - User responsibilities
 - Legal disclaimers
@@ -190,19 +190,11 @@ pnpm start
 pnpm build
 ```
 
-### Platform-Specific
-- **Vercel**: Zero-config deployment
-- **Netlify**: Supports SolidStart out of the box
-- **Cloudflare Pages**: Use Cloudflare adapter
-- **Node.js Server**: Default build output
-
 ---
 
 ## 🤝 Contributing
 
 This website is part of the Secure QR Scanner project:
-- Follow SolidJS best practices
-- Use TypeScript for type safety
 - Maintain design consistency with the mobile app
 - Ensure responsive design on all screen sizes
 - Test accessibility with screen readers
