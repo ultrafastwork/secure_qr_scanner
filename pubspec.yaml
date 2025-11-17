@@ -66,11 +66,25 @@ flutter:
     - assets/images/
 
 flutter_native_splash:
-  image: "assets/icons/logo.png"
+  # Background color for pre-Android 12
   color: "#F5F5F7"
-  image_dark: "assets/icons/logo.png"
   color_dark: "#121419"
+  
+  # Logo image for pre-Android 12
+  image: "assets/icons/logo.png"
+  image_dark: "assets/icons/logo.png"
+  
   fullscreen: false
+  
+  # Android 12+ specific configuration (REQUIRED for Android 12+)
+  android_12:
+    image: "assets/icons/logo.png"
+    color: "#F5F5F7"
+    icon_background_color: "#F5F5F7"
+    
+    image_dark: "assets/icons/logo.png"
+    color_dark: "#121419"
+    icon_background_color_dark: "#121419"
 
 flutter_launcher_icons:
   android: "launcher_icon"
