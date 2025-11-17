@@ -1,0 +1,128 @@
+# Augment Guidelines for secure_qr_scanner Website
+
+## Project Overview
+This is the marketing website for the secure_qr_scanner Flutter app. Built with SolidStart (SolidJS SSR) and TailwindCSS v4.
+
+## Key Technologies
+- **Framework**: SolidStart (SolidJS with SSR)
+- **Styling**: TailwindCSS v4
+- **Language**: TypeScript
+- **Package Manager**: pnpm
+
+## Design System
+- **Theme**: Purple gradient matching the Flutter app
+- **Colors**: 
+  - Primary: #8B5CF6 (violet-500)
+  - Secondary: #D946EF (fuchsia-500)
+  - Accent: #7C3AED (violet-600)
+- **Font**: Inter (system-ui fallback)
+- **Dark Mode**: Respects `prefers-color-scheme: dark`
+
+## Code Style
+- Use TypeScript for all components
+- Follow SolidJS reactive patterns (createSignal, createEffect)
+- Use TailwindCSS utility classes for styling
+- Keep components small and focused
+- Prefer composition over inheritance
+
+## File Organization
+```
+website/
+├── src/
+│   ├── routes/          # Page components (file-based routing)
+│   ├── components/      # Reusable UI components
+│   ├── styles/          # Global styles (app.css)
+│   └── app.tsx          # Root component
+├── public/              # Static assets
+└── app.config.ts        # SolidStart configuration
+```
+
+## Routing
+- SolidStart uses file-based routing
+- `src/routes/index.tsx` → `/` (home page)
+- `src/routes/privacy.tsx` → `/privacy` (privacy policy)
+- `src/routes/terms.tsx` → `/terms` (terms of service)
+
+## SEO Requirements
+- Add proper `<Title>` and `<Meta>` tags to all pages
+- Use semantic HTML (header, main, footer, nav, article)
+- Implement proper heading hierarchy (h1 → h2 → h3)
+- Add Open Graph tags for social sharing
+- Optimize images with proper alt text
+
+## Performance
+- Leverage SSR for fast initial page loads
+- Minimize JavaScript bundle size
+- Optimize images (WebP format when possible)
+- Use lazy loading for below-the-fold content
+- Ensure fast Time to First Byte (TTFB)
+
+## Accessibility
+- Use semantic HTML elements
+- Ensure proper color contrast (WCAG 2.1 AA)
+- Add ARIA labels where needed
+- Support keyboard navigation
+- Test with screen readers
+
+## Content Pages Required
+1. **Home/Landing Page** - App overview and features
+2. **Privacy Policy** - Required for Google Play publishing
+3. **Terms of Service** - Legal terms and conditions
+
+## Common Patterns
+
+### Page Template
+```tsx
+import { Title, Meta } from '@solidjs/meta';
+
+export default function PageName() {
+  return (
+    <>
+      <Title>Page Title - QR Scanner</Title>
+      <Meta name="description" content="Page description" />
+      
+      <main class="min-h-screen">
+        {/* Page content */}
+      </main>
+    </>
+  );
+}
+```
+
+### Gradient Background
+```tsx
+<div class="bg-gradient-to-br from-[#8B5CF6] via-[#D946EF] to-[#7C3AED]">
+  {/* Content */}
+</div>
+```
+
+### Glassmorphism Effect
+```tsx
+<div class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl">
+  {/* Content */}
+</div>
+```
+
+## Testing Checklist
+- [ ] TypeScript compiles without errors
+- [ ] Pages render correctly in light and dark modes
+- [ ] Responsive design works on mobile/tablet/desktop
+- [ ] SSR hydration works without errors
+- [ ] SEO meta tags are present and correct
+- [ ] Accessibility: keyboard navigation works
+- [ ] Accessibility: screen reader friendly
+- [ ] Performance: fast page loads
+
+## Development Workflow
+1. Create/modify components in `src/components/`
+2. Create/modify pages in `src/routes/`
+3. Test locally with `pnpm dev`
+4. Run type checking with `pnpm typecheck`
+5. Build for production with `pnpm build`
+6. Test production build with `pnpm start`
+
+## Notes
+- This website is separate from the Flutter app but shares the same design language
+- The website is primarily for Google Play requirements (privacy policy) and marketing
+- Keep the website lightweight and fast-loading
+- Ensure all content is mobile-friendly

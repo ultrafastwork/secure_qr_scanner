@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@media print {
+  html,
+  :host,
+  body {
+    font-family: "Arial", sans-serif !important;
+  }
+
+  table {
+    page-break-after: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  td {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+}
+
+/* Start of TailwindCSS v4 config */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  dialog {
+    margin: auto;
+  }
+
+  :root {
+    --danger-color: #ff6347;
+    --box-shadow-custom: 0 0 9px rgba(0, 0, 0, 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --danger-color: #ff4c3b;
+      --box-shadow-custom: 0 0 12px rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+
+@theme {
+  /* Custom Colors - Purple Gradient Theme */
+  --color-primary: #8B5CF6;
+  --color-secondary: #D946EF;
+  --color-accent: #7C3AED;
+  --color-violet: #A78BFA;
+  --color-fuchsia: #E879F9;
+  --color-purple: #C084FC;
+  --color-danger: var(--danger-color);
+
+  /* Text Colors */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #FFFFFF99;
+  --color-text-tertiary: #FFFFFF66;
+
+  /* Background Colors */
+  --color-bg-dark: #000000;
+  --color-bg-light: #f8fafc;
+  --color-glass-subtle: #FFFFFF0D;
+  --color-glass-standard: #FFFFFF1A;
+  --color-glass-hover: #FFFFFF26;
+
+  /* Custom Fonts */
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-display: Inter, system-ui, -apple-system, sans-serif;
+
+  /* Custom Box Shadow */
+  --shadow-custom: var(--box-shadow-custom);
+  --shadow-glow-violet: 0 8px 24px rgba(139, 92, 246, 0.5);
+  --shadow-glow-fuchsia: 0 8px 24px rgba(217, 70, 239, 0.5);
+
+  /* Custom Breakpoints */
+  --breakpoint-print: print;
+}
+
+@utility container {
+  margin-inline: auto;
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 0.4s;
+  }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Font Loading */
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* End of TailwindCSS v4 config */
