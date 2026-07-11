@@ -1,6 +1,6 @@
 # 🤖 Agent Onboarding Prompt
 
-**Current Version Reference:** Use `AGENT_PROMPT_v0.3.3.md` for complete v0.3.3 prompt.
+**Current Version Reference:** Use `agent-prompt-v0.3.3.md` for complete v0.3.3 prompt.
 
 ---
 
@@ -13,7 +13,7 @@ I'm continuing work on a Flutter QR Scanner app. v0.3.2 is complete and ready fo
 - Location: d:\flutter\secure_qr_scanner
 - Status: v0.1.0-v0.3.2 ✅ | Ready for v0.3.3
 - **Read First:** `.windsurfrules` (all technical standards)
-- **Current Status:** `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`
+- **Current Status:** `ai-docs/progress-handoffs/progress-handoff.md`
 
 **COMPLETED VERSIONS:**
 - v0.1.0: Core scanner & generator
@@ -23,13 +23,13 @@ I'm continuing work on a Flutter QR Scanner app. v0.3.2 is complete and ready fo
 - v0.3.2: Settings & theme toggle (Light/Dark/System)
 
 **YOUR TASK:**
-Choose one v0.3.3 feature from `AGENT_PROMPT_v0.3.3.md`:
+Choose one v0.3.3 feature from `agent-prompt-v0.3.3.md`:
 1. Custom QR Appearance ⭐ (recommended)
 2. Export/Import History
 3. Haptic Feedback
 4. Batch Scanning Mode
 
-See `AGENT_PROMPT_v0.3.3.md` for complete details.
+See `agent-prompt-v0.3.3.md` for complete details.
 ```
 
 ---
@@ -37,14 +37,14 @@ See `AGENT_PROMPT_v0.3.3.md` for complete details.
 ## 🔄 How to Use
 
 **For New Agent Sessions:**
-1. Copy from `AGENT_PROMPT_v0.3.3.md` (complete prompt)
+1. Copy from `agent-prompt-v0.3.3.md` (complete prompt)
 2. Or use quick start above and read details in files
 
 **Key Files:**
 - `.windsurfrules` - All technical standards (Riverpod, themes, patterns)
-- `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md` - Current status and implementation guide
+- `ai-docs/progress-handoffs/progress-handoff.md` - Current status and implementation guide
 - `ai-docs/ROADMAP.md` - Feature roadmap
-- `ai-docs/prompts/AGENT_PROMPT_vX.X.X.md` - Version-specific tasks
+- `ai-docs/agent-prompts/agent-prompt-vX.X.X.md` - Version-specific tasks
 
 ---
 

@@ -46,7 +46,7 @@ You're starting work on **v1.0.0 - UI Improvements**. The app has all major feat
 - Clean modular architecture (dto/providers/widgets/utils/screens)
 - Theme-aware glassmorphism UI
 
-**For Complete Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.3.3_COMPLETE.md`
+**For Complete Details:** See `ai-docs/progress-handoffs/progress-handoff-v0.3.3-complete.md`
 
 ---
 

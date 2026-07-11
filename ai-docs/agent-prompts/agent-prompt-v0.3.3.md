@@ -10,7 +10,7 @@ I'm continuing work on a Flutter QR Scanner app. v0.3.2 is complete and ready fo
 - Location: d:\flutter\secure_qr_scanner
 - Status: v0.1.0 ✅ | v0.2.0 ✅ | v0.3.0 ✅ | v0.3.1 ✅ | v0.3.2 ✅ | Ready for v0.3.3
 - **Technical Standards:** See `.windsurfrules` file (read this for all coding standards)
-- **Current Status:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`
+- **Current Status:** See `ai-docs/progress-handoffs/progress-handoff.md`
 - **Roadmap:** See `ai-docs/ROADMAP.md`
 
 **WHAT'S COMPLETE:**
@@ -21,7 +21,7 @@ I'm continuing work on a Flutter QR Scanner app. v0.3.2 is complete and ready fo
 ✅ v0.3.2 - Settings & Theme Toggle: Full Light/Dark/System theme support with persistence
 
 **YOUR TASK:**
-Please read `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`, then choose and implement one of these v0.3.3 features:
+Please read `ai-docs/progress-handoffs/progress-handoff.md`, then choose and implement one of these v0.3.3 features:
 
 **OPTION 1: Custom QR Appearance** ⭐ (RECOMMENDED)
 Enhance QR generation with customization options:
@@ -61,7 +61,7 @@ Enable power users to scan multiple codes:
 - **Value:** Efficiency for power users
 
 **IMPLEMENTATION GUIDE:**
-- Full details in `ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`
+- Full details in `ai-docs/progress-handoffs/progress-handoff.md`
 - Reference screens: `lib/app/screens/settings_screen.dart` (latest patterns)
 - Riverpod pattern: `lib/app/providers/theme_provider.dart`
 - All technical standards in `.windsurfrules` (Riverpod, themes, glassmorphism, etc.)

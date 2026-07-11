@@ -45,7 +45,7 @@
 - ✅ Production-ready code
 - ✅ Complete documentation
 
-**For Complete v0.2.0 Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.2.0_COMPLETE.md`
+**For Complete v0.2.0 Details:** See `ai-docs/progress-handoffs/progress-handoff-v0.2.0-complete.md`
 
 ---
 
@@ -184,9 +184,9 @@ flutter analyze
 ## 📚 Documentation Map
 
 ### Core Documentation
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`** ← You are here (current v0.3.x progress)
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.2.0_COMPLETE.md`** - Complete v0.2.0 implementation details
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`** - Complete v0.1.0 implementation details
+- **`ai-docs/progress-handoffs/progress-handoff.md`** ← You are here (current v0.3.x progress)
+- **`ai-docs/progress-handoffs/progress-handoff-v0.2.0-complete.md`** - Complete v0.2.0 implementation details
+- **`ai-docs/progress-handoffs/progress-handoff-v0.1.0-complete.md`** - Complete v0.1.0 implementation details
 - **`ai-docs/ROADMAP.md`** - Feature roadmap (v0.1.0 ✅, v0.2.0 ✅, v0.3.x, v1.0.0)
 - **`ai-docs/DESIGN.md`** - Design system & UI guidelines
 

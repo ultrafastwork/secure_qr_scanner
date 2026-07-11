@@ -25,7 +25,7 @@
 - `lib/qr_code/screens/` - Scanner, Generator, Result screens
 - `lib/history/` - Complete history feature with Hive
 
-**For Complete v0.1.0 Details:** See `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`
+**For Complete v0.1.0 Details:** See `ai-docs/progress-handoffs/progress-handoff-v0.1.0-complete.md`
 
 ---
 
@@ -135,9 +135,9 @@ All planned v0.2.0 features have been successfully implemented and tested.
 ## 📚 Documentation Map
 
 ### Core Documentation
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF.md`** - Current progress (v0.3.x planning)
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.2.0_COMPLETE.md`** ← You are here (v0.2.0 archive)
-- **`ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`** - Complete v0.1.0 implementation details
+- **`ai-docs/progress-handoffs/progress-handoff.md`** - Current progress (v0.3.x planning)
+- **`ai-docs/progress-handoffs/progress-handoff-v0.2.0-complete.md`** ← You are here (v0.2.0 archive)
+- **`ai-docs/progress-handoffs/progress-handoff-v0.1.0-complete.md`** - Complete v0.1.0 implementation details
 - **`ai-docs/ROADMAP.md`** - Feature roadmap (v0.1.0 ✅, v0.2.0 ✅, v0.3.x, v1.0.0)
 - **`ai-docs/DESIGN.md`** - Design system & UI guidelines
 - **`README.md`** - Project overview & quick start (root directory)
@@ -196,7 +196,7 @@ flutter analyze
 
 ## 💡 Tips for New Agents
 
-1. **Read First**: `ai-docs/progress-handoffs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md` for implementation patterns
+1. **Read First**: `ai-docs/progress-handoffs/progress-handoff-v0.1.0-complete.md` for implementation patterns
 2. **Follow Structure**: Use feature-based directories (`qr_code/`, `history/`, `barcode/`)
 3. **State Management**: We use Riverpod (see history feature for examples)
 4. **Design Consistency**: Match existing glassmorphism style (see `ai-docs/DESIGN.md`)

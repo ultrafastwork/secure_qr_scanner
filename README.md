@@ -95,8 +95,8 @@ lib/
 - **Design Guidelines** - See `ai-docs/DESIGN.md`
 
 ### For Developers/AI Agents
-- **Current Progress** - `ai-docs/PROGRESS_HANDOFF.md` (start here!)
-- **v0.1.0 Implementation** - `ai-docs/PROGRESS_HANDOFF_v0.1.0_COMPLETE.md`
+- **Current Progress** - `ai-docs/progress-handoffs/progress-handoff.md` (start here!)
+- **v0.1.0 Implementation** - `ai-docs/progress-handoffs/progress-handoff-v0.1.0-complete.md`
 
 ---
 
@@ -155,12 +155,12 @@ lib/
 
 ## 📝 Development Workflow
 
-1. Check `ai-docs/PROGRESS_HANDOFF.md` for current status
+1. Check `ai-docs/progress-handoffs/progress-handoff.md` for current status
 2. Review `ai-docs/ROADMAP.md` for planned features
 3. Follow existing code patterns (see `lib/history/` for examples)
 4. Maintain design consistency (see `ai-docs/DESIGN.md`)
 5. Run `flutter analyze` and `flutter test` before committing
-6. Update `ai-docs/PROGRESS_HANDOFF.md` after completing work
+6. Update `ai-docs/progress-handoffs/progress-handoff.md` after completing work
 
 ---
 
