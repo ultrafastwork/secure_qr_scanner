@@ -1,17 +1,17 @@
 # 🤖 Agent Onboarding Prompt
 
-**Current Version Reference:** Use `agent-prompt-v0.3.3.md` for complete v0.3.3 prompt.
+**Current Version Reference:** Use `agent-prompt-v1.0.0.md` for complete v1.0.0 prompt.
 
 ---
 
-## 📋 QUICK START - v0.3.3
+## 📋 QUICK START - v1.0.0
 
 ```
-I'm continuing work on a Flutter QR Scanner app. v0.3.2 is complete and ready for v0.3.3.
+I'm continuing work on a Flutter QR Scanner app. v0.3.3 is complete and ready for v1.0.0.
 
 **PROJECT CONTEXT:**
 - Location: d:\flutter\secure_qr_scanner
-- Status: v0.1.0-v0.3.2 ✅ | Ready for v0.3.3
+- Status: v0.1.0-v0.3.3 ✅ | Ready for v1.0.0
 - **Read First:** `.windsurfrules` (all technical standards)
 - **Current Status:** `ai-docs/progress-handoffs/progress-handoff.md`
 
@@ -21,15 +21,17 @@ I'm continuing work on a Flutter QR Scanner app. v0.3.2 is complete and ready fo
 - v0.3.0: Content type detection (9 types)
 - v0.3.1: Wi-Fi QR generation
 - v0.3.2: Settings & theme toggle (Light/Dark/System)
+- v0.3.3: Custom QR Appearance
 
 **YOUR TASK:**
-Choose one v0.3.3 feature from `agent-prompt-v0.3.3.md`:
-1. Custom QR Appearance ⭐ (recommended)
-2. Export/Import History
-3. Haptic Feedback
-4. Batch Scanning Mode
+Choose one v1.0.0 feature from `agent-prompt-v1.0.0.md`:
+1. Animations & Transitions ⭐ (recommended)
+2. Haptic Feedback
+3. Empty States & Illustrations
+4. Loading States & Error UI
+5. Micro-interactions
 
-See `agent-prompt-v0.3.3.md` for complete details.
+See `agent-prompt-v1.0.0.md` for complete details.
 ```
 
 ---
@@ -37,7 +39,7 @@ See `agent-prompt-v0.3.3.md` for complete details.
 ## 🔄 How to Use
 
 **For New Agent Sessions:**
-1. Copy from `agent-prompt-v0.3.3.md` (complete prompt)
+1. Copy from `agent-prompt-v1.0.0.md` (complete prompt)
 2. Or use quick start above and read details in files
 
 **Key Files:**
