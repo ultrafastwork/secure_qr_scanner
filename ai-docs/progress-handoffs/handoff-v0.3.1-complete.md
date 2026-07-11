@@ -37,7 +37,7 @@
 - `lib/qr_code/widgets/content_detail_dialogs.dart` - Wi-Fi/vCard/Calendar dialogs
 - `lib/qr_code/screens/result_screen.dart` - Updated with smart actions
 
-**For Complete v0.3.0 Details:** See `ai-docs/progress-handoffs/progress-handoff-v0.3.0-complete.md`
+**For Complete v0.3.0 Details:** See `ai-docs/progress-handoffs/handoff-v0.3.0-complete.md`
 
 ---
 
@@ -180,14 +180,14 @@ lib/
 ## 📚 Documentation Map
 
 ### Active Files
-- **`ai-docs/progress-handoffs/progress-handoff.md`** ← You are here (current progress)
+- **`ai-docs/progress-handoffs/handoff.md`** ← You are here (current progress)
 - **`ai-docs/ROADMAP.md`** - Feature roadmap (v0.1.0-v0.3.x complete)
 - **`ai-docs/DESIGN.md`** - Design system & UI guidelines
 
 ### Completed Versions
-- **`ai-docs/progress-handoffs/progress-handoff-v0.3.0-complete.md`** - v0.3.0 details
-- **`ai-docs/progress-handoffs/progress-handoff-v0.2.0-complete.md`** - v0.2.0 details
-- **`ai-docs/progress-handoffs/progress-handoff-v0.1.0-complete.md`** - v0.1.0 details
+- **`ai-docs/progress-handoffs/handoff-v0.3.0-complete.md`** - v0.3.0 details
+- **`ai-docs/progress-handoffs/handoff-v0.2.0-complete.md`** - v0.2.0 details
+- **`ai-docs/progress-handoffs/handoff-v0.1.0-complete.md`** - v0.1.0 details
 
 ### Archived
 - **`ai-docs/IMPLEMENTATION_PLAN_v0.1.0_ARCHIVE.md`** - Original v0.1.0 planning
@@ -198,7 +198,7 @@ lib/
 
 **Step 1: Understand What's Done**
 - Read this document first (5 min)
-- Review v0.3.0 implementation: `ai-docs/progress-handoffs/progress-handoff-v0.3.0-complete.md`
+- Review v0.3.0 implementation: `ai-docs/progress-handoffs/handoff-v0.3.0-complete.md`
 - Check design guidelines: `DESIGN.md`
 
 **Step 2: Review Existing Code**

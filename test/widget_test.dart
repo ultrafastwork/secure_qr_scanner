@@ -39,6 +39,11 @@ void main() {
     // Verify menu is displayed
     expect(find.text('Menu'), findsOneWidget);
     expect(find.text('Generate QR'), findsOneWidget);
+
+    // Scroll ListView to make Settings visible
+    await tester.drag(find.byType(ListView), const Offset(0, -400));
+    await tester.pumpAndSettle();
+
     expect(find.text('Settings'), findsOneWidget);
     expect(find.text('QR Scanner v1.0'), findsOneWidget);
 

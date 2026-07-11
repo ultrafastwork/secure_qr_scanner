@@ -10,7 +10,7 @@
 - Location: d:\flutter\secure_qr_scanner
 - Status: v0.1.0 ✅ | v0.2.0 ✅ | v0.3.0 ✅ | v0.3.1 ✅ | v0.3.2 ✅ | v0.3.3 ✅ | Ready for v1.0.0
 - **Technical Standards:** See `.windsurfrules` file (read this for all coding standards)
-- **Current Status:** See `ai-docs/progress-handoffs/progress-handoff.md`
+- **Current Status:** See `ai-docs/progress-handoffs/handoff.md`
 - **Roadmap:** See `ai-docs/ROADMAP.md`
 
 **WHAT'S COMPLETE:**
@@ -22,7 +22,7 @@
 ✅ v0.3.3 - Custom QR Appearance: Custom colors, logo embedding, shapes, presets (modular architecture)
 
 **YOUR TASK:**
-Please read `ai-docs/progress-handoffs/progress-handoff.md`, then choose and implement one of these v1.0.0 UI improvements:
+Please read `ai-docs/progress-handoffs/handoff.md`, then choose and implement one of these v1.0.0 UI improvements:
 
 **OPTION 1: Animations & Transitions** ⭐ (RECOMMENDED)
 Add smooth animations for premium feel:
@@ -79,7 +79,7 @@ Delight users with small touches:
 - **Packages:** flutter_animate
 
 **IMPLEMENTATION GUIDE:**
-- Full details in `ai-docs/progress-handoffs/progress-handoff.md`
+- Full details in `ai-docs/progress-handoffs/handoff.md`
 - Reference latest patterns: `lib/qr_code/screens/custom_qr_generator_screen.dart`
 - Button builders: `lib/qr_code/utils/qr_button_builders.dart` (reusable utilities)
 - Riverpod pattern: `lib/qr_code/providers/qr_customization_provider.dart`
