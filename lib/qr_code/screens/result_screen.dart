@@ -13,7 +13,7 @@ import 'package:secure_qr_scanner/qr_code/widgets/content_detail_dialogs.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// Screen to display scanned QR code result with actions
-class QRResultScreen extends ConsumerWidget {
+class QRResultScreen extends ConsumerStatefulWidget {
   final String scannedData;
   final bool isFromHistory;
 
@@ -23,12 +23,27 @@ class QRResultScreen extends ConsumerWidget {
     this.isFromHistory = false,
   });
 
+  @override
+  ConsumerState<QRResultScreen> createState() => _QRResultScreenState();
+}
+
+class _QRResultScreenState extends ConsumerState<QRResultScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.isFromHistory) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(historyProvider.notifier).addScan(widget.scannedData);
+      });
+    }
+  }
+
   DetectedContent get _detectedContent {
-    return ContentDetectorService.detect(scannedData);
+    return ContentDetectorService.detect(widget.scannedData);
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -91,13 +106,13 @@ class QRResultScreen extends ConsumerWidget {
           ),
 
           // Content
-          _buildContent(context, ref),
+          _buildContent(context),
         ],
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context, WidgetRef ref) {
+  Widget _buildContent(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -120,7 +135,7 @@ class QRResultScreen extends ConsumerWidget {
           const SizedBox(height: 32),
 
           // Action buttons
-          _buildActionButtons(context, ref),
+          _buildActionButtons(context),
 
           const SizedBox(height: 20),
         ],
@@ -256,7 +271,7 @@ class QRResultScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               SelectableText(
-                scannedData,
+                widget.scannedData,
                 style: GoogleFonts.inter(
                   fontSize: 16,
                   color: isDark ? Colors.white : Colors.black87,
@@ -270,7 +285,7 @@ class QRResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
+  Widget _buildActionButtons(BuildContext context) {
     final content = _detectedContent;
     final primaryAction = ContentActionService.getPrimaryAction(content);
     final secondaryActions = ContentActionService.getSecondaryActions(content);
@@ -327,33 +342,6 @@ class QRResultScreen extends ConsumerWidget {
             ),
           ],
         ),
-
-        if (!isFromHistory) ...[
-          const SizedBox(height: 12),
-          _buildSecondaryButton(
-            onTap: () async {
-              final service = ref.read(historyServiceProvider);
-              await service.addScan(scannedData);
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Saved to history',
-                      style: GoogleFonts.inter(),
-                    ),
-                    backgroundColor: const Color(0xFF10B981),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                );
-              }
-            },
-            icon: Icons.bookmark_add,
-            label: 'Save to History',
-          ),
-        ],
       ],
     );
   }
@@ -501,7 +489,7 @@ class QRResultScreen extends ConsumerWidget {
   }
 
   Future<void> _copyToClipboard(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: scannedData));
+    await Clipboard.setData(ClipboardData(text: widget.scannedData));
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -519,7 +507,7 @@ class QRResultScreen extends ConsumerWidget {
 
   Future<void> _shareContent(BuildContext context) async {
     try {
-      await SharePlus.instance.share(ShareParams(text: scannedData));
+      await SharePlus.instance.share(ShareParams(text: widget.scannedData));
     } catch (e) {
       if (context.mounted) {
         _showError(context, 'Failed to share content');

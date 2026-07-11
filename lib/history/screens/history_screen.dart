@@ -14,7 +14,7 @@ class HistoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final historyAsync = ref.watch(historyListProvider);
+    final historyItems = ref.watch(historyProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -57,14 +57,9 @@ class HistoryScreen extends ConsumerWidget {
               children: [
                 _buildTopBar(context, ref),
                 Expanded(
-                  child: historyAsync.when(
-                    data: (items) => items.isEmpty
-                        ? _buildEmptyState(context)
-                        : _buildHistoryList(context, ref, items),
-                    loading: () => _buildLoadingState(),
-                    error: (err, stack) =>
-                        _buildErrorState(context, err.toString()),
-                  ),
+                  child: historyItems.isEmpty
+                      ? _buildEmptyState(context)
+                      : _buildHistoryList(context, ref, historyItems),
                 ),
               ],
             ),
@@ -151,12 +146,11 @@ class HistoryScreen extends ConsumerWidget {
         ),
         child: const Icon(Icons.delete, color: Colors.white),
       ),
-      onDismissed: (direction) {
-        final service = ref.read(historyServiceProvider);
-        service.deleteItem(item.id);
-        ref.invalidate(historyListProvider);
+      onDismissed: (direction) async {
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
+        await ref.read(historyProvider.notifier).deleteItem(item.id);
 
-        ScaffoldMessenger.of(context).showSnackBar(
+        scaffoldMessenger.showSnackBar(
           SnackBar(
             content: Text('Deleted from history', style: GoogleFonts.inter()),
             backgroundColor: const Color(0xFFEF4444),
@@ -332,48 +326,7 @@ class HistoryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLoadingState() {
-    return const Center(
-      child: CircularProgressIndicator(color: Color(0xFF8B5CF6)),
-    );
-  }
 
-  Widget _buildErrorState(BuildContext context, String error) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            size: 60,
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.4)
-                : Colors.black.withValues(alpha: 0.4),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Error loading history',
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              color: isDark ? Colors.white : Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            error,
-            style: GoogleFonts.inter(
-              fontSize: 12,
-              color: isDark
-                  ? Colors.white.withValues(alpha: 0.6)
-                  : Colors.black.withValues(alpha: 0.6),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildGlassButton({
     required BuildContext context,
@@ -460,13 +413,15 @@ class HistoryScreen extends ConsumerWidget {
             ),
           ),
           TextButton(
-            onPressed: () {
-              final service = ref.read(historyServiceProvider);
-              service.clearAll();
-              ref.invalidate(historyListProvider);
-              Navigator.of(context).pop();
+            onPressed: () async {
+              final navigator = Navigator.of(context);
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
 
-              ScaffoldMessenger.of(context).showSnackBar(
+              await ref.read(historyProvider.notifier).clearAll();
+              
+              navigator.pop();
+
+              scaffoldMessenger.showSnackBar(
                 SnackBar(
                   content: Text('History cleared', style: GoogleFonts.inter()),
                   backgroundColor: const Color(0xFF8B5CF6),
