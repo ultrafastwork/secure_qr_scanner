@@ -116,10 +116,12 @@ Documentation for AI is in `README.md` and files under `ai-docs` directory.
 1. Run `flutter analyze` - must show 0 issues
 2. Test in both light and dark themes
 3. Update `ai-docs/progress-handoffs/progress-handoff.md`:
-   - Rename current to `progress-handoff-vX.X.X-complete.md`
+   - Rename current to `progress-handoff-vX.X.X-complete.md` and add status identifier at the top
    - Create new `progress-handoff.md` for next version
 4. Update `ai-docs/ROADMAP.md` - mark version as complete
-5. Create `ai-docs/agent-prompts/agent-prompt-vX.X.X.md` for next agent
+5. Update `ai-docs/agent-prompts/`:
+   - Copy current `agent-prompt.md` to `agent-prompt-vX.X.X-complete.md` and update its status identifier to show it is completed
+   - Overwrite `agent-prompt.md` with the new onboarding prompt for the next version (vY.Y.Y), including its active status identifier at the top
 6. Commit with descriptive message and push to GitHub
 7. Report remaining token count
 8. Suggest next feature and ask if user wants to proceed
