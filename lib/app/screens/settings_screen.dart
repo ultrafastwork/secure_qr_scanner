@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:secure_qr_scanner/app/providers/theme_provider.dart';
+import 'package:secure_qr_scanner/app/widgets/animated_pressable.dart';
 
 /// Settings screen with theme toggle and app information
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -80,22 +82,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   child: Row(
                     children: [
                       // Back button
-                      Container(
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? Colors.white.withValues(alpha: 0.1)
-                              : Colors.black.withValues(alpha: 0.05),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
+                      AnimatedPressable(
+                        child: Container(
+                          decoration: BoxDecoration(
                             color: isDark
                                 ? Colors.white.withValues(alpha: 0.1)
-                                : Colors.black.withValues(alpha: 0.1),
-                            width: 1,
+                                : Colors.black.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isDark
+                                  ? Colors.white.withValues(alpha: 0.1)
+                                  : Colors.black.withValues(alpha: 0.1),
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios_new),
-                          onPressed: () => Navigator.of(context).pop(),
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_new),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -169,7 +173,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                               ),
                             ],
                           ),
-                        ),
+                        ).animate().fadeIn(delay: 50.ms, duration: 300.ms).slideY(begin: 0.05, end: 0.0),
 
                         const SizedBox(height: 32),
 
@@ -201,7 +205,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                               ),
                             ],
                           ),
-                        ),
+                        ).animate().fadeIn(delay: 150.ms, duration: 300.ms).slideY(begin: 0.05, end: 0.0),
 
                         const SizedBox(height: 32),
 
@@ -279,65 +283,67 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     required VoidCallback onTap,
     required bool isDark,
   }) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? const Color(0xFF8B5CF6).withValues(alpha: 0.2)
-                    : isDark
-                    ? Colors.white.withValues(alpha: 0.05)
-                    : Colors.black.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(12),
+    return AnimatedPressable(
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? const Color(0xFF8B5CF6).withValues(alpha: 0.2)
+                      : isDark
+                      ? Colors.white.withValues(alpha: 0.05)
+                      : Colors.black.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  color: isSelected
+                      ? const Color(0xFF8B5CF6)
+                      : isDark
+                      ? Colors.white.withValues(alpha: 0.7)
+                      : Colors.black.withValues(alpha: 0.7),
+                  size: 24,
+                ),
               ),
-              child: Icon(
-                icon,
-                color: isSelected
-                    ? const Color(0xFF8B5CF6)
-                    : isDark
-                    ? Colors.white.withValues(alpha: 0.7)
-                    : Colors.black.withValues(alpha: 0.7),
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: isDark ? Colors.white : const Color(0xFF1F1F1F),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: isDark ? Colors.white : const Color(0xFF1F1F1F),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      color: isDark
-                          ? Colors.white.withValues(alpha: 0.5)
-                          : Colors.black.withValues(alpha: 0.5),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.5)
+                            : Colors.black.withValues(alpha: 0.5),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (isSelected)
-              const Icon(
-                Icons.check_circle,
-                color: Color(0xFF8B5CF6),
-                size: 24,
-              ),
-          ],
+              if (isSelected)
+                const Icon(
+                  Icons.check_circle,
+                  color: Color(0xFF8B5CF6),
+                  size: 24,
+                ),
+            ],
+          ),
         ),
       ),
     );

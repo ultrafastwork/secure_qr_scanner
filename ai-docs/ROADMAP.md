@@ -85,13 +85,27 @@ Goal: Add depth, customization, and long-term value.
 - Theme-aware glassmorphism UI
 - Reusable button builders utility
 
-📋 PLANNED (v1.0.0+):
-- UI improvements (animations, haptic feedback)
-- Empty states & illustrations
-- Loading states & skeleton loaders
-- Micro-interactions & polish
-- Export/import scan history
-- Batch scanning mode
+✅ v1.0.0 - UI Improvements & UX Polish (COMPLETE)
+- Staggered entrance animations on Home and Menu screens
+- Reusable AnimatedPressable widget for button scale-down tap feedback
+- Custom AnimatedPageRoute helper for smooth page slide-and-fade transitions
+- History screen pull-to-refresh, empty state animations, and shimmer loader skeletons
+- Green checkmark scan success animation with haptic feedback in scanner screens
+
+---
+
+=== ⚙️ v1.1.0 – Batch Scanning & Portability (Planned) ===
+Goal: Support fast high-volume scanning and history data portability.
+
+1. Batch Scanning Mode
+   - Toggle to stay on camera during multiple scans
+   - Smart floating success banner and scan counter
+   - Batch completion actions
+
+2. History Export & Import
+   - Export history database to JSON or CSV
+   - Import/backup restore from file picker
+   - Deduplication and merge validation
 
 ---
 

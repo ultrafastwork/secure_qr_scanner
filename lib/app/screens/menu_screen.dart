@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:secure_qr_scanner/app/screens/settings_screen.dart';
+import 'package:secure_qr_scanner/app/utils/page_transitions.dart';
+import 'package:secure_qr_scanner/app/widgets/animated_pressable.dart';
 import 'package:secure_qr_scanner/barcode/screens/barcode_scanner_screen.dart';
 import 'package:secure_qr_scanner/history/screens/history_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/custom_qr_generator_screen.dart'
@@ -19,14 +22,14 @@ class MenuScreen extends StatelessWidget {
   Future<void> _navigateToScanner(BuildContext context) async {
     final navigator = Navigator.of(context);
     final result = await navigator.push<String>(
-      MaterialPageRoute(builder: (context) => const QRScannerScreen()),
+      AnimatedPageRoute(child: const QRScannerScreen()),
     );
 
     if (result != null && navigator.mounted) {
       // Navigate to result screen with scanned data
       navigator.push(
-        MaterialPageRoute(
-          builder: (context) => QRResultScreen(scannedData: result),
+        AnimatedPageRoute(
+          child: QRResultScreen(scannedData: result),
         ),
       );
     }
@@ -35,14 +38,14 @@ class MenuScreen extends StatelessWidget {
   Future<void> _navigateToBarcodeScanner(BuildContext context) async {
     final navigator = Navigator.of(context);
     final result = await navigator.push<String>(
-      MaterialPageRoute(builder: (context) => const BarcodeScannerScreen()),
+      AnimatedPageRoute(child: const BarcodeScannerScreen()),
     );
 
     if (result != null && navigator.mounted) {
       // Navigate to result screen with scanned data
       navigator.push(
-        MaterialPageRoute(
-          builder: (context) => QRResultScreen(scannedData: result),
+        AnimatedPageRoute(
+          child: QRResultScreen(scannedData: result),
         ),
       );
     }
@@ -121,12 +124,12 @@ class MenuScreen extends StatelessWidget {
                         subtitle: 'Create QR codes',
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const QRGeneratorScreen(),
+                            AnimatedPageRoute(
+                              child: const QRGeneratorScreen(),
                             ),
                           );
                         },
-                      ),
+                      ).animate().fadeIn(delay: 150.ms, duration: 300.ms).slideX(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic),
 
                       const SizedBox(height: 8),
 
@@ -137,13 +140,13 @@ class MenuScreen extends StatelessWidget {
                         subtitle: 'QR with colors & logo',
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
+                            AnimatedPageRoute(
+                              child:
                                   const custom_qr.CustomQrGeneratorScreen(),
                             ),
                           );
                         },
-                      ),
+                      ).animate().fadeIn(delay: 200.ms, duration: 300.ms).slideX(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic),
 
                       const SizedBox(height: 8),
 
@@ -154,12 +157,12 @@ class MenuScreen extends StatelessWidget {
                         subtitle: 'Share Wi-Fi easily',
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const WifiGeneratorScreen(),
+                            AnimatedPageRoute(
+                              child: const WifiGeneratorScreen(),
                             ),
                           );
                         },
-                      ),
+                      ).animate().fadeIn(delay: 250.ms, duration: 300.ms).slideX(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic),
 
                       const SizedBox(height: 8),
 
@@ -170,12 +173,12 @@ class MenuScreen extends StatelessWidget {
                         subtitle: 'View past scans',
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const HistoryScreen(),
+                            AnimatedPageRoute(
+                              child: const HistoryScreen(),
                             ),
                           );
                         },
-                      ),
+                      ).animate().fadeIn(delay: 300.ms, duration: 300.ms).slideX(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic),
 
                       const SizedBox(height: 8),
 
@@ -186,12 +189,12 @@ class MenuScreen extends StatelessWidget {
                         subtitle: 'Preferences & theme',
                         onTap: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const SettingsScreen(),
+                            AnimatedPageRoute(
+                              child: const SettingsScreen(),
                             ),
                           );
                         },
-                      ),
+                      ).animate().fadeIn(delay: 350.ms, duration: 300.ms).slideX(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic),
                     ],
                   ),
                 ),
@@ -234,21 +237,23 @@ class MenuScreen extends StatelessWidget {
     required Widget child,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Material(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.05),
-          child: InkWell(
-            onTap: onTap,
-            child: Container(
-              width: 36,
-              height: 36,
-              alignment: Alignment.center,
-              child: child,
+    return AnimatedPressable(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Material(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.05),
+            child: InkWell(
+              onTap: onTap,
+              child: Container(
+                width: 36,
+                height: 36,
+                alignment: Alignment.center,
+                child: child,
+              ),
             ),
           ),
         ),
@@ -263,65 +268,67 @@ class MenuScreen extends StatelessWidget {
     required String subtitle,
     required VoidCallback onTap,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Ink(
-          height: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            gradient: const LinearGradient(
-              colors: [Color(0xFF7C3AED), Color(0xFFC026D3)],
+    return AnimatedPressable(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Ink(
+            height: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF7C3AED), Color(0xFFC026D3)],
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white.withValues(alpha: 0.2),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white.withValues(alpha: 0.2),
+                    ),
+                    child: Icon(icon, color: Colors.white, size: 20),
                   ),
-                  child: Icon(icon, color: Colors.white, size: 20),
-                ),
 
-                const SizedBox(width: 12),
+                  const SizedBox(width: 12),
 
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          title,
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.6),
+                        Text(
+                          subtitle,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: 0.6),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                Icon(
-                  Icons.chevron_right,
-                  color: Colors.white.withValues(alpha: 0.6),
-                  size: 20,
-                ),
-              ],
+                  Icon(
+                    Icons.chevron_right,
+                    color: Colors.white.withValues(alpha: 0.6),
+                    size: 20,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -337,83 +344,85 @@ class MenuScreen extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.1),
-          width: 1,
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Material(
+    return AnimatedPressable(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
             color: isDark
-                ? Colors.white.withValues(alpha: 0.05)
-                : Colors.white.withValues(alpha: 0.8),
-            child: InkWell(
-              onTap: onTap,
-              child: Container(
-                height: 80,
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: isDark
-                            ? Colors.white.withValues(alpha: 0.1)
-                            : Colors.black.withValues(alpha: 0.05),
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.1),
+            width: 1,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Material(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.white.withValues(alpha: 0.8),
+              child: InkWell(
+                onTap: onTap,
+                child: Container(
+                  height: 80,
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: isDark
+                              ? Colors.white.withValues(alpha: 0.1)
+                              : Colors.black.withValues(alpha: 0.05),
+                        ),
+                        child: Icon(
+                          icon,
+                          color: isDark ? Colors.white : Colors.black87,
+                          size: 20,
+                        ),
                       ),
-                      child: Icon(
-                        icon,
-                        color: isDark ? Colors.white : Colors.black87,
+
+                      const SizedBox(width: 12),
+
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              title,
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? Colors.white : Colors.black87,
+                              ),
+                            ),
+                            Text(
+                              subtitle,
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: isDark
+                                    ? Colors.white.withValues(alpha: 0.6)
+                                    : Colors.black.withValues(alpha: 0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Icon(
+                        Icons.chevron_right,
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.4)
+                            : Colors.black.withValues(alpha: 0.4),
                         size: 20,
                       ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            title,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: isDark ? Colors.white : Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              color: isDark
-                                  ? Colors.white.withValues(alpha: 0.6)
-                                  : Colors.black.withValues(alpha: 0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Icon(
-                      Icons.chevron_right,
-                      color: isDark
-                          ? Colors.white.withValues(alpha: 0.4)
-                          : Colors.black.withValues(alpha: 0.4),
-                      size: 20,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,10 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:secure_qr_scanner/app/screens/menu_screen.dart';
+import 'package:secure_qr_scanner/app/utils/page_transitions.dart';
+import 'package:secure_qr_scanner/app/widgets/animated_pressable.dart';
 import 'package:secure_qr_scanner/barcode/screens/barcode_scanner_screen.dart';
 import 'package:secure_qr_scanner/history/screens/history_screen.dart';
 import 'package:secure_qr_scanner/qr_code/screens/generator_screen.dart';
@@ -25,14 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _navigateToScanner(BuildContext context) async {
     final navigator = Navigator.of(context);
     final result = await navigator.push<String>(
-      MaterialPageRoute(builder: (context) => const QRScannerScreen()),
+      AnimatedPageRoute(child: const QRScannerScreen()),
     );
 
     if (result != null && mounted) {
       // Navigate to result screen with scanned data
       navigator.push(
-        MaterialPageRoute(
-          builder: (context) => QRResultScreen(scannedData: result),
+        AnimatedPageRoute(
+          child: QRResultScreen(scannedData: result),
         ),
       );
     }
@@ -41,14 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _navigateToBarcodeScanner(BuildContext context) async {
     final navigator = Navigator.of(context);
     final result = await navigator.push<String>(
-      MaterialPageRoute(builder: (context) => const BarcodeScannerScreen()),
+      AnimatedPageRoute(child: const BarcodeScannerScreen()),
     );
 
     if (result != null && mounted) {
       // Navigate to result screen with scanned data
       navigator.push(
-        MaterialPageRoute(
-          builder: (context) => QRResultScreen(scannedData: result),
+        AnimatedPageRoute(
+          child: QRResultScreen(scannedData: result),
         ),
       );
     }
@@ -89,9 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
         if (barcode.rawValue != null) {
           // Navigate to result screen with scanned data
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  QRResultScreen(scannedData: barcode.rawValue!),
+            AnimatedPageRoute(
+              child: QRResultScreen(scannedData: barcode.rawValue!),
             ),
           );
         } else {
@@ -219,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildGlassButton(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const MenuScreen()),
+                AnimatedPageRoute(child: const MenuScreen()),
               );
             },
             child: Icon(
@@ -252,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold,
               color: isDark ? Colors.white : Colors.black87,
             ),
-          ),
+          ).animate().fade(delay: 200.ms, duration: 450.ms),
 
           const SizedBox(height: 32),
 
@@ -307,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
-    );
+    ).animate().scale(delay: 100.ms, duration: 400.ms, curve: Curves.easeOutBack).fadeIn(duration: 400.ms);
   }
 
   Widget _buildActionButtons() {
@@ -341,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
+    ).animate().fade(delay: 250.ms, duration: 400.ms).slideY(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic);
   }
 
   Widget _buildPrimaryButton({
@@ -349,36 +351,38 @@ class _HomeScreenState extends State<HomeScreen> {
     required IconData icon,
     required String label,
   }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Ink(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: const LinearGradient(
-                colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+    return AnimatedPressable(
+      child: SizedBox(
+        width: double.infinity,
+        height: 56,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(16),
+            child: Ink(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+                ),
               ),
-            ),
-            child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(icon, color: Colors.white, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    label,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, color: Colors.white, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      label,
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -393,38 +397,40 @@ class _HomeScreenState extends State<HomeScreen> {
     required String label,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Material(
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.1)
-                : Colors.black.withValues(alpha: 0.05),
-            child: InkWell(
-              onTap: onTap,
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      icon,
-                      color: isDark ? Colors.white : Colors.black87,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      label,
-                      style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+    return AnimatedPressable(
+      child: SizedBox(
+        width: double.infinity,
+        height: 56,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Material(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.05),
+              child: InkWell(
+                onTap: onTap,
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        icon,
                         color: isDark ? Colors.white : Colors.black87,
+                        size: 20,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      Text(
+                        label,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? Colors.white : Colors.black87,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -443,8 +449,8 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildBottomNavButton(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const QRGeneratorScreen(),
+                AnimatedPageRoute(
+                  child: const QRGeneratorScreen(),
                 ),
               );
             },
@@ -458,7 +464,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildBottomNavButton(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const HistoryScreen()),
+                AnimatedPageRoute(child: const HistoryScreen()),
               );
             },
             icon: Icons.history,
@@ -471,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildBottomNavButton(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const MenuScreen()),
+                AnimatedPageRoute(child: const MenuScreen()),
               );
             },
             icon: Icons.settings,
@@ -480,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
+    ).animate().fade(delay: 350.ms, duration: 400.ms).slideY(begin: 0.2, end: 0.0, curve: Curves.easeOutCubic);
   }
 
   Widget _buildBottomNavButton({
@@ -490,32 +496,34 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color iconColor,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Material(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.05)
-              : Colors.black.withValues(alpha: 0.05),
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(icon, color: iconColor, size: 16),
-                  const SizedBox(width: 6),
-                  Text(
-                    label,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: isDark ? Colors.white : Colors.black87,
+    return AnimatedPressable(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Material(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.05),
+            child: InkWell(
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, color: iconColor, size: 16),
+                    const SizedBox(width: 6),
+                    Text(
+                      label,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: isDark ? Colors.white : Colors.black87,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -529,21 +537,23 @@ class _HomeScreenState extends State<HomeScreen> {
     required Widget child,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Material(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.05),
-          child: InkWell(
-            onTap: onTap,
-            child: Container(
-              width: 36,
-              height: 36,
-              alignment: Alignment.center,
-              child: child,
+    return AnimatedPressable(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Material(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.05),
+            child: InkWell(
+              onTap: onTap,
+              child: Container(
+                width: 36,
+                height: 36,
+                alignment: Alignment.center,
+                child: child,
+              ),
             ),
           ),
         ),

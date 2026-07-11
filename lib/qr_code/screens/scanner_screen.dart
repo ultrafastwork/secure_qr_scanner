@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -22,6 +24,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
   bool _isFlashOn = false;
   bool _isProcessing = false;
+  bool _scanSuccess = false;
 
   @override
   void dispose() {
@@ -30,18 +33,25 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   }
 
   void _handleBarcode(BarcodeCapture barcodeCapture) {
-    if (_isProcessing) return;
+    if (_isProcessing || _scanSuccess) return;
 
     final barcode = barcodeCapture.barcodes.firstOrNull;
     if (barcode == null || barcode.rawValue == null) return;
 
-    setState(() => _isProcessing = true);
+    setState(() {
+      _isProcessing = true;
+      _scanSuccess = true;
+    });
 
     // Vibrate on successful scan
-    // HapticFeedback.mediumImpact();
+    HapticFeedback.mediumImpact();
 
-    // Navigate to result screen with scanned data
-    Navigator.of(context).pop(barcode.rawValue);
+    // Navigate to result screen with scanned data after success animation
+    Future.delayed(const Duration(milliseconds: 450), () {
+      if (mounted) {
+        Navigator.of(context).pop(barcode.rawValue);
+      }
+    });
   }
 
   void _toggleFlash() {
@@ -50,7 +60,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   }
 
   Future<void> _pickFromGallery() async {
-    if (_isProcessing) return;
+    if (_isProcessing || _scanSuccess) return;
 
     try {
       final picker = ImagePicker();
@@ -75,7 +85,15 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       if (barcode.rawValue != null) {
         // Navigate to result screen with scanned data
         if (mounted) {
-          Navigator.of(context).pop(barcode.rawValue);
+          setState(() {
+            _scanSuccess = true;
+          });
+          HapticFeedback.mediumImpact();
+          Future.delayed(const Duration(milliseconds: 450), () {
+            if (mounted) {
+              Navigator.of(context).pop(barcode.rawValue);
+            }
+          });
         }
       } else {
         if (mounted) {
@@ -125,6 +143,39 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               ],
             ),
           ),
+
+          // Success checkmark overlay
+          if (_scanSuccess)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.5),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Center(
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF10B981).withValues(alpha: 0.9),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF10B981).withValues(alpha: 0.6),
+                            blurRadius: 30,
+                            spreadRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 60,
+                      ),
+                    ).animate().scale(duration: 300.ms, curve: Curves.easeOutBack),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

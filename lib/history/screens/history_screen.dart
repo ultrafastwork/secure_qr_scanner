@@ -1,19 +1,51 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:secure_qr_scanner/app/utils/page_transitions.dart';
+import 'package:secure_qr_scanner/app/widgets/animated_pressable.dart';
 import 'package:secure_qr_scanner/history/dto/scan_history_item.dart';
 import 'package:secure_qr_scanner/history/providers/history_provider.dart';
 import 'package:secure_qr_scanner/qr_code/screens/result_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
 /// History screen to display all scanned QR codes
-class HistoryScreen extends ConsumerWidget {
+class HistoryScreen extends ConsumerStatefulWidget {
   const HistoryScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends ConsumerState<HistoryScreen> {
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Show brief shimmer skeleton load on screen entrance
+    _isLoading = true;
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    setState(() => _isLoading = true);
+    // Simulate database fetch delay
+    await Future.delayed(const Duration(milliseconds: 800));
+    if (mounted) {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final historyItems = ref.watch(historyProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -55,11 +87,13 @@ class HistoryScreen extends ConsumerWidget {
           SafeArea(
             child: Column(
               children: [
-                _buildTopBar(context, ref),
+                _buildTopBar(context),
                 Expanded(
-                  child: historyItems.isEmpty
-                      ? _buildEmptyState(context)
-                      : _buildHistoryList(context, ref, historyItems),
+                  child: _isLoading
+                      ? _buildShimmerList(context)
+                      : historyItems.isEmpty
+                          ? _buildEmptyState(context)
+                          : _buildHistoryList(context, historyItems),
                 ),
               ],
             ),
@@ -69,7 +103,7 @@ class HistoryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTopBar(BuildContext context, WidgetRef ref) {
+  Widget _buildTopBar(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -96,7 +130,7 @@ class HistoryScreen extends ConsumerWidget {
           const Spacer(),
           _buildGlassButton(
             context: context,
-            onTap: () => _showClearDialog(context, ref),
+            onTap: () => _showClearDialog(context),
             child: Icon(
               Icons.delete_outline,
               color: isDark ? Colors.white : Colors.black87,
@@ -108,27 +142,63 @@ class HistoryScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildShimmerList(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor =
+        isDark ? Colors.white.withValues(alpha: 0.1) : Colors.grey[300]!;
+    final highlightColor =
+        isDark ? Colors.white.withValues(alpha: 0.2) : Colors.grey[100]!;
+
+    return Shimmer.fromColors(
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildHistoryList(
     BuildContext context,
-    WidgetRef ref,
     List<ScanHistoryItem> items,
   ) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: _buildHistoryItem(context, ref, item),
-        );
-      },
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      color: const Color(0xFF8B5CF6),
+      backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _buildHistoryItem(context, item)
+                .animate()
+                .fadeIn(delay: (index * 40).clamp(0, 300).ms, duration: 300.ms)
+                .slideY(begin: 0.1, end: 0.0, curve: Curves.easeOutCubic),
+          );
+        },
+      ),
     );
   }
 
   Widget _buildHistoryItem(
     BuildContext context,
-    WidgetRef ref,
     ScanHistoryItem item,
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -161,125 +231,127 @@ class HistoryScreen extends ConsumerWidget {
           ),
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Material(
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.05)
-                : Colors.black.withValues(alpha: 0.03),
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => QRResultScreen(
-                      scannedData: item.content,
-                      isFromHistory: true,
+      child: AnimatedPressable(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Material(
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.black.withValues(alpha: 0.03),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    AnimatedPageRoute(
+                      child: QRResultScreen(
+                        scannedData: item.content,
+                        isFromHistory: true,
+                      ),
                     ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.1)
+                          : Colors.black.withValues(alpha: 0.1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: isDark
-                        ? Colors.white.withValues(alpha: 0.1)
-                        : Colors.black.withValues(alpha: 0.1),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    // Icon container
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+                  child: Row(
+                    children: [
+                      // Icon container
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF8B5CF6), Color(0xFFD946EF)],
+                          ),
+                        ),
+                        child: Icon(
+                          _getIconForType(item.type),
+                          color: Colors.white,
+                          size: 24,
                         ),
                       ),
-                      child: Icon(
-                        _getIconForType(item.type),
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
 
-                    const SizedBox(width: 12),
+                      const SizedBox(width: 12),
 
-                    // Content
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Type badge
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(
-                                    0xFFA78BFA,
-                                  ).withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  item.type,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFFA78BFA),
+                      // Content
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Type badge
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(
+                                      0xFFA78BFA,
+                                    ).withValues(alpha: 0.2),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    item.type,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFFA78BFA),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                _formatTimestamp(item.timestamp),
-                                style: GoogleFonts.inter(
-                                  fontSize: 11,
-                                  color: Colors.white.withValues(alpha: 0.5),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _formatTimestamp(item.timestamp),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 11,
+                                    color: Colors.white.withValues(alpha: 0.5),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 6),
-
-                          // Content preview
-                          Text(
-                            item.content.length > 60
-                                ? '${item.content.substring(0, 60)}...'
-                                : item.content,
-                            style: GoogleFonts.inter(
-                              fontSize: 14,
-                              color: isDark ? Colors.white : Colors.black87,
+                              ],
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+
+                            const SizedBox(height: 6),
+
+                            // Content preview
+                            Text(
+                              item.content.length > 60
+                                  ? '${item.content.substring(0, 60)}...'
+                                  : item.content,
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                color: isDark ? Colors.white : Colors.black87,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(width: 8),
+                      const SizedBox(width: 8),
 
-                    // Chevron
-                    Icon(
-                      Icons.chevron_right,
-                      color: isDark
-                          ? Colors.white.withValues(alpha: 0.3)
-                          : Colors.black.withValues(alpha: 0.3),
-                      size: 20,
-                    ),
-                  ],
+                      // Chevron
+                      Icon(
+                        Icons.chevron_right,
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.3)
+                            : Colors.black.withValues(alpha: 0.3),
+                        size: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -301,7 +373,7 @@ class HistoryScreen extends ConsumerWidget {
             color: isDark
                 ? Colors.white.withValues(alpha: 0.2)
                 : Colors.black.withValues(alpha: 0.2),
-          ),
+          ).animate().scale(duration: 400.ms, curve: Curves.easeOutBack),
           const SizedBox(height: 16),
           Text(
             'No scan history yet',
@@ -310,7 +382,7 @@ class HistoryScreen extends ConsumerWidget {
               fontWeight: FontWeight.w600,
               color: isDark ? Colors.white : Colors.black87,
             ),
-          ),
+          ).animate().fadeIn(delay: 100.ms),
           const SizedBox(height: 8),
           Text(
             'Scanned QR codes will appear here',
@@ -320,13 +392,11 @@ class HistoryScreen extends ConsumerWidget {
                   ? Colors.white.withValues(alpha: 0.6)
                   : Colors.black.withValues(alpha: 0.6),
             ),
-          ),
+          ).animate().fadeIn(delay: 200.ms),
         ],
       ),
     );
   }
-
-
 
   Widget _buildGlassButton({
     required BuildContext context,
@@ -334,21 +404,23 @@ class HistoryScreen extends ConsumerWidget {
     required Widget child,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Material(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.black.withValues(alpha: 0.05),
-          child: InkWell(
-            onTap: onTap,
-            child: Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              child: child,
+    return AnimatedPressable(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Material(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.05),
+            child: InkWell(
+              onTap: onTap,
+              child: Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                child: child,
+              ),
             ),
           ),
         ),
@@ -388,7 +460,7 @@ class HistoryScreen extends ConsumerWidget {
     }
   }
 
-  void _showClearDialog(BuildContext context, WidgetRef ref) {
+  void _showClearDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
